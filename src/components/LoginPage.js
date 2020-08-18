@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 
 import {login} from "../_services/user.service";
+import {Link} from "react-router-dom";
 
 const LoginPage = ({location, history}) => {
 
@@ -45,6 +46,7 @@ const LoginPage = ({location, history}) => {
                 </div>
                 <div>
                     <button>Login</button>
+                    <Link to="/register">Creer un nouveau Compte</Link>
                 </div>
             </form>
         </div>

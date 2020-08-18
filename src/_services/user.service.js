@@ -1,4 +1,15 @@
+export const register = (username, password, email) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username, password, email})
+    };
 
+    return fetch(`http://localhost:8000/api/v1/users/register`, requestOptions)
+        .then(user => {
+            return user
+        })
+}
 export const login = (username, password) => {
     const requestOptions = {
         method: 'POST',
@@ -10,7 +21,6 @@ export const login = (username, password) => {
         .then(handleResponse)
         .then(user => {
             // login successful if there's a user in the response
-            //console.log("user", user)
             if (user) {
                 // store user details and basic auth credentials in local storage
                 // to keep user logged in between page refreshes
