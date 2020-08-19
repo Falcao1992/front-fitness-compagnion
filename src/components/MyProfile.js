@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import moment from "moment";
 const axios = require('axios');
 
 const MyProfile = ({history}) => {
@@ -21,6 +22,7 @@ const MyProfile = ({history}) => {
     };
 
     const onSubmit = () => {
+        console.log(dataUserFormatted, "dataUserFormatted")
         axios.put(`http://localhost:8000/api/v1/users/${id}`, dataUserFormatted);
         localStorage.setItem('user', JSON.stringify(dataUserFormatted))
         history.push("/")
@@ -32,6 +34,11 @@ const MyProfile = ({history}) => {
                 pas encore chargé
             </div>
         )
+    }
+    const calculateAge = () => {
+        const a = moment();
+        const b = moment(dateBirth, 'YYYY');
+        return a.diff(b, 'years'); // calculates patient's age in years
     }
 
     const {username, size, weight, dateBirth, email, id} = dataUserFormatted
@@ -55,14 +62,16 @@ const MyProfile = ({history}) => {
             </div>
             <div>
                 <label htmlFor='weight'>Poids (entre 50 et 130kg)</label>
-                <input type="number" min="50" max="130" id='weight' value={weight !== null ? weight : 50}
+                <input type="number" min="30" max="130" id='weight' value={weight !== null ? weight : 50}
                        onChange={handleChange}/>
             </div>
             <div>
                 <label htmlFor='dateBirth'>Anniversaire</label>
-                <input type="date" id='dateBirth' value={dateBirth !== null ? dateBirth : '2000-01-01'}
+                <input type="date" id='dateBirth' value={dateBirth !== null ? moment(dateBirth).format('YYYY-MM-DD') : '2000-01-01'}
                        onChange={handleChange}/>
             </div>
+            <p>age : {} </p>
+            <p>{calculateAge()}</p>
         </div>
     )
 }
