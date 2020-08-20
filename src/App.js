@@ -2,14 +2,14 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import HomePage from "./components/HomePage";
-import LoginPage from "./components/LoginPage";
-import MyProfile from "./components/MyProfile";
-import RegisterPage from "./components/RegisterPage";
+import HomePage from "./components/Home/HomePage";
+import LoginPage from "./components/Login/LoginPage";
+import MyProfile from "./components/Home/MyProfile";
+import RegisterPage from "./components/Register/RegisterPage";
 import theme from "../src/assets/theme";
 import {ThemeProvider} from "styled-components";
 
-function App() {
+const App = () => {
     return (
         <ThemeProvider theme={theme}>
         <Router>

@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import {register} from "../_services/user.service";
+import {register} from "../../_services/user.service";
 import styled from 'styled-components'
-import {TextField, Button} from '@material-ui/core';
-import bgRegisterPage from "../assets/images/bgRegisterPage.jpeg"
-import {ButtonStyled} from "../styledComponents/ButtonStyled";
+import {TextField} from '@material-ui/core';
+import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 
 
-const RegisterPage = ({location, history}) => {
+const RegisterForm = ({history}) => {
 
     const [username, setUsername] = useState('')
     const [size, setSize] = useState(120)
@@ -20,8 +19,15 @@ const RegisterPage = ({location, history}) => {
 
     const [errorMsg, setErrorMsg] = useState(null)
 
+    const handleErrMsg = () => {
+        if (errorMsg) {
+            return <ErrorMsgStyled>{errorMsg}</ErrorMsgStyled>
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        e.stopPropagation()
         setSubmitted(true)
 
         // stop here if form is invalid
@@ -51,11 +57,7 @@ const RegisterPage = ({location, history}) => {
 
 
     return (
-        <ContainerRegisterPage bgPage={bgRegisterPage}>
-            <BlockTitle>
-                {console.log('render')}
-                <h1>Creer un nouveau Compte</h1>
-            </BlockTitle>
+        <>
             <FormStyled name="form">
                 <TextFieldStyled id="username"
                                  label="Pseudo *"
@@ -65,7 +67,6 @@ const RegisterPage = ({location, history}) => {
                                  value={username}
                                  onChange={(e) => setUsername(e.target.value)}
                                  error={submitted && !username}
-                                 //helperText={submitted && !username ? <small>Veuillez saisir votre pseudo !</small> : false}
                 />
 
                 <TextFieldStyled id="email"
@@ -76,29 +77,26 @@ const RegisterPage = ({location, history}) => {
                                  value={email}
                                  onChange={(e) => setEmail(e.target.value)}
                                  error={submitted && !email}
-                                 //helperText={submitted && !email ? <small>Veuillez saisir votre adresse mail!</small> : false}
                 />
 
                 <ContainerPasswords>
                     <TextFieldStyledMultiple id="password"
-                                     label="Mot de passe *"
-                                     variant="filled"
-                                     type="password"
-                                     autoComplete="current-password"
-                                     value={password}
-                                     onChange={(e) => setPassword(e.target.value)}
-                                     error={submitted && !password}
-                                     //helperText={submitted && !password ? <small>Veuillez saisir votre mot de passe !</small> : false}
+                                             label="Mot de passe *"
+                                             variant="filled"
+                                             type="password"
+                                             autoComplete="current-password"
+                                             value={password}
+                                             onChange={(e) => setPassword(e.target.value)}
+                                             error={submitted && !password}
                     />
                     <TextFieldStyledMultiple id="checkPassword"
-                                     label="Mot de passe *"
-                                     variant="filled"
-                                     type="password"
-                                     autoComplete="off"
-                                     value={checkPassword}
-                                     onChange={(e) => setCheckPassword(e.target.value)}
-                                     error={submitted && !checkPassword}
-                                     //helperText={submitted && !checkPassword ? <small>Veuillez saisir à nouveau votre mot de passe !</small> : false}
+                                             label="Mot de passe *"
+                                             variant="filled"
+                                             type="password"
+                                             autoComplete="off"
+                                             value={checkPassword}
+                                             onChange={(e) => setCheckPassword(e.target.value)}
+                                             error={submitted && !checkPassword}
                     />
                 </ContainerPasswords>
 
@@ -132,13 +130,13 @@ const RegisterPage = ({location, history}) => {
 
 
                 {<TextFieldDateStyled id="dateBirth"
-                                  label="Anniversaire"
-                                  type="date"
-                                  value={dateBirth}
-                                  onChange={(e) => setDateBirth(e.target.value)}
+                                      label="Anniversaire"
+                                      type="date"
+                                      value={dateBirth}
+                                      onChange={(e) => setDateBirth(e.target.value)}
                 />}
 
-                {errorMsg && <ErrorMsgStyled>{errorMsg}</ErrorMsgStyled>}
+                {handleErrMsg()}
             </FormStyled>
             <BlockButtons>
                 <ButtonStyled
@@ -150,34 +148,9 @@ const RegisterPage = ({location, history}) => {
                     Creer un nouveau Compte
                 </ButtonStyled>
             </BlockButtons>
-
-        </ContainerRegisterPage>
+        </>
     )
 }
-
-const ContainerRegisterPage = styled.div`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background-image: url(${props => props.bgPage});
-    background-size: cover;
-    background-position: left;
-`
-
-const BlockTitle = styled.div`
-    text-align: center;
-    font-family: ${props => props.theme.fonts.primary};
-    background-color: ${props => props.theme.colors.primary};
-    border-top: 2px solid ${props => props.theme.colors.secondary};
-    border-bottom: 2px solid ${props => props.theme.colors.secondary};
-    opacity: .9;
-    
-    h1 {
-        font-size: 1.7rem;
-        color: ${props => props.theme.colors.secondary};
-    }
-`
 
 const FormStyled = styled.form`
     display: flex;
@@ -247,7 +220,7 @@ const InputStyled = styled.input`
     }
 `
 
-const ErrorMsgStyled = styled.p`
+const ErrorMsgStyled = styled.span`
     background-color: rgb(240 248 255 / 100%);
     color: #ff3b3b;
     text-align: center;
@@ -261,4 +234,4 @@ const BlockButtons = styled.div`
 `
 
 
-export default RegisterPage
+export default RegisterForm

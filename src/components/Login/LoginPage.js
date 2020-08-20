@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 
-import {login} from "../_services/user.service";
+import {login} from "../../_services/user.service";
 import {Link} from "react-router-dom";
 
 import styled from 'styled-components'
-import {TextField, Button} from '@material-ui/core';
-import bgLoginPage from '../assets/images/bgLoginPage.jpg'
-import {ButtonStyled} from "../styledComponents/ButtonStyled";
+import {TextField} from '@material-ui/core';
+import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
+import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 
 const LoginPage = ({location, history}) => {
 

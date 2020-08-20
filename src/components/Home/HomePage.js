@@ -1,5 +1,5 @@
 import React  from "react";
-import {logout} from "../_services/user.service";
+import {logout} from "../../_services/user.service";
 import {Link} from "react-router-dom";
 
 const HomePage = ({history}) => {
