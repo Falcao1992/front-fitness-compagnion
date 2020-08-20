@@ -5,7 +5,8 @@ import {Link} from "react-router-dom";
 
 import styled from 'styled-components'
 import {TextField, Button} from '@material-ui/core';
-
+import bgLoginPage from '../assets/images/bgLoginPage.jpg'
+import {ButtonStyled} from "../styledComponents/ButtonStyled";
 
 const LoginPage = ({location, history}) => {
 
@@ -14,9 +15,9 @@ const LoginPage = ({location, history}) => {
     const [submitted, setSubmitted] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         setSubmitted(true)
 
         // stop here if form is invalid
@@ -37,73 +38,101 @@ const LoginPage = ({location, history}) => {
             );
     }
     return (
-        <ContainerLoginPage>
-            <h1>Bienvenue sur Fitness Compagnion</h1>
-            <p>Veuillez Vous connecter</p>
-            <FormStyled name="form" onSubmit={handleSubmit} >
+        <ContainerLoginPage bgPage={bgLoginPage}>
+            <BlockTitle>
+                <h1>Fitness Compagnion</h1>
+            </BlockTitle>
+            <FormStyled name="form">
                 <TextFieldStyled id="username"
                                  label="Pseudo"
-                                 variant="outlined"
+                                 variant="filled"
                                  type="text"
                                  autoComplete="nickname"
                                  value={username}
                                  onChange={(e) => setUsername(e.target.value)}
                                  error={submitted && !username}
                                  helperText={submitted && !username ?
-                                     <small>Veuillez rentrer votre pseudo !</small> : username !== "" ?
-                                         <small>Correct*</small> : false}
+                                     <small>Veuillez rentrer votre pseudo !</small> : false}
                 />
                 <TextFieldStyled id="password"
                                  label="Mot de passe"
-                                 variant="outlined"
+                                 variant="filled"
                                  type="password"
                                  autoComplete="current-password"
                                  value={password}
                                  onChange={(e) => setPassword(e.target.value)}
                                  error={submitted && !password}
                                  helperText={submitted && !password ?
-                                     <small>Veuillez rentrer votre mot de passe !</small> : password !== "" ?
-                                         <small>Correct*</small> : false}
+                                     <small>Veuillez rentrer votre mot de passe !</small> : false}
                 />
-
-                <div>
-                    <ButtonStyled type="submit"
-                                  variant="contained"
-                                  color="primary">
-                        Me Connecter
-                    </ButtonStyled>
-                    <ButtonStyled variant="contained" color="secondary">
-                        <Link to="/register">Creer un nouveau Compte</Link>
-                    </ButtonStyled>
-                </div>
-
-                {errorMsg && <p>{errorMsg}</p>}
+                {errorMsg && <ErrorMsgStyled>{errorMsg}</ErrorMsgStyled>}
             </FormStyled>
+            <BlockButtons>
+                <ButtonStyled type="button"
+                              onClick={handleSubmit}
+                              colorBtnPrimary="aliceblue"
+                              colorBtnSecondary="rgba(46, 59, 133, 0.8)"
+                >
+                    Me Connecter
+                </ButtonStyled>
+                <Link to="/register">
+                    <ButtonStyled type="button"
+                                  colorBtnPrimary="aliceblue"
+                                  colorBtnSecondary="rgb(226 21 64 / 82%)"
+                    >
+                        Creer un nouveau Compte
+                    </ButtonStyled>
+                </Link>
+            </BlockButtons>
         </ContainerLoginPage>
     )
 }
 
 const ContainerLoginPage = styled.div`
     height: 100vh;
-    width: 80%;
-    margin: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+    background-image: url(${props => props.bgPage});
+    background-size: cover;
+    background-position: left;
+`
+
+const BlockTitle = styled.div`
+    text-align: center;
+    font-family: ${props => props.theme.fonts.primary};
+    background-color: ${props => props.theme.colors.primary};
+    border-top: 2px solid ${props => props.theme.colors.secondary};
+    border-bottom: 2px solid ${props => props.theme.colors.secondary};
+    opacity: .9;
+    h1 {
+        font-size: 1.7rem;
+        color: ${props => props.theme.colors.secondary};
+
+    }
 `
 
 const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
+    width: 85%;
+    margin: 0 auto;
 `
 
 const TextFieldStyled = styled(TextField)`
     width: 100%;
-    
+    background-color: rgb(240 248 255 / 83%);
+    margin-bottom: 1rem !important;
 `
-
-const ButtonStyled = styled(Button)`
-    width: 100%;
+const ErrorMsgStyled = styled.p`
+    background-color: rgb(240 248 255 / 83%);
+    color: #ff3b3b;
+    text-align: center;
+    padding: .5rem;
+`
+const BlockButtons = styled.div`
+    width: 70%;
+    margin: 0 auto;
 `
 
 export default LoginPage

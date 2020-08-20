@@ -2,10 +2,15 @@
 
 html {
   box-sizing: border-box;
-  background-color: lightgreen;
+  background-color: lightskyblue;
 }
 *, *:before, *:after {
   box-sizing: inherit;
   margin: 0;
   padding: 0;
+}
+
+a {
+  color: aliceblue;
+  text-decoration: none;
 }

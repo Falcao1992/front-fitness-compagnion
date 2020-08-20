@@ -6,9 +6,12 @@ import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import MyProfile from "./components/MyProfile";
 import RegisterPage from "./components/RegisterPage";
+import theme from "../src/assets/theme";
+import {ThemeProvider} from "styled-components";
 
 function App() {
     return (
+        <ThemeProvider theme={theme}>
         <Router>
             <Switch>
                 <Route exact path="/login" component={LoginPage}/>
@@ -17,6 +20,7 @@ function App() {
                 <PrivateRoute exact path="/myProfile" component={MyProfile}/>
             </Switch>
         </Router>
+        </ThemeProvider>
     );
 }
 
