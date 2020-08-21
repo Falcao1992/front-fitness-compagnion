@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {register} from "../../_services/user.service";
 import styled from 'styled-components'
-import {TextField} from '@material-ui/core';
+import {TextField, FormLabel, RadioGroup, FormControlLabel, Radio} from '@material-ui/core';
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 
 
@@ -10,7 +10,8 @@ const RegisterForm = ({history}) => {
     const [username, setUsername] = useState('')
     const [size, setSize] = useState(120)
     const [weight, setWeight] = useState(50)
-    const [dateBirth, setDateBirth] = useState('2020-01-01')
+    const [birthday, setBirthday] = useState('2020-01-01')
+    const [gender, setGender] = useState('man')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [checkPassword, setCheckPassword] = useState('')
@@ -31,7 +32,7 @@ const RegisterForm = ({history}) => {
         setSubmitted(true)
 
         // stop here if form is invalid
-        if (!(username && password && checkPassword && email)) {
+        if (!(username && password && checkPassword && email && gender)) {
             setErrorMsg('Veuillez remplir les champs obligatoire svp*')
             return;
         }
@@ -41,7 +42,7 @@ const RegisterForm = ({history}) => {
             return
         }
 
-        register(username, password, email, size, weight, dateBirth)
+        register(username, password, email, size, weight, birthday, gender)
             .then(
                 user => {
                     //const { from } = location.state || { from: { pathname: "/" } };
@@ -129,12 +130,19 @@ const RegisterForm = ({history}) => {
                 </ContainerSizeWeight>
 
 
-                {<TextFieldDateStyled id="dateBirth"
+                {<TextFieldDateStyled id="birthday"
                                       label="Anniversaire"
                                       type="date"
-                                      value={dateBirth}
-                                      onChange={(e) => setDateBirth(e.target.value)}
+                                      value={birthday}
+                                      onChange={(e) => setBirthday(e.target.value)}
                 />}
+                <div>
+                    <FormLabel component="legend">Sexe</FormLabel>
+                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
+                        <FormControlLabel value="man" control={<Radio />} label="man" />
+                        <FormControlLabel value="women" control={<Radio />} label="women" />
+                    </RadioGroup>
+                </div>
 
                 {handleErrMsg()}
             </FormStyled>

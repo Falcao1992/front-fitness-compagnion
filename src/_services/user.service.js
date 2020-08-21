@@ -1,8 +1,8 @@
-export const register = (username, password, email, size, weight, dateBirth) => {
+export const register = (username, password, email, size, weight, birthday, gender) => {
     const requestOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, password, email, size, weight, dateBirth})
+        body: JSON.stringify({username, password, email, size, weight, birthday, gender})
     };
 
     return fetch(`http://localhost:8000/api/v1/users/register`, requestOptions)
@@ -21,7 +21,6 @@ export const login = (username, password) => {
     return fetch(`http://localhost:8000/api/v1/users/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            console.log(user)
             // login successful if there's a user in the response
             if (user) {
                 // store user details and basic auth credentials in local storage
@@ -31,6 +30,8 @@ export const login = (username, password) => {
             }
             return user;
         })
+        //.catch((err) => console.error({msg: err}))
+
 }
 
 export const logout = (history) => {
@@ -53,6 +54,6 @@ export const handleResponse = (response) => {
                 return Promise.reject(error);
             }
             return data;
-        });
+        })
 }
 

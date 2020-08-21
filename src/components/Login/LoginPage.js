@@ -32,11 +32,20 @@ const LoginPage = ({location, history}) => {
                     history.push(from);
                 },
                 error => {
-                    setErrorMsg(error)
-                    console.error('error', error)
+                    console.log('error', error)
+                    if(error.message === 'Failed to fetch') {
+                        throw new Error('Serveur indisponible')
+                    } else {
+                        setErrorMsg(error)
+                    }
                 }
-            );
+            )
+            .catch((err) => {
+                console.error({msg: err})
+                setErrorMsg(err.message)
+            })
     }
+
     return (
         <ContainerLoginPage bgPage={bgLoginPage}>
             <BlockTitle>
@@ -124,7 +133,7 @@ const TextFieldStyled = styled(TextField)`
     background-color: rgb(240 248 255 / 83%);
     margin-bottom: 1rem !important;
 `
-const ErrorMsgStyled = styled.p`
+const ErrorMsgStyled = styled.span`
     background-color: rgb(240 248 255 / 83%);
     color: #ff3b3b;
     text-align: center;

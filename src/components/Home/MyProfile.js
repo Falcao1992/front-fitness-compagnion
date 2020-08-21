@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import moment from "moment";
+import {FormControlLabel, FormLabel, Radio, RadioGroup} from "@material-ui/core";
 const axios = require('axios');
 
 const MyProfile = ({history}) => {
@@ -18,7 +19,11 @@ const MyProfile = ({history}) => {
     }
 
     const handleChange = (e) => {
-        setDataUserFormatted({...dataUserFormatted, [e.target.id]: e.target.value});
+        if(e.target.name === 'gender'){
+            setDataUserFormatted({...dataUserFormatted, [e.target.name]: e.target.value})
+        } else {
+            setDataUserFormatted({...dataUserFormatted, [e.target.id]: e.target.value});
+        }
     };
 
     const onSubmit = () => {
@@ -37,11 +42,11 @@ const MyProfile = ({history}) => {
     }
     const calculateAge = () => {
         const a = moment();
-        const b = moment(dateBirth, 'YYYY');
+        const b = moment(birthday, 'YYYY');
         return a.diff(b, 'years'); // calculates patient's age in years
     }
 
-    const {username, size, weight, dateBirth, email, id} = dataUserFormatted
+    const {username, size, weight, email, id, gender, birthday} = dataUserFormatted
 
     return (
         <div>
@@ -52,22 +57,29 @@ const MyProfile = ({history}) => {
                 <input type="text" id='username' value={username} onChange={handleChange}/>
             </div>
             <div>
+                <FormLabel component="legend">Sexe</FormLabel>
+                <RadioGroup aria-label="gender" name="gender" value={gender} onChange={handleChange}>
+                    <FormControlLabel value="man" id="man" control={<Radio />} label="man" />
+                    <FormControlLabel value="women" id="woman" control={<Radio />} label="women" />
+                </RadioGroup>
+            </div>
+            <div>
                 <label htmlFor='email'>email</label>
                 <input type="email" id='email' value={email} onChange={handleChange}/>
             </div>
             <div>
                 <label htmlFor='size'>Taille (entre 120 et 200cm</label>
-                <input type="number" min="120" max="200" id='size' value={size !== null ? size : 120}
+                <input type="number" min="120" max="200" id='size' value={size}
                        onChange={handleChange}/>
             </div>
             <div>
                 <label htmlFor='weight'>Poids (entre 50 et 130kg)</label>
-                <input type="number" min="30" max="130" id='weight' value={weight !== null ? weight : 50}
+                <input type="number" min="30" max="130" id='weight' value={weight}
                        onChange={handleChange}/>
             </div>
             <div>
-                <label htmlFor='dateBirth'>Anniversaire</label>
-                <input type="date" id='dateBirth' value={dateBirth !== null ? moment(dateBirth).format('YYYY-MM-DD') : '2000-01-01'}
+                <label htmlFor='birthday'>Anniversaire</label>
+                <input type="date" id='birthday' value={birthday !== null ? moment(birthday).format('YYYY-MM-DD') : '2000-01-01'}
                        onChange={handleChange}/>
             </div>
             <p>age : {} </p>
