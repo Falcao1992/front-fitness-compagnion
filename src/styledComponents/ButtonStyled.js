@@ -5,6 +5,7 @@ export const ButtonStyled = styled.button`
     margin: 1rem auto;
     padding: 1rem;
     background-color: ${props => props.theme.colors.primary};
+    opacity: ${props => !props.disabledBtn ? "1" : "0.5"};
     color: ${props => props.colorBtnSecondary};
     border: 1px solid ${props => props.colorBtnSecondary};
     position: relative;

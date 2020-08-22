@@ -78,6 +78,7 @@ const LoginPage = ({location, history}) => {
             </FormStyled>
             <BlockButtons>
                 <ButtonStyled type="button"
+                              disabledBtn={!username || !password}
                               onClick={handleSubmit}
                               colorBtnPrimary="aliceblue"
                               colorBtnSecondary="rgba(46, 59, 133, 0.8)"

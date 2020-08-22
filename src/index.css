@@ -2,7 +2,7 @@
 
 html {
   box-sizing: border-box;
-  background-color: lightskyblue;
+  background-color: aliceblue;
 }
 *, *:before, *:after {
   box-sizing: inherit;
@@ -13,4 +13,14 @@ html {
 a {
   color: aliceblue;
   text-decoration: none;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+}
+
+button:focus {
+  outline: transparent;
 }

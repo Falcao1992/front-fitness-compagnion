@@ -3,6 +3,9 @@ import {register} from "../../_services/user.service";
 import styled from 'styled-components'
 import {TextField, FormLabel, RadioGroup, FormControlLabel, Radio} from '@material-ui/core';
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import {InlineIcon} from "@iconify/react";
+import manRunningMediumSkinTone from "@iconify/icons-noto/man-running-medium-skin-tone";
+import womanRunningLightSkinTone from "@iconify/icons-noto/woman-running-light-skin-tone";
 
 
 const RegisterForm = ({history}) => {
@@ -130,19 +133,24 @@ const RegisterForm = ({history}) => {
                 </ContainerSizeWeight>
 
 
-                {<TextFieldDateStyled id="birthday"
+                <TextFieldDateStyled id="birthday"
                                       label="Anniversaire"
                                       type="date"
                                       value={birthday}
                                       onChange={(e) => setBirthday(e.target.value)}
-                />}
-                <div>
-                    <FormLabel component="legend">Sexe</FormLabel>
+                />
+
+                <BlockRadio>
+                    <FormLabel component="legend">Sexe :</FormLabel>
                     <RadioGroup aria-label="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
-                        <FormControlLabel value="man" control={<Radio />} label="man" />
-                        <FormControlLabel value="women" control={<Radio />} label="women" />
+                        <FormControlLabel value="man" id="man" control={<Radio/>}
+                                          label={<InlineIcon icon={manRunningMediumSkinTone} width="40px"
+                                                             height="40px"/>}/>
+                        <FormControlLabel value="women" id="woman" control={<Radio/>}
+                                          label={<InlineIcon icon={womanRunningLightSkinTone} width="40px"
+                                                             height="40px"/>}/>
                     </RadioGroup>
-                </div>
+                </BlockRadio>
 
                 {handleErrMsg()}
             </FormStyled>
@@ -174,6 +182,7 @@ const TextFieldStyled = styled(TextField)`
 
 const TextFieldDateStyled = styled(TextField)`
     background-color: rgb(206 214 221 / 80%);
+    margin-bottom: .6rem !important;
     label {
         padding: 0.5rem .7rem;
     }
@@ -227,6 +236,23 @@ const InputStyled = styled.input`
         outline-color: rgba(46, 59, 133, 0.816);;
     }
 `
+const BlockRadio = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(206 214 221 / 95%);
+    margin-bottom: .6rem;
+    padding: .5rem;
+    
+    > div {
+        flex-direction: row;
+    }
+    
+    > legend {
+        padding-left: .5rem;
+    }
+`
 
 const ErrorMsgStyled = styled.span`
     background-color: rgb(240 248 255 / 100%);
@@ -240,6 +266,7 @@ const BlockButtons = styled.div`
     width: 70%;
     margin: 0 auto;
 `
+
 
 
 export default RegisterForm
