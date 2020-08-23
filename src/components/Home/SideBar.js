@@ -23,7 +23,7 @@ const SideBar = ({history}) => {
                 <ul>
                     <li><Link to="/">Acceuil</Link></li>
                     <li><Link to="/myProfile">Modifer Mon Profil</Link></li>
-                    <li>mes sceance</li>
+                    <li><Link to="/workouts">Sceancel</Link></li>
                     <li>les stats</li>
                     <li><button onClick={() => logout(history)}>Me déconecter</button></li>
                 </ul>

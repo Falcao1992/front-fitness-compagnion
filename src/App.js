@@ -8,6 +8,7 @@ import MyProfile from "./components/Home/MyProfile";
 import RegisterPage from "./components/Register/RegisterPage";
 import theme from "../src/assets/theme";
 import {ThemeProvider} from "styled-components";
+import Workouts from "./components/Home/Workouts";
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                 <Route exact path="/register" component={RegisterPage}/>
                 <PrivateRoute exact path="/" component={HomePage}/>
                 <PrivateRoute exact path="/myProfile" component={MyProfile}/>
+                <PrivateRoute exact path="/workouts" component={Workouts}/>
             </Switch>
         </Router>
         </ThemeProvider>

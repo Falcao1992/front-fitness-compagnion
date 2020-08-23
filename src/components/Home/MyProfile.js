@@ -14,6 +14,7 @@ import SideBar from "./SideBar";
 const axios = require('axios');
 
 const MyProfile = ({history}) => {
+
     const [dataUserFormatted, setDataUserFormatted] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [dataHasBeenModified, setDataHasBeenModified] = useState(false)
@@ -47,8 +48,6 @@ const MyProfile = ({history}) => {
         } else {
             console.log("pas de ta modifier")
         }
-
-
     }
 
     if (isLoading && dataUserFormatted === null) {

@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@iconify/icons-clarity": "^1.0.0",
     "@iconify/icons-noto": "^1.0.11",
     "@iconify/react": "^1.1.3"
   }
