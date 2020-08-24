@@ -4,7 +4,7 @@ import SideBar from "./SideBar";
 import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg";
 import moment from "moment";
 import 'moment/locale/fr';
-import { InlineIcon } from '@iconify/react';
+import {InlineIcon} from '@iconify/react';
 import noteEditLine from '@iconify/icons-clarity/note-edit-line';
 
 const axios = require('axios');
@@ -12,41 +12,46 @@ const axios = require('axios');
 const Workouts = ({history}) => {
 
     const [dataWorkouts, setdataWorkouts] = useState(null)
+    const [dataExercises, setDataExercises] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState(null)
 
     moment.locale('fr');
 
     useEffect(() => {
-        GetData()
+        GetAllData()
     }, [])
 
-    const GetData = () => {
-        formatUserData()
-            .then((dataUser) => {
-                fetchDataWorkout(dataUser)
-                    .then((dataWork) => {
-                        setdataWorkouts(dataWork)
-                        setIsLoading(false)
-                    })
+
+    const GetAllData = async () => {
+        const formatDataUser = await formatUserData()
+        const dataWorkout = await fetchDataWorkout(formatDataUser)
+            .then((dataWorkout) => {
+                setdataWorkouts(dataWorkout)
+                return dataWorkout
             })
+        await fetchExercisesByWorkoutId(dataWorkout)
+            .then((allExercises) => {
+                setDataExercises(allExercises)
+                setIsLoading(false)
+            })
+        return 'data recup'
     }
 
     // Format user's data and return it
-    const formatUserData = async () => {
-        console.log('function formatUserData')
+    const formatUserData = () => {
         try {
             return JSON.parse(localStorage.getItem('user'))
         } catch (error) {
             console.log(error, "error")
         }
     }
+
     // With userId Fetch workout's data and return it
     const fetchDataWorkout = async (dataUsr) => {
         try {
-            const resultDataUser = await axios.get(`http://localhost:8000/api/v1/${dataUsr.id}/workouts`)
-            console.log(resultDataUser, "resultDataUser")
-            return resultDataUser.data
+            const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${dataUsr.id}/workouts`)
+            return resultDataWorkoutsByUser.data
         } catch (error) {
             if (error.message === "Network Error") {
                 const errorNetwork = new Error('Serveur indisponible')
@@ -58,16 +63,38 @@ const Workouts = ({history}) => {
         }
     }
 
-    if (isLoading && dataWorkouts === null) {
+    // Fetch Exercises by WorkoutId
+    const fetchExercisesByWorkoutId = async (allWorkouts) => {
+        let allExercises = []
+        for (let workout of allWorkouts) {
+            const resultExercises = await axios.get(`http://localhost:8000/api/v1/${workout.id}/exercises`)
+            allExercises.push(...resultExercises.data)
+        }
+        return allExercises
+    }
+
+    if (isLoading || dataWorkouts === null || dataExercises === null) {
         return (
             <div>entrain de chargé</div>
         )
+    }
+
+    const GetExercisesByWorkoutId = (id) => {
+        let goodExercisesExtract = []
+        dataExercises.filter(data => data.workoutId === id).map((datafilter => {
+            //console.log("datafilter", datafilter)
+            return (
+                goodExercisesExtract.push(<BlockWorkoutExercise>{datafilter.duration}</BlockWorkoutExercise>)
+            )
+        }))
+        return goodExercisesExtract
     }
 
     return (
         <>
             <SideBar history={history}/>
             <ContainerMyProfilePage bgPage={bgWorkoutsPage}>
+                {console.log('render WorkoutPage')}
                 <BlockTitle>
                     <h1>Mes Scéances</h1>
                 </BlockTitle>
@@ -80,7 +107,13 @@ const Workouts = ({history}) => {
                                 <WorkoutName>{name} -<WorkoutDate>{moment(date).format('YYYY-MM-DD')}</WorkoutDate>-</WorkoutName>
                                 <WorkoutHour>{hour.substring(0, hour.length - 3)}</WorkoutHour>
                                 <WorkoutDuration>{duration} mn</WorkoutDuration>
-                                <WorkoutEditBtn type="button" onClick={() =>console.log("edit button")}><InlineIcon icon={noteEditLine} width="20px" height="20px" /></WorkoutEditBtn>
+                                {/*<button type="button" onClick={(e) => getExerciseByWorkoutId(e,id)}>Mes Exercices</button>*/}
+                                <WorkoutEditBtn type="button" onClick={() => console.log("edit button")}><InlineIcon
+                                    icon={noteEditLine} width="20px" height="20px"/></WorkoutEditBtn>
+
+                                {GetExercisesByWorkoutId(id)}
+
+
                             </BlockWorkout>
                         )
                     })}
@@ -121,7 +154,7 @@ const ContainerWorkouts = styled.section`
 `
 const BlockWorkout = styled.article`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     background-color: ${props => props.theme.colors.secondary};
     color: ${props => props.theme.colors.primary};
     border: 1px solid ${props => props.theme.colors.primary};
@@ -132,7 +165,7 @@ const BlockWorkout = styled.article`
 `
 
 const WorkoutName = styled.h3`
-    grid-column: 1 / 4;
+    grid-column: 1 / 5;
     text-align: center;
     padding-bottom: .7rem;
     border-bottom: 1px solid ${props => props.theme.colors.primary};
@@ -152,6 +185,10 @@ const WorkoutDuration = styled.span`
 const WorkoutEditBtn = styled.button`
     padding: .7rem;
     color: lightcoral;
+`
+
+const BlockWorkoutExercise = styled.div`
+    grid-column: 1 / 5;
 `
 
 
