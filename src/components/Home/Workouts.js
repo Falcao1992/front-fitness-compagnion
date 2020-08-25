@@ -11,7 +11,7 @@ const axios = require('axios');
 
 const Workouts = ({history}) => {
 
-    const [dataWorkouts, setdataWorkouts] = useState(null)
+    const [dataWorkoutsAssociatedUser, setDataWorkoutsAssociatedUser] = useState(null)
     const [dataExercises, setDataExercises] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState(null)
@@ -25,16 +25,11 @@ const Workouts = ({history}) => {
 
     const GetAllData = async () => {
         const formatDataUser = await formatUserData()
-        const dataWorkout = await fetchDataWorkout(formatDataUser)
+        await fetchDataWorkoutsAssociatedUser(formatDataUser)
             .then((dataWorkout) => {
-                setdataWorkouts(dataWorkout)
-                return dataWorkout
+                setDataWorkoutsAssociatedUser(dataWorkout)
             })
-        await fetchExercisesByWorkoutId(dataWorkout)
-            .then((allExercises) => {
-                setDataExercises(allExercises)
-                setIsLoading(false)
-            })
+        setIsLoading(false)
         return 'data recup'
     }
 
@@ -48,7 +43,7 @@ const Workouts = ({history}) => {
     }
 
     // With userId Fetch workout's data and return it
-    const fetchDataWorkout = async (dataUsr) => {
+    const fetchDataWorkoutsAssociatedUser = async (dataUsr) => {
         try {
             const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${dataUsr.id}/workouts`)
             return resultDataWorkoutsByUser.data
@@ -63,31 +58,10 @@ const Workouts = ({history}) => {
         }
     }
 
-    // Fetch Exercises by WorkoutId
-    const fetchExercisesByWorkoutId = async (allWorkouts) => {
-        let allExercises = []
-        for (let workout of allWorkouts) {
-            const resultExercises = await axios.get(`http://localhost:8000/api/v1/${workout.id}/exercises`)
-            allExercises.push(...resultExercises.data)
-        }
-        return allExercises
-    }
-
-    if (isLoading || dataWorkouts === null || dataExercises === null) {
+    if (isLoading || dataWorkoutsAssociatedUser === null) {
         return (
             <div>entrain de chargé</div>
         )
-    }
-
-    const GetExercisesByWorkoutId = (id) => {
-        let goodExercisesExtract = []
-        dataExercises.filter(data => data.workoutId === id).map((datafilter => {
-            //console.log("datafilter", datafilter)
-            return (
-                goodExercisesExtract.push(<BlockWorkoutExercise>{datafilter.duration}</BlockWorkoutExercise>)
-            )
-        }))
-        return goodExercisesExtract
     }
 
     return (
@@ -99,8 +73,8 @@ const Workouts = ({history}) => {
                     <h1>Mes Scéances</h1>
                 </BlockTitle>
                 <ContainerWorkouts>
-                    {dataWorkouts && dataWorkouts.map((workout) => {
-                        const {id, name, date, hour, duration} = workout
+                    {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout) => {
+                        const {id, name, date, hour, duration, DetailsExercises} = workout
 
                         return (
                             <BlockWorkout key={id}>
@@ -111,9 +85,30 @@ const Workouts = ({history}) => {
                                 <WorkoutEditBtn type="button" onClick={() => console.log("edit button")}><InlineIcon
                                     icon={noteEditLine} width="20px" height="20px"/></WorkoutEditBtn>
 
-                                {GetExercisesByWorkoutId(id)}
+                                {DetailsExercises.map((ex, i) => {
+                                    return (
+                                        <BlockExercise key={ex.id}>
+                                            <p>Exercice {i + 1} : {ex.DefaultExercise.name} </p>
+
+                                            <ExerciseRow>
+                                                <p>Serie(s):</p>
+                                                <span>{ex.series}</span>
+                                            </ExerciseRow>
+
+                                            <ExerciseRow>
+                                                <p>Durée:</p>
+                                                <span>{ex.duration}</span>
+                                            </ExerciseRow>
+
+                                            <ExerciseRow>
+                                                <p>Nombre: </p>
+                                                <span>{ex.number}</span>
+                                            </ExerciseRow>
 
 
+                                        </BlockExercise>
+                                    )
+                                })}
                             </BlockWorkout>
                         )
                     })}
@@ -187,8 +182,25 @@ const WorkoutEditBtn = styled.button`
     color: lightcoral;
 `
 
-const BlockWorkoutExercise = styled.div`
+const BlockExercise = styled.div`
     grid-column: 1 / 5;
+    border-top: 1px solid ${props => props.theme.colors.primary};
+    > p {
+        padding: .7rem 0;
+        border-bottom: 1px solid ${props => props.theme.colors.primary};
+    }
+`
+const ExerciseRow = styled.div`
+    display: flex;
+    padding: .7rem;
+    p {
+        width: 60%;
+        text-align: start;
+    }
+    span {
+        width: 40%;
+    }
+    
 `
 
 
