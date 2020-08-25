@@ -2,7 +2,8 @@ const theme = {
     colors: {
         primary: "aliceblue",
         secondary: 'rgba(46, 59, 133, .97)',
-        dark: "rgb(11, 11, 11)",
+        third: '#C89446',
+        dark: "rgba(11,11,11,0.85)",
         lightDark: "#f0f8ff17"
     },
     fonts: {

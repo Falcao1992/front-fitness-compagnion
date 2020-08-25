@@ -34,7 +34,7 @@ const SideBar = ({history}) => {
 
 const ContainerSideBar = styled.div`
     height: 100%;
-    background-color: ${props => props.theme.colors.secondary};
+    background-color: ${props => props.theme.colors.dark};
     position: fixed;
     z-index: 1000;
     transform: ${props => !props.burgerStatus ? "translateX(-100%)" : "translateX(0)"};
@@ -63,8 +63,10 @@ const BlockBurgerMenu = styled.div`
     
     button {
         padding: .2rem;
-        border: ${props => !props.burgerStatus ? `1px solid ${props.theme.colors.secondary}` : `1px solid ${props.theme.colors.primary}`};
-        color:  ${props => !props.burgerStatus ? props.theme.colors.secondary : props.theme.colors.primary};
+        border: ${props => !props.burgerStatus ? `1px solid ${props.theme.colors.third}` : `1px solid ${props.theme.colors.primary}`};
+        color:  ${props => !props.burgerStatus ? props.theme.colors.third : props.theme.colors.primary};
+        transform: ${props => !props.burgerStatus ? "rotate(0deg)" : "rotate(180deg)"};
+   
         transition: all .5s linear;
     }
     
