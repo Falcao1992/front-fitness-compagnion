@@ -10,10 +10,12 @@ import {
     BlockButtons,
     BlockInputLabelStyled, BlockRadio,
     ContainerMultiNumberField,
-    FormStyled, InputStyled, LabelInputStyled,
+    FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
 import {ErrorMsgStyled} from "../../styledComponents/UniformPageComponents";
+import DateFnsUtils from "@date-io/date-fns";
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 
 const RegisterForm = ({history}) => {
@@ -57,7 +59,6 @@ const RegisterForm = ({history}) => {
             .then(
                 user => {
                     //const { from } = location.state || { from: { pathname: "/" } };
-                    console.log(user, 'user')
                     history.push("/");
                 },
                 error => {
@@ -65,6 +66,10 @@ const RegisterForm = ({history}) => {
                     console.log('erreur', error)
                 }
             );
+    }
+
+    const handleChangeDate = (date) => {
+        setBirthday(date)
     }
 
 
@@ -140,13 +145,18 @@ const RegisterForm = ({history}) => {
 
                 </ContainerMultiNumberField>
 
-
-                <TextFieldDateStyled id="birthday"
-                                      label="Anniversaire"
-                                      type="date"
-                                      value={birthday}
-                                      onChange={(e) => setBirthday(e.target.value)}
-                />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePickerStyled
+                        disableToolbar
+                        variant="inline"
+                        format="d MMM yyyy"
+                        margin="normal"
+                        id="birthday"
+                        label="Anniversaire"
+                        value={birthday}
+                        onChange={handleChangeDate}
+                    />
+                </MuiPickersUtilsProvider>
 
                 <BlockRadio>
                     <FormLabel component="legend">Sexe :</FormLabel>
@@ -176,31 +186,14 @@ const RegisterForm = ({history}) => {
     )
 }
 
-
-const TextFieldDateStyled = styled(TextField)`
-    background-color: rgb(206 214 221 / 80%);
-    margin-bottom: .6rem !important;
-    label {
-        padding: 0.5rem .7rem;
-    }
-    input {
-        text-align: center;
-        padding: .7rem;
-    }
-`
 const ContainerPasswords = styled.div`
     display: flex;
     justify-content: space-between;
 `
 
 const TextFieldStyledMultiple = styled(TextField)`
-    background-color: rgb(240 248 255 / 73%);
     width: 48%;
     margin-bottom: .6rem !important;
 `
-
-
-
-
 
 export default RegisterForm

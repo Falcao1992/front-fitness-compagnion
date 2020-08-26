@@ -11,10 +11,12 @@ import SideBar from "./SideBar";
 import {
     BlockButtons,
     BlockInputLabelStyled, BlockRadio, ContainerMultiNumberField,
-    FormStyled, InputStyled, LabelInputStyled, TextFieldDateStyled,
+    FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
 import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 
 const axios = require('axios');
@@ -36,9 +38,12 @@ const MyProfile = ({history}) => {
         console.log(dataUser)
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e, date) => {
         setDataHasBeenModified(true)
-        if (e.target.name === 'gender') {
+        if (e.target === undefined) {
+            let dateFormat = moment(date, "DD mm YYYY").format('YYYY-MM-DD')
+            setDataUserFormatted({...dataUserFormatted, "birthday": dateFormat})
+        } else if (e.target.name === 'gender') {
             setDataUserFormatted({...dataUserFormatted, [e.target.name]: e.target.value})
         } else {
             setDataUserFormatted({...dataUserFormatted, [e.target.id]: e.target.value});
@@ -129,12 +134,18 @@ const MyProfile = ({history}) => {
                             </BlockInputLabelStyled>
                         </ContainerMultiNumberField>
 
-                        <TextFieldDateStyled id="birthday"
-                                             label="Anniversaire"
-                                             type="date"
-                                             value={birthday !== null ? moment(birthday).format('YYYY-MM-DD') : '2000-01-01'}
-                                             onChange={handleChange}
-                        />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <KeyboardDatePickerStyled
+                                disableToolbar
+                                variant="inline"
+                                format="d MMM yyyy"
+                                margin="normal"
+                                id="date"
+                                label="Anniversaire"
+                                value={birthday}
+                                onChange={handleChange}
+                            />
+                        </MuiPickersUtilsProvider>
 
                         <BlockRadio>
                             <FormLabel component="legend">Sexe :</FormLabel>

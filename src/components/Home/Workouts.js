@@ -5,14 +5,15 @@ import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg";
 import moment from "moment";
 import {Link} from "react-router-dom";
 import 'moment/locale/fr';
-import {InlineIcon} from '@iconify/react';
+import {InlineIcon, Icon} from '@iconify/react';
 import timerIcon from '@iconify/icons-carbon/timer';
 import repeatLine from '@iconify/icons-clarity/repeat-line';
 import sortNumericallyOutline from '@iconify/icons-typcn/sort-numerically-outline';
 
 import addAlt from '@iconify/icons-carbon/add-alt';
-import bxShowAlt from '@iconify/icons-bx/bx-show-alt';
 import {BlockTitle} from "../../styledComponents/UniformPageComponents";
+import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
+import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
 
 
 const axios = require('axios');
@@ -27,26 +28,25 @@ const Workouts = ({history}) => {
     moment.locale('fr');
 
     useEffect(() => {
-        GetAllData().then((res) => {
-            console.log(res)
-        })
+        console.log("useffect workout")
+        const GetAllData = async () => {
+            try {
+                const formatDataUser = await formatUserData()
+                await fetchDataWorkoutsAssociatedUser(formatDataUser)
+                    .then((dataWorkout) => {
+                        setDataWorkoutsAssociatedUser(dataWorkout)
+                    })
+                setIsLoading(false)
+                return 'data recup'
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        GetAllData()
     }, [])
 
 
-    const GetAllData = async () => {
-        try {
-            const formatDataUser = await formatUserData()
-            await fetchDataWorkoutsAssociatedUser(formatDataUser)
-                .then((dataWorkout) => {
-                    setDataWorkoutsAssociatedUser(dataWorkout)
-                })
-            setIsLoading(false)
-            return 'data recup'
-        } catch (error) {
-            console.log(error)
-        }
 
-    }
 
     // Format user's data and return it
     const formatUserData = () => {
@@ -81,7 +81,6 @@ const Workouts = ({history}) => {
             setShowExercises({...showExercises, [index]: false})
         }
         console.log("finish display exercises")
-
     }
 
     if (isLoading || dataWorkoutsAssociatedUser === null) {
@@ -113,9 +112,13 @@ const Workouts = ({history}) => {
                                                 workout
                                             }
                                         }}>
-                                            <InlineIcon icon={addAlt} width="25px" height="25px" />
+                                            <Icon icon={addAlt} width="25px" height="25px" />
                                         </Link>
-                                        <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxShowAlt} width="30px" height="30px" /></button>
+                                        {showExercises[index]
+                                            ?
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxUpArrow} width="15px" height="15px" /></button>
+                                            :
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxDownArrow} width="15px" height="15px" /></button>}
                                     </div>
 
                                 </WorkoutCardHeader>
@@ -182,7 +185,7 @@ const WorkoutCardHeader = styled.div`
         padding: .35rem;
     }
     
-    button {
+    button, a {
         align-self: flex-start;
         vertical-align: middle;
         z-index: 2;
@@ -191,8 +194,8 @@ const WorkoutCardHeader = styled.div`
     }
     
     button:last-child {
-        color: ${props => !props.showExercises ? props.theme.colors.third : props.theme.colors.primary };
-        transition: all 1s linear;
+        color: ${props => props.showExercises ? props.theme.colors.third : props.theme.colors.primary };
+        transition: all .6s linear;
     }
 `
 

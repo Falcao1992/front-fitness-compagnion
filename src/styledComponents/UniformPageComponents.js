@@ -22,6 +22,12 @@ export const BlockTitle = styled.div`
         font-size: 1.7rem;
         color: ${props => props.theme.colors.third};
     }
+    
+    p {
+        font-size: .9rem;
+        padding-bottom: .7rem;
+        font-weight: 700;
+    }
 `
 
 export const ErrorMsgStyled = styled.span`
