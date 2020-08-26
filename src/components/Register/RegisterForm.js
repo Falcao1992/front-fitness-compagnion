@@ -6,6 +6,14 @@ import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import {InlineIcon} from "@iconify/react";
 import manRunningMediumSkinTone from "@iconify/icons-noto/man-running-medium-skin-tone";
 import womanRunningLightSkinTone from "@iconify/icons-noto/woman-running-light-skin-tone";
+import {
+    BlockButtons,
+    BlockInputLabelStyled, BlockRadio,
+    ContainerMultiNumberField,
+    FormStyled, InputStyled, LabelInputStyled,
+    TextFieldStyled
+} from "../../styledComponents/FormComponents";
+import {ErrorMsgStyled} from "../../styledComponents/UniformPageComponents";
 
 
 const RegisterForm = ({history}) => {
@@ -62,7 +70,7 @@ const RegisterForm = ({history}) => {
 
     return (
         <>
-            <FormStyled name="form">
+            <FormStyled name="form" sidebar={false}>
                 <TextFieldStyled id="username"
                                  label="Pseudo *"
                                  variant="filled"
@@ -105,7 +113,7 @@ const RegisterForm = ({history}) => {
                 </ContainerPasswords>
 
 
-                <ContainerSizeWeight>
+                <ContainerMultiNumberField>
                     <BlockInputLabelStyled>
                         <LabelInputStyled htmlFor="size">Taille (cm): </LabelInputStyled>
                         <InputStyled
@@ -130,7 +138,7 @@ const RegisterForm = ({history}) => {
                         />
                     </BlockInputLabelStyled>
 
-                </ContainerSizeWeight>
+                </ContainerMultiNumberField>
 
 
                 <TextFieldDateStyled id="birthday"
@@ -168,17 +176,6 @@ const RegisterForm = ({history}) => {
     )
 }
 
-const FormStyled = styled.form`
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: 0 auto;
-`
-
-const TextFieldStyled = styled(TextField)`
-    background-color: rgb(240 248 255 / 73%);
-    margin-bottom: .6rem !important;
-`
 
 const TextFieldDateStyled = styled(TextField)`
     background-color: rgb(206 214 221 / 80%);
@@ -202,70 +199,7 @@ const TextFieldStyledMultiple = styled(TextField)`
     margin-bottom: .6rem !important;
 `
 
-const ContainerSizeWeight = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: .6rem;
-    color: rgba(0, 0, 0, 0.54);
-    
-`
 
-const BlockInputLabelStyled = styled.div`
-    background-color: rgb(206 214 221 / 80%);
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const LabelInputStyled = styled.label`
-    align-self: center;
-    padding: .5rem .5rem .1rem;
-    font-family: "Roboto", sans-serif;
-    
-`
-
-const InputStyled = styled.input`
-    background-color: rgb(240 248 255 / 23%);
-    text-align: center;
-    border: none;
-    padding: .5rem 0;
-    color: rgba(0, 0, 0, 0.54);
-    
-    :focus {
-        outline-color: rgba(46, 59, 133, 0.816);;
-    }
-`
-const BlockRadio = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgb(206 214 221 / 95%);
-    margin-bottom: .6rem;
-    padding: .5rem;
-    
-    > div {
-        flex-direction: row;
-    }
-    
-    > legend {
-        padding-left: .5rem;
-    }
-`
-
-const ErrorMsgStyled = styled.span`
-    background-color: rgb(240 248 255 / 100%);
-    color: #ff3b3b;
-    text-align: center;
-    padding: .5rem;
-    margin-top: .5rem;
-`
-
-const BlockButtons = styled.div`
-    width: 70%;
-    margin: 0 auto;
-`
 
 
 

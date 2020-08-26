@@ -3,10 +3,10 @@ import React, {useState} from "react";
 import {login} from "../../_services/user.service";
 import {Link} from "react-router-dom";
 
-import styled from 'styled-components'
-import {TextField} from '@material-ui/core';
 import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import {BlockTitle, ContainerPage, ErrorMsgStyled} from "../../styledComponents/UniformPageComponents";
+import {BlockButtons, FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
 
 const LoginPage = ({location, history}) => {
 
@@ -47,7 +47,7 @@ const LoginPage = ({location, history}) => {
     }
 
     return (
-        <ContainerLoginPage bgPage={bgLoginPage}>
+        <ContainerPage bgPage={bgLoginPage}>
             <BlockTitle>
                 <h1>Fitness Compagnion</h1>
             </BlockTitle>
@@ -94,55 +94,8 @@ const LoginPage = ({location, history}) => {
                     </ButtonStyled>
                 </Link>
             </BlockButtons>
-        </ContainerLoginPage>
+        </ContainerPage>
     )
 }
-
-const ContainerLoginPage = styled.div`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background-image: url(${props => props.bgPage});
-    background-size: cover;
-    background-position: left;
-`
-
-const BlockTitle = styled.div`
-    text-align: center;
-    font-family: ${props => props.theme.fonts.primary};
-    background-color: ${props => props.theme.colors.primary};
-    border-top: 2px solid ${props => props.theme.colors.secondary};
-    border-bottom: 2px solid ${props => props.theme.colors.secondary};
-    opacity: .9;
-    h1 {
-        font-size: 1.7rem;
-        color: ${props => props.theme.colors.secondary};
-
-    }
-`
-
-const FormStyled = styled.form`
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: 0 auto;
-`
-
-const TextFieldStyled = styled(TextField)`
-    width: 100%;
-    background-color: rgb(240 248 255 / 83%);
-    margin-bottom: 1rem !important;
-`
-const ErrorMsgStyled = styled.span`
-    background-color: rgb(240 248 255 / 83%);
-    color: #ff3b3b;
-    text-align: center;
-    padding: .5rem;
-`
-const BlockButtons = styled.div`
-    width: 70%;
-    margin: 0 auto;
-`
 
 export default LoginPage

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SideBar from "./SideBar";
 import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg";
 import moment from "moment";
+import {Link} from "react-router-dom";
 import 'moment/locale/fr';
 import {InlineIcon} from '@iconify/react';
 import timerIcon from '@iconify/icons-carbon/timer';
@@ -11,6 +12,7 @@ import sortNumericallyOutline from '@iconify/icons-typcn/sort-numerically-outlin
 
 import addAlt from '@iconify/icons-carbon/add-alt';
 import bxShowAlt from '@iconify/icons-bx/bx-show-alt';
+import {BlockTitle} from "../../styledComponents/UniformPageComponents";
 
 
 const axios = require('axios');
@@ -25,19 +27,25 @@ const Workouts = ({history}) => {
     moment.locale('fr');
 
     useEffect(() => {
-        console.log('dans le use effect')
-        GetAllData()
+        GetAllData().then((res) => {
+            console.log(res)
+        })
     }, [])
 
 
     const GetAllData = async () => {
-        const formatDataUser = await formatUserData()
-        await fetchDataWorkoutsAssociatedUser(formatDataUser)
-            .then((dataWorkout) => {
-                setDataWorkoutsAssociatedUser(dataWorkout)
-            })
-        setIsLoading(false)
-        return 'data recup'
+        try {
+            const formatDataUser = await formatUserData()
+            await fetchDataWorkoutsAssociatedUser(formatDataUser)
+                .then((dataWorkout) => {
+                    setDataWorkoutsAssociatedUser(dataWorkout)
+                })
+            setIsLoading(false)
+            return 'data recup'
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     // Format user's data and return it
@@ -100,7 +108,13 @@ const Workouts = ({history}) => {
                                     <h4>{name} <span>({duration}mn)</span></h4>
                                     <p>{moment(date).format('dddd Do MMMM YYYY')} à {hour.substring(0, hour.length - 6)} h</p>
                                     <div>
-                                        <button type="button" onClick={() => console.log("ajoiter exercises")}><InlineIcon icon={addAlt} width="25px" height="25px" /></button>
+                                        <Link to={{
+                                            pathname: `/workout/${id}`, state: {
+                                                workout
+                                            }
+                                        }}>
+                                            <InlineIcon icon={addAlt} width="25px" height="25px" />
+                                        </Link>
                                         <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxShowAlt} width="30px" height="30px" /></button>
                                     </div>
 
@@ -142,19 +156,6 @@ const ContainerMyProfilePage = styled.section`
     background-position: left;
 `
 
-const BlockTitle = styled.div`
-    text-align: center;
-    font-family: ${props => props.theme.fonts.primary};
-    background-color: ${props => props.theme.colors.primary};
-    border-top: 3px solid ${props => props.theme.colors.dark};
-    border-bottom: 3px solid ${props => props.theme.colors.dark};
-    opacity: .9;
-    margin: 1.5rem 0;
-    h1 {
-        font-size: 1.7rem;
-        color: ${props => props.theme.colors.third};
-    }
-`
 const ContainerWorkouts = styled.section`
     display: flex;
     width: 85%;

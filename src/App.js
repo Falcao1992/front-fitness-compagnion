@@ -9,6 +9,7 @@ import RegisterPage from "./components/Register/RegisterPage";
 import theme from "../src/assets/theme";
 import {ThemeProvider} from "styled-components";
 import Workouts from "./components/Home/Workouts";
+import EditWorkout from "./components/Home/EditWorkout";
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                 <PrivateRoute exact path="/" component={HomePage}/>
                 <PrivateRoute exact path="/myProfile" component={MyProfile}/>
                 <PrivateRoute exact path="/workouts" component={Workouts}/>
+                <PrivateRoute exact path="/workout/:workoutId" component={EditWorkout}/>
             </Switch>
         </Router>
         </ThemeProvider>

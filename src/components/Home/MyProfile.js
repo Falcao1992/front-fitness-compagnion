@@ -1,14 +1,20 @@
 import React, {useState, useEffect} from "react";
 import moment from "moment";
-import {FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from "@material-ui/core";
+import {FormControlLabel, FormLabel, Radio, RadioGroup} from "@material-ui/core";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import styled from "styled-components";
 
 import {InlineIcon} from '@iconify/react';
 import womanRunningLightSkinTone from '@iconify/icons-noto/woman-running-light-skin-tone';
 import manRunningMediumSkinTone from '@iconify/icons-noto/man-running-medium-skin-tone';
 import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg";
 import SideBar from "./SideBar";
+import {
+    BlockButtons,
+    BlockInputLabelStyled, BlockRadio, ContainerMultiNumberField,
+    FormStyled, InputStyled, LabelInputStyled, TextFieldDateStyled,
+    TextFieldStyled
+} from "../../styledComponents/FormComponents";
+import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 
 
 const axios = require('axios');
@@ -69,8 +75,8 @@ const MyProfile = ({history}) => {
 
     return (
         <>
-            <SideBar history={history}/>
-            <ContainerMyProfilePage bgPage={bgMyProfilePage}>
+            <SideBar history={history} sidebar={true}/>
+            <ContainerPage bgPage={bgMyProfilePage}>
                 {console.log('render Myprofile')}
 
                 <BlockTitle>
@@ -97,7 +103,7 @@ const MyProfile = ({history}) => {
                                          onChange={handleChange}
                         />
 
-                        <ContainerSizeWeight>
+                        <ContainerMultiNumberField>
                             <BlockInputLabelStyled>
                                 <LabelInputStyled htmlFor="size">Taille (cm): </LabelInputStyled>
                                 <InputStyled
@@ -121,7 +127,7 @@ const MyProfile = ({history}) => {
                                     max="130"
                                 />
                             </BlockInputLabelStyled>
-                        </ContainerSizeWeight>
+                        </ContainerMultiNumberField>
 
                         <TextFieldDateStyled id="birthday"
                                              label="Anniversaire"
@@ -154,120 +160,10 @@ const MyProfile = ({history}) => {
                         </ButtonStyled>
                     </BlockButtons>
                 </FormStyled>
-            </ContainerMyProfilePage>
+            </ContainerPage>
         </>
     )
 }
 
-const ContainerMyProfilePage = styled.section`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    //justify-content: space-evenly;
-    background-image: url(${props => props.bgPage});
-    background-size: cover;
-    background-position: left;
-`
-
-const BlockTitle = styled.div`
-    text-align: center;
-    font-family: ${props => props.theme.fonts.primary};
-    background-color: ${props => props.theme.colors.primary};
-    border-top: 2px solid ${props => props.theme.colors.secondary};
-    border-bottom: 2px solid ${props => props.theme.colors.secondary};
-    opacity: .9;
-    margin: 1.5rem 0;
-    h1 {
-        font-size: 1.7rem;
-        color: ${props => props.theme.colors.secondary};
-
-    }
-`
-
-const FormStyled = styled.form`
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    margin: 0 auto;
-    
-    // modif avec sidebar
-    height: 100%;
-    justify-content: space-evenly;
-`
-
-const TextFieldStyled = styled(TextField)`
-    width: 100%;
-    background-color: rgb(240 248 255 / 90%);
-    margin-bottom: .6rem !important;
-`
-const ContainerSizeWeight = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: .6rem;
-    color: rgba(0, 0, 0, 0.54);
-    
-`
-
-const BlockInputLabelStyled = styled.div`
-    background-color: rgb(206 214 221 / 95%);
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const LabelInputStyled = styled.label`
-    align-self: center;
-    padding: .5rem .5rem .1rem;
-    font-family: "Roboto", sans-serif;
-`
-// Input size and weight
-const InputStyled = styled.input`
-    background-color: rgb(240 248 255 / 10%);
-    text-align: center;
-    border: none;
-    padding: .5rem 0;
-    color: rgba(0, 0, 0, 0.54);
-    
-    :focus {
-        outline-color: rgba(46, 59, 133, 0.816);;
-    }
-`
-
-const TextFieldDateStyled = styled(TextField)`
-    width: 100%;
-    background-color: rgb(206 214 221 / 95%);
-    margin-bottom: .6rem !important;
-    label {
-        padding: 0.5rem .7rem;
-    }
-    input {
-        text-align: center;
-        padding: .7rem;
-    }
-`
-
-const BlockRadio = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgb(206 214 221 / 95%);
-    margin-bottom: .6rem;
-    padding: .5rem;
-    
-    > div {
-        flex-direction: row;
-    }
-    
-    > legend {
-        padding-left: .5rem;
-    }
-`
-
-const BlockButtons = styled.div`
-    width: 70%;
-    margin: 0 auto;
-`
 
 export default MyProfile
