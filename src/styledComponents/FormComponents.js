@@ -94,6 +94,8 @@ export const TextFieldDateStyled = styled(TextField)`
 `
 
 export const BlockButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
     width: 70%;
     margin: 0 auto;
 `

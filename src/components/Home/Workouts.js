@@ -9,8 +9,8 @@ import {InlineIcon, Icon} from '@iconify/react';
 import timerIcon from '@iconify/icons-carbon/timer';
 import repeatLine from '@iconify/icons-clarity/repeat-line';
 import sortNumericallyOutline from '@iconify/icons-typcn/sort-numerically-outline';
+import noteEditLine from '@iconify/icons-clarity/note-edit-line';
 
-import addAlt from '@iconify/icons-carbon/add-alt';
 import {BlockTitle} from "../../styledComponents/UniformPageComponents";
 import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
 import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
@@ -37,7 +37,6 @@ const Workouts = ({history}) => {
                         setDataWorkoutsAssociatedUser(dataWorkout)
                     })
                 setIsLoading(false)
-                return 'data recup'
             } catch (error) {
                 console.log(error)
             }
@@ -112,7 +111,7 @@ const Workouts = ({history}) => {
                                                 workout
                                             }
                                         }}>
-                                            <Icon icon={addAlt} width="25px" height="25px" />
+                                            <Icon icon={noteEditLine} width="25px" height="25px" />
                                         </Link>
                                         {showExercises[index]
                                             ?

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-//import {useParams} from "react-router-dom"
+import {useParams} from "react-router-dom"
 import SideBar from "./SideBar";
 import {
-    BlockButtons,
     BlockInputLabelStyled, ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
@@ -14,14 +13,15 @@ import DateFnsUtils from '@date-io/date-fns';
 import bgEditWorkoutPage from "../../assets/images/bgEditWorkoutPage.jpg"
 import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import moment from "moment";
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import {InlineIcon} from "@iconify/react";
+import {Icon, InlineIcon} from "@iconify/react";
 import timerIcon from "@iconify/icons-carbon/timer";
 import sortNumericallyOutline from "@iconify/icons-typcn/sort-numerically-outline";
 import repeatLine from "@iconify/icons-clarity/repeat-line";
 import styled from "styled-components";
 import bxDownArrow from '@iconify/icons-bx/bx-down-arrow';
 import bxUpArrow from '@iconify/icons-bx/bx-up-arrow';
+import addAlt from '@iconify/icons-carbon/add-alt';
+import noteEditLine from "@iconify/icons-clarity/note-edit-line";
 
 
 const axios = require('axios');
@@ -34,15 +34,24 @@ const EditWorkout = ({location, history}) => {
     const [showExercises, setShowExercises] = useState({})
     const [defaultExercises, setDefaultExercises] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    //let {workoutId} = useParams()
+    const [addedExercise, setAddedExercise] = useState(false)
+    let {workoutId} = useParams()
 
     useEffect(() => {
         fetchDefaultExercises()
             .then((defaultEx) => {
+                console.log('dans le then')
                 setDefaultExercises(defaultEx)
                 setIsLoading(false)
             })
     }, [])
+
+    useEffect(() => {
+        if(addedExercise === true) {
+            setAddedExercise(false)
+        }
+    },[addedExercise])
+
 
     const fetchDefaultExercises = async () => {
         try {
@@ -69,14 +78,20 @@ const EditWorkout = ({location, history}) => {
         setExercisesUpdate(copyExercisesUpdate)
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (workoutUpdate) {
-            axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
+            await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             history.push(`/workouts`)
-            console.log('data modifié')
+            console.log('workout modifié et redirect workout page')
         } else {
             console.log("pas de ta modifier")
         }
+    }
+
+    const sendExercise = async (e,index) => {
+        await axios.post(`http://localhost:8000/api/v1/createExercise`, exercisesUpdate[index]);
+        console.log(index)
+        console.log("poster")
     }
 
     const displayExercises = (e, index) => {
@@ -87,7 +102,22 @@ const EditWorkout = ({location, history}) => {
             setShowExercises({...showExercises, [index]: false})
         }
     }
-    if (isLoading || defaultExercises === null) {
+
+    const addExercise = () => {
+        let copyExerciceUpdate = exercisesUpdate
+        let newExercise = {
+            "DefaultExerciseId" : 1,
+            "WorkoutId" : parseInt(workoutId),
+            "duration" : 10,
+            "number": 10,
+            "series": 10
+        }
+        setAddedExercise(true)
+        copyExerciceUpdate.push(newExercise)
+        setExercisesUpdate(copyExerciceUpdate)
+    }
+
+    if (isLoading || defaultExercises === null || addedExercise === true) {
         return (
             <div>entrain de chargé</div>
         )
@@ -97,6 +127,7 @@ const EditWorkout = ({location, history}) => {
 
     return (
         <>
+            {console.log('render editworkout')}
             <SideBar history={history} sidebar={true}/>
             <ContainerPage bgPage={bgEditWorkoutPage}>
                 <BlockTitle>
@@ -147,23 +178,21 @@ const EditWorkout = ({location, history}) => {
                         </BlockInputLabelStyled>
                     </ContainerMultiNumberField>
 
-                    <BlockButtons>
-                        <ButtonStyled
+                    <BlockButtonsEditWorkout>
+                        <button
                             type="button"
                             onClick={() => onSubmit()}
-                            //disabledBtn={!dataHasBeenModified}
-                            colorBtnPrimary="aliceblue"
-                            colorBtnSecondary="rgba(46, 59, 133, 0.816)"
                         >
                             Modifier ma séance
-                        </ButtonStyled>
-                    </BlockButtons>
+                        </button>
+                        <button type="button" onClick={addExercise}><Icon icon={addAlt} width="25px" height="25px" /></button>
+                    </BlockButtonsEditWorkout>
                 </FormStyled>
                 <FormStyled>
                     <ContainerExercises>
                         {exercisesUpdate.map((ex, index) => {
                             return (
-                                <BlockExercise key={ex.id}>
+                                <BlockExercise key={index}>
                                     <BlockExerciseTitle>
                                         <p>Exercice {index + 1}</p>
                                         <div>
@@ -179,9 +208,9 @@ const EditWorkout = ({location, history}) => {
                                     </BlockExerciseTitle>
                                     <BlockExerciseContent showExercises={showExercises[index]}>
                                         <div>
-                                            <InputLabel id={`NameExercise${ex.id}`}>Nom</InputLabel>
+                                            <InputLabel id={`NameExercise${ex.index}`}>Nom</InputLabel>
                                             <Select
-                                                labelId={`NameExercise${ex.id}`}
+                                                labelId={`NameExercise${ex.index}`}
                                                 name="DefaultExerciseId"
                                                 value={exercisesUpdate[index].DefaultExerciseId}
                                                 onChange={(e) => handleChangeExercisesData(e, index)}
@@ -237,6 +266,10 @@ const EditWorkout = ({location, history}) => {
                                             />
                                         </div>
 
+                                        <div>
+                                           { !ex.id && <button type="button" onClick={(e) => sendExercise(e,index)}>Ajouter cet exercise</button>}
+                                        </div>
+
                                     </BlockExerciseContent>
 
 
@@ -250,8 +283,24 @@ const EditWorkout = ({location, history}) => {
     )
 }
 
+const BlockButtonsEditWorkout = styled.div`
+    display: flex;
+    width: 85%;
+    margin: 0 auto;
+    justify-content: space-between;
+    button:first-child {
+        color: ${props => props.theme.colors.primary};
+        
+    }
+    
+    button:last-child {
+        color: ${props => props.theme.colors.third};
+    }
+`
+
 const ContainerExercises = styled.div`
     color: ${props => props.theme.colors.primary};
+    
 `
 
 const BlockExercise = styled.div`
@@ -279,7 +328,7 @@ const BlockExerciseTitle = styled.div`
 const BlockExerciseContent = styled.div`
     padding: 0 .7rem ;
     overflow: hidden;
-    max-height: ${props => !props.showExercises ? "0" : `200px`};  
+    max-height: ${props => !props.showExercises ? "0" : `250px`};  
     transition: all 1s linear;
     
     > div:first-child {
