@@ -14,6 +14,7 @@ import noteEditLine from '@iconify/icons-clarity/note-edit-line';
 import {BlockTitle} from "../../styledComponents/UniformPageComponents";
 import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
 import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
+import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
 
 const axios = require('axios');
@@ -28,7 +29,6 @@ const Workouts = ({history}) => {
     moment.locale('fr');
 
     useEffect(() => {
-        console.log("useffect workout")
         const GetAllData = async () => {
             try {
                 const formatDataUser = await formatUserData()
@@ -43,8 +43,6 @@ const Workouts = ({history}) => {
         }
         GetAllData()
     }, [])
-
-
 
 
     // Format user's data and return it
@@ -96,33 +94,38 @@ const Workouts = ({history}) => {
                 <BlockTitle>
                     <h1>Mes Scéances</h1>
                 </BlockTitle>
+
+                {handleErrMsg(errorMsg)}
+
                 <ContainerWorkouts>
                     {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout, index) => {
-                        const {id, name, date, hour, duration, DetailsExercises} = workout
 
+                        const {id, name, date, hour, duration, DetailsExercises} = workout
                         return (
                             <ContainerWorkoutCard key={id}>
-                                <WorkoutCardHeader showExercises={showExercises[index]} >
+                                <WorkoutCardHeader showExercises={showExercises[index]}>
                                     <h4>{name} <span>({duration}mn)</span></h4>
                                     <p>{moment(date).format('dddd Do MMMM YYYY')} à {hour.substring(0, hour.length - 6)} h</p>
                                     <div>
                                         <Link to={{
-                                            pathname: `/workout/${id}`, state: {
-                                                workout
-                                            }
+                                            pathname: `/workout/${id}`,
+                                            state: {userId: dataWorkoutsAssociatedUser[0].UserId}
                                         }}>
-                                            <Icon icon={noteEditLine} width="25px" height="25px" />
+                                            <Icon icon={noteEditLine} width="25px" height="25px"/>
                                         </Link>
                                         {showExercises[index]
                                             ?
-                                            <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxUpArrow} width="15px" height="15px" /></button>
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxUpArrow} width="15px" height="15px"/></button>
                                             :
-                                            <button type="button" onClick={(e) => displayExercises(e, index)}><InlineIcon icon={bxDownArrow} width="15px" height="15px" /></button>}
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxDownArrow} width="15px" height="15px"/></button>}
                                     </div>
 
                                 </WorkoutCardHeader>
 
-                                <ContainerExercises showExercises={showExercises[index]} numberExercises={DetailsExercises.length}>
+                                <ContainerExercises showExercises={showExercises[index]}
+                                                    numberExercises={DetailsExercises.length}>
                                     {DetailsExercises.map((ex, index) => {
                                         return (
                                             <BlockExercise key={ex.id}>
@@ -193,15 +196,15 @@ const WorkoutCardHeader = styled.div`
     }
     
     button:last-child {
-        color: ${props => props.showExercises ? props.theme.colors.third : props.theme.colors.primary };
+        color: ${props => props.showExercises ? props.theme.colors.third : props.theme.colors.primary};
         transition: all .6s linear;
     }
 `
 
 const ContainerExercises = styled.div`
     overflow: hidden;
-    max-height: ${props => !props.showExercises ? "0" : `${props.numberExercises * 200}px` };  
-    transition: all 1s linear;
+    max-height: ${props => !props.showExercises ? "0" : `${props.numberExercises * 200}px`};  
+    transition: all .9s linear;
 `
 
 const BlockExercise = styled.div`

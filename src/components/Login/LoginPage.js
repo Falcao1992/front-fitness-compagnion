@@ -5,8 +5,9 @@ import {Link} from "react-router-dom";
 
 import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import {BlockTitle, ContainerPage, ErrorMsgStyled} from "../../styledComponents/UniformPageComponents";
+import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {BlockButtons, FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
+import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
 const LoginPage = ({location, history}) => {
 
@@ -74,8 +75,8 @@ const LoginPage = ({location, history}) => {
                                  helperText={submitted && !password ?
                                      <small>Veuillez rentrer votre mot de passe !</small> : false}
                 />
-                {errorMsg && <ErrorMsgStyled>{errorMsg}</ErrorMsgStyled>}
             </FormStyled>
+            {handleErrMsg(errorMsg)}
             <BlockButtons>
                 <ButtonStyled type="button"
                               disabledBtn={!username || !password}

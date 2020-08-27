@@ -13,9 +13,9 @@ import {
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
-import {ErrorMsgStyled} from "../../styledComponents/UniformPageComponents";
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
+import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
 
 const RegisterForm = ({history}) => {
@@ -30,14 +30,8 @@ const RegisterForm = ({history}) => {
     const [checkPassword, setCheckPassword] = useState('')
 
     const [submitted, setSubmitted] = useState(false)
-
     const [errorMsg, setErrorMsg] = useState(null)
 
-    const handleErrMsg = () => {
-        if (errorMsg) {
-            return <ErrorMsgStyled>{errorMsg}</ErrorMsgStyled>
-        }
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -71,7 +65,6 @@ const RegisterForm = ({history}) => {
     const handleChangeDate = (date) => {
         setBirthday(date)
     }
-
 
     return (
         <>
@@ -170,7 +163,7 @@ const RegisterForm = ({history}) => {
                     </RadioGroup>
                 </BlockRadio>
 
-                {handleErrMsg()}
+                {handleErrMsg(errorMsg)}
             </FormStyled>
             <BlockButtons>
                 <ButtonStyled

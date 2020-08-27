@@ -7,7 +7,6 @@ export const FormStyled = styled.form`
     flex-direction: column;
     width: 85%;
     margin: 0 auto .7rem;
-    background-color: ${props => props.theme.colors.dark};
     
     // modif avec sidebar
     height: ${props => props.sidebar && "100%"};
@@ -18,7 +17,7 @@ export const FormStyled = styled.form`
     }
     input {
         color: ${props => props.theme.colors.primary};
-        //background-color: ${props => props.theme.colors.dark};
+        background-color: ${props => props.theme.colors.dark};
     }
 `
 
@@ -42,9 +41,12 @@ export const BlockInputLabelStyled = styled.div`
 `
 
 export const LabelInputStyled = styled.label`
-    align-self: center;
+    text-align: center;
+    font-size: .8rem;
+    width: 100%;
     padding: .5rem .5rem .1rem;
     font-family: "Roboto", sans-serif;
+    background-color: ${props => props.theme.colors.dark};
     
 `
 
@@ -65,6 +67,7 @@ export const BlockRadio = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    background-color: ${props => props.theme.colors.dark};
     margin-bottom: .6rem;
     padding: .5rem;
     
@@ -78,21 +81,6 @@ export const BlockRadio = styled.div`
     }
 `
 
-export const TextFieldDateStyled = styled(TextField)`
-    width: 100%;
-    background-color: ${props => props.theme.colors.dark};
-    margin-bottom: .6rem !important;
-    
-    label {
-        padding: 0.5rem .7rem;
-    }
-    input {
-        background-color: transparent;
-        text-align: center;
-        padding: .7rem;
-    }
-`
-
 export const BlockButtons = styled.div`
     display: flex;
     justify-content: space-between;
@@ -101,8 +89,12 @@ export const BlockButtons = styled.div`
 `
 
 export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
+    width: 100%;
+    background-color: ${props => props.theme.colors.dark};
+    padding: .7rem !important;
+    margin: 0 0 .6rem !important;
     label {
-       padding: 0.5rem .7rem;
+       padding: .7rem 1rem;
     }
     input {
         background-color: transparent;
