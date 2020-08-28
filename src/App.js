@@ -22,6 +22,7 @@ const App = () => {
                 <PrivateRoute exact path="/myProfile" component={MyProfile}/>
                 <PrivateRoute exact path="/workouts" component={Workouts}/>
                 <PrivateRoute exact path="/workout/:workoutId" component={EditWorkout}/>
+                <PrivateRoute exact path="/workout" component={EditWorkout}/>
             </Switch>
         </Router>
         </ThemeProvider>

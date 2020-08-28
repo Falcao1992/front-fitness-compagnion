@@ -164,8 +164,8 @@ const MyProfile = ({history}) => {
                             type="button"
                             onClick={() => onSubmit()}
                             disabledBtn={!dataHasBeenModified}
-                            colorBtnPrimary="aliceblue"
-                            colorBtnSecondary="rgba(46, 59, 133, 0.816)"
+                            colorBtnPrimary="rgba(11,11,11,0.85)"
+                            colorBtnSecondary="#C89446"
                         >
                             Modifier mon Profile
                         </ButtonStyled>

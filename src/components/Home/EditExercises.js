@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Icon, InlineIcon} from "@iconify/react";
 import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
 import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
@@ -41,7 +41,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
     }
 
     const addExercise = () => {
-        let copyExerciceUpdate = exercisesUpdate
+        let copyExerciceUpdate = []
         let newExercise = {
             "DefaultExerciseId" : 1,
             "WorkoutId" : parseInt(workoutId),
@@ -49,9 +49,12 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
             "number": 10,
             "series": 10
         }
-        setAddedExercise(true)
+        if (exercisesUpdate) {
+            copyExerciceUpdate = exercisesUpdate
+        }
         copyExerciceUpdate.push(newExercise)
         setExercisesUpdate(copyExerciceUpdate)
+        setAddedExercise(true)
     }
 
     const sendExercise = async (e,index) => {
@@ -93,12 +96,12 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
     return (
         <>
             {console.log("renderEditExercises")}
-            <BlockTitleExercisesBtn>
-                <h3>Mes Exercises</h3>
-                {!addedExercise && <button type="button" onClick={addExercise}><Icon icon={addAlt} width="25px" height="25px" /></button>}
-            </BlockTitleExercisesBtn>
+            <BlockSubTitleExercises>
+                <h2>Mes Exercises</h2>
+                {!addedExercise && <button type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px" /></button>}
+            </BlockSubTitleExercises>
 
-            {exercisesUpdate.map((exercise, index) => {
+            {exercisesUpdate && exercisesUpdate.map((exercise, index) => {
                 return (
                     <BlockExercise key={index}>
                         <BlockExerciseTitle newExercise={!exercise.id}>
@@ -183,12 +186,18 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
     )
 }
 
-const BlockTitleExercisesBtn = styled.div`
+const BlockSubTitleExercises = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 1rem 0;
     padding: .7rem;
-    border-bottom: 1px solid ${props => props.theme.colors.primary};
+    border: 1px solid ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.dark};
+    
+    h2 {
+        align-self: center;
+    }
 `
 
 const BlockExercise = styled.div`

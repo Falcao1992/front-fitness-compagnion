@@ -83,6 +83,7 @@ export const BlockRadio = styled.div`
 
 export const BlockButtons = styled.div`
     display: flex;
+    flex-direction: ${props => props.column && "column"};
     justify-content: space-between;
     width: 70%;
     margin: 0 auto;

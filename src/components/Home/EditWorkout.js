@@ -5,14 +5,16 @@ import SideBar from "./SideBar";
 import DateFnsUtils from '@date-io/date-fns';
 import styled from "styled-components";
 import {
+    BlockButtons,
     BlockInputLabelStyled, ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
 import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
-import bgEditWorkoutPage from "../../assets/images/bgEditWorkoutPage.jpg"
+import bgEditWorkoutPage from "../../assets/images/bgLoginPage.jpg"
 import moment from "moment";
+import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 
 const axios = require('axios');
 
@@ -31,8 +33,20 @@ const EditWorkout = ({location, history}) => {
         // Fetch One Workout with userId and workoutId
         const fetchDataWorkout = async () => {
             try {
-                const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${userId}/workouts/${workoutId}`)
-                return resultDataWorkoutsByUser.data
+                if (workoutId) {
+                    const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${userId}/workouts/${workoutId}`)
+                    return resultDataWorkoutsByUser.data
+                } else {
+                    console.log("nouvelle séance")
+                    return {
+                        "name": "Nouvelle séance",
+                        "duration": 30,
+                        "date": "2020-01-01",
+                        "hour": "12:00",
+                        "UserId": userId
+                    }
+                }
+
             } catch (error) {
                 console.log("error unkown")
             }
@@ -41,7 +55,7 @@ const EditWorkout = ({location, history}) => {
             .then((dataWorkout) => {
                 setWorkoutUpdate(dataWorkout)
                 setExercisesUpdate(dataWorkout.DetailsExercises)
-        })
+            })
 
         fetchDefaultExercises()
             .then((defaultEx) => {
@@ -49,7 +63,7 @@ const EditWorkout = ({location, history}) => {
                 setDefaultExercises(defaultEx)
                 setIsLoading(false)
             })
-    }, [])
+    }, [userId,workoutId])
 
 
     const fetchDefaultExercises = async () => {
@@ -70,13 +84,23 @@ const EditWorkout = ({location, history}) => {
         }
     }
 
-    const onSubmit = async () => {
-        if (workoutUpdate) {
+    const onSubmit = async (e,id) => {
+        console.log("modifier  séance")
+        console.log("id", id)
+        console.log("workoutUpdate", workoutUpdate)
+        if (workoutUpdate && id !== undefined) {
             await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             history.push(`/workouts`)
             console.log('workout modifié et redirect workout page')
+            console.log('e',e)
+            console.log('id',id)
+        } else if(id === undefined) {
+             console.log("nouvelle séance")
+            await axios.post("http://localhost:8000/api/v1/workout/create", workoutUpdate);
+            history.push(`/workouts`)
+
         } else {
-            console.log("pas de ta modifier")
+             console.log("pas de ta modifier")
         }
     }
 
@@ -86,7 +110,7 @@ const EditWorkout = ({location, history}) => {
         )
     }
 
-    const {name, duration, date, hour} = workoutUpdate
+    const {name, duration, date, hour, id} = workoutUpdate
 
     return (
         <>
@@ -97,7 +121,7 @@ const EditWorkout = ({location, history}) => {
                     <h1>Ma séance</h1>
                 </BlockTitle>
                 <BlockTitleEditSeance>
-                    <h2>Modifier la séance</h2>
+                    {id !==undefined ? <h2>Modifier la séance</h2> : <h2>Creer une séance</h2> }
                 </BlockTitleEditSeance>
                 <FormStyled>
                     <TextFieldStyled id="name"
@@ -143,22 +167,24 @@ const EditWorkout = ({location, history}) => {
                         </BlockInputLabelStyled>
                     </ContainerMultiNumberField>
 
-                    <BlockButtonsEditWorkout>
-                        <button
+                    <BlockButtons>
+                        <ButtonStyled
                             type="button"
-                            onClick={() => onSubmit()}
+                            onClick={(e) => onSubmit(e,id)}
+                            colorBtnPrimary="rgba(11,11,11,0.85)"
+                            colorBtnSecondary="#C89446"
                         >
-                            Modifier ma séance
-                        </button>
+                            {id !== undefined ? "Modifier ma séance" : "Creer ma séance" }
+                        </ButtonStyled>
 
-                    </BlockButtonsEditWorkout>
+                    </BlockButtons>
                 </FormStyled>
                 <FormStyled>
-                    <ContainerExercises>
+                    {id !== undefined && <ContainerExercises>
                         <EditExercises exercisesUpdate={exercisesUpdate} setExercisesUpdate={setExercisesUpdate}
                                        defaultExercises={defaultExercises}
                                        workoutId={workoutId}/>
-                    </ContainerExercises>
+                    </ContainerExercises>}
                 </FormStyled>
             </ContainerPage>
         </>
@@ -168,20 +194,10 @@ const EditWorkout = ({location, history}) => {
 const BlockTitleEditSeance = styled.div`
     width: 85%;
     margin: 1rem auto;
-    font-size: 1rem;
     padding: .7rem;
-    border-bottom: 1px solid ${props => props.theme.colors.primary};
-    color: ${props => props.theme.colors.primary};
-`
-
-const BlockButtonsEditWorkout = styled.div`
-    text-align: right;
-    button {
-        padding: .7rem;
-        color: ${props => props.theme.colors.third};
-        background-color: ${props => props.theme.colors.dark};
-        border: 1px solid ${props => props.theme.colors.third};      
-    }
+    border: 1px solid ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.dark};
 `
 
 const ContainerExercises = styled.div`

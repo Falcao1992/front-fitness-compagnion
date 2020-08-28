@@ -4,14 +4,18 @@ export const ButtonStyled = styled.button`
     width: 100%;
     margin: 1rem auto;
     padding: 1rem;
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.colorBtnPrimary};
     opacity: ${props => !props.disabledBtn ? "1" : "0.5"};
     color: ${props => props.colorBtnSecondary};
     border: 1px solid ${props => props.colorBtnSecondary};
     position: relative;
-    transition: .8s;
+    transition: .8s ;
     overflow: hidden;
     cursor: pointer;
+    
+    a {
+        color: ${props => props.colorBtnSecondary};
+    }
     
     :focus {
         outline-color: ${props => props.colorBtnSecondary};
@@ -24,8 +28,13 @@ export const ButtonStyled = styled.button`
     
     :hover {
         background-color: transparent;
+        border: 1px solid ${props => props.colorBtnPrimary};
         color: ${props => props.colorBtnPrimary};
         z-index: 1;
+        a,span {
+            color: ${props => props.colorBtnPrimary};
+            font-weight: 700;
+        }
     }
     
     &:before {

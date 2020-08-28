@@ -34,7 +34,7 @@ const LoginPage = ({location, history}) => {
                 },
                 error => {
                     console.log('error', error)
-                    if(error.message === 'Failed to fetch') {
+                    if (error.message === 'Failed to fetch') {
                         throw new Error('Serveur indisponible')
                     } else {
                         setErrorMsg(error)
@@ -77,23 +77,23 @@ const LoginPage = ({location, history}) => {
                 />
             </FormStyled>
             {handleErrMsg(errorMsg)}
-            <BlockButtons>
+            <BlockButtons column={true} >
                 <ButtonStyled type="button"
                               disabledBtn={!username || !password}
                               onClick={handleSubmit}
                               colorBtnPrimary="aliceblue"
                               colorBtnSecondary="rgba(46, 59, 133, 0.8)"
                 >
-                    Me Connecter
+                    <span>Me Connecter</span>
                 </ButtonStyled>
-                <Link to="/register">
-                    <ButtonStyled type="button"
-                                  colorBtnPrimary="aliceblue"
-                                  colorBtnSecondary="rgb(226 21 64 / 82%)"
-                    >
-                        Creer un nouveau Compte
-                    </ButtonStyled>
-                </Link>
+
+                <ButtonStyled type="button"
+                              colorBtnPrimary="aliceblue"
+                              colorBtnSecondary="rgb(226 21 64 / 82%)"
+                ><Link to="/register">
+                    Creer un nouveau Compte</Link>
+                </ButtonStyled>
+
             </BlockButtons>
         </ContainerPage>
     )
