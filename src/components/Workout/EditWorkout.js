@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom"
-import EditExercises from "./EditExercises";
-import SideBar from "./SideBar";
+import EditExercises from "../Exercises/EditExercises";
+import SideBar from "../SideBar/SideBar";
 import DateFnsUtils from '@date-io/date-fns';
 import styled from "styled-components";
 import {
@@ -10,16 +10,15 @@ import {
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
-import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
-import bgEditWorkoutPage from "../../assets/images/bgLoginPage.jpg"
 import moment from "moment";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const axios = require('axios');
 
 const EditWorkout = ({location, history}) => {
-
 
     const [workoutUpdate, setWorkoutUpdate] = useState(null)
     const [exercisesUpdate, setExercisesUpdate] = useState(null)
@@ -34,10 +33,9 @@ const EditWorkout = ({location, history}) => {
         const fetchDataWorkout = async () => {
             try {
                 if (workoutId) {
-                    const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${userId}/workouts/${workoutId}`)
+                    const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/${userId}/workouts/${workoutId}`)
                     return resultDataWorkoutsByUser.data
                 } else {
-                    console.log("nouvelle séance")
                     return {
                         "name": "Nouvelle séance",
                         "duration": 30,
@@ -46,7 +44,6 @@ const EditWorkout = ({location, history}) => {
                         "UserId": userId
                     }
                 }
-
             } catch (error) {
                 console.log("error unkown")
             }
@@ -59,7 +56,6 @@ const EditWorkout = ({location, history}) => {
 
         fetchDefaultExercises()
             .then((defaultEx) => {
-                console.log('dans le then EditWorkout')
                 setDefaultExercises(defaultEx)
                 setIsLoading(false)
             })
@@ -68,7 +64,7 @@ const EditWorkout = ({location, history}) => {
 
     const fetchDefaultExercises = async () => {
         try {
-            const resultDefaultExercises = await axios.get(`http://localhost:8000/api/v1/defaultExercises`)
+            const resultDefaultExercises = await axios.get(`${process.env.REACT_APP_BASE_URL}/defaultExercises`)
             return resultDefaultExercises.data
         } catch (error) {
             console.log(error)
@@ -85,20 +81,13 @@ const EditWorkout = ({location, history}) => {
     }
 
     const onSubmit = async (e,id) => {
-        console.log("modifier  séance")
-        console.log("id", id)
-        console.log("workoutUpdate", workoutUpdate)
         if (workoutUpdate && id !== undefined) {
             await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             history.push(`/workouts`)
-            console.log('workout modifié et redirect workout page')
-            console.log('e',e)
-            console.log('id',id)
         } else if(id === undefined) {
              console.log("nouvelle séance")
             await axios.post("http://localhost:8000/api/v1/workout/create", workoutUpdate);
             history.push(`/workouts`)
-
         } else {
              console.log("pas de ta modifier")
         }
@@ -106,7 +95,9 @@ const EditWorkout = ({location, history}) => {
 
     if (isLoading || defaultExercises === null) {
         return (
-            <div>entrain de chargé</div>
+            <ContainerLoading>
+                <CircularProgress size="5rem" />
+            </ContainerLoading>
         )
     }
 
@@ -116,7 +107,7 @@ const EditWorkout = ({location, history}) => {
         <>
             {console.log('render editworkout')}
             <SideBar history={history} sidebar={true}/>
-            <ContainerPage bgPage={bgEditWorkoutPage}>
+            <ContainerPage >
                 <BlockTitle>
                     <h1>Ma séance</h1>
                 </BlockTitle>
@@ -201,8 +192,7 @@ const BlockTitleEditSeance = styled.div`
 `
 
 const ContainerExercises = styled.div`
-    color: ${props => props.theme.colors.primary};
-    
+    color: ${props => props.theme.colors.primary};   
 `
 
 export default EditWorkout

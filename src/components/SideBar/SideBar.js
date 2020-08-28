@@ -6,11 +6,14 @@ import {Link} from "react-router-dom";
 
 const SideBar = ({history}) => {
 
-    const [burgerActive, setBurgerActive] = useState(false)
+    const [userId, setUserId] = useState(null)
 
+    const [burgerActive, setBurgerActive] = useState(false)
     const handleClickBurger = () => {
-        console.log('click')
+        const userData = JSON.parse(localStorage.getItem('user'))
+        setUserId(userData.id)
         setBurgerActive(!burgerActive)
+
     }
 
     return (
@@ -19,20 +22,26 @@ const SideBar = ({history}) => {
                 <button onClick={handleClickBurger}><MenuIcon fontSize="large"/></button>
             </BlockBurgerMenu>
             <ContainerSideBar burgerStatus={burgerActive}>
-
                 <ul>
                     <li><Link to="/">Acceuil</Link></li>
-                    <li><Link to="/myProfile">Modifer Mon Profil</Link></li>
-                    <li><Link to="/workouts">Sceancel</Link></li>
-                    <li>les stats</li>
-                    <li><button onClick={() => logout(history)}>Me déconecter</button></li>
+                    <li><Link to="/workouts">Voir mes Séance</Link></li>
+                    <li><Link to={{
+                        pathname: `/workout`,
+                        state: {userId}
+                    }}>Ajouer une séance</Link>
+                    </li>
+                    <li>Voir mes stats</li>
+                    <li><Link to="/myProfile">Modifer mon profil</Link></li>
+                    <li>
+                        <button onClick={() => logout(history)}>Me déconecter</button>
+                    </li>
                 </ul>
             </ContainerSideBar>
         </>
     )
 }
 
-const ContainerSideBar = styled.div`
+const ContainerSideBar = styled.nav`
     height: 100%;
     background-color: ${props => props.theme.colors.dark};
     position: fixed;

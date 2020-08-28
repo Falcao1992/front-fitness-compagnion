@@ -7,7 +7,7 @@ import {InlineIcon} from '@iconify/react';
 import womanRunningLightSkinTone from '@iconify/icons-noto/woman-running-light-skin-tone';
 import manRunningMediumSkinTone from '@iconify/icons-noto/man-running-medium-skin-tone';
 import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg";
-import SideBar from "./SideBar";
+import SideBar from "../SideBar/SideBar";
 import {
     BlockButtons,
     BlockInputLabelStyled, BlockRadio, ContainerMultiNumberField,
@@ -17,7 +17,7 @@ import {
 import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-
+import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
 const axios = require('axios');
 
@@ -26,6 +26,9 @@ const MyProfile = ({history}) => {
     const [dataUserFormatted, setDataUserFormatted] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [dataHasBeenModified, setDataHasBeenModified] = useState(false)
+    const [errorMsg, setErrorMsg] = useState(null)
+
+    const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     useEffect(() => {
         formatUserData()
@@ -35,12 +38,13 @@ const MyProfile = ({history}) => {
     const formatUserData = () => {
         const dataUser = JSON.parse(localStorage.getItem('user'))
         setDataUserFormatted(dataUser)
-        console.log(dataUser)
     }
 
     const handleChange = (e, date) => {
         setDataHasBeenModified(true)
+        console.log(e.target.id)
         if (e.target === undefined) {
+            console.log('date')
             let dateFormat = moment(date, "DD mm YYYY").format('YYYY-MM-DD')
             setDataUserFormatted({...dataUserFormatted, "birthday": dateFormat})
         } else if (e.target.name === 'gender') {
@@ -52,11 +56,23 @@ const MyProfile = ({history}) => {
 
     const onSubmit = () => {
         if (dataHasBeenModified) {
-            console.log(dataUserFormatted, "dataUserFormatted")
-            axios.put(`http://localhost:8000/api/v1/users/${id}`, dataUserFormatted);
-            localStorage.setItem('user', JSON.stringify(dataUserFormatted))
-            history.push("/")
+            if(username.length < 2 || username.length > 15 ){
+                setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
+            } else if(weight < 30 || weight > 150 ) {
+                setErrorMsg("Votre poids doit etre entre 30 et 150kg")
+            } else if(size <= 100 || size >= 210 ) {
+                setErrorMsg("Votre taille doit etre entre 100 et 210cm")
+            } else if (!EMAIL_REGEX.test(email)) {
+                setErrorMsg("Email Invalide")
+            } else {
+                console.log(dataUserFormatted, "dataUserFormatted")
+                axios.put(`${process.env.REACT_APP_BASE_URL}/users/${id}`, dataUserFormatted);
+                localStorage.setItem('user', JSON.stringify(dataUserFormatted))
+                history.push("/")
+            }
+
         } else {
+            setErrorMsg("Aucun changement effectué")
             console.log("pas de ta modifier")
         }
     }
@@ -69,13 +85,6 @@ const MyProfile = ({history}) => {
         )
     }
 
-    /*const calculateAge = () => {
-        const a = moment();
-        const b = moment(birthday, 'YYYY');
-        return a.diff(b, 'years'); // calculates patient's age in years
-    }
-    */
-
     const {username, size, weight, email, id, gender, birthday} = dataUserFormatted
 
     return (
@@ -83,7 +92,6 @@ const MyProfile = ({history}) => {
             <SideBar history={history} sidebar={true}/>
             <ContainerPage bgPage={bgMyProfilePage}>
                 {console.log('render Myprofile')}
-
                 <BlockTitle>
                     <h1>Mon Profil</h1>
                 </BlockTitle>
@@ -116,8 +124,8 @@ const MyProfile = ({history}) => {
                                     onChange={handleChange}
                                     id="size"
                                     type="number"
-                                    min="120"
-                                    max="200"
+                                    min="100"
+                                    max="210"
                                 />
                             </BlockInputLabelStyled>
 
@@ -159,18 +167,20 @@ const MyProfile = ({history}) => {
                             </RadioGroup>
                         </BlockRadio>
                     </div>
-                    <BlockButtons>
-                        <ButtonStyled
-                            type="button"
-                            onClick={() => onSubmit()}
-                            disabledBtn={!dataHasBeenModified}
-                            colorBtnPrimary="rgba(11,11,11,0.85)"
-                            colorBtnSecondary="#C89446"
-                        >
-                            Modifier mon Profile
-                        </ButtonStyled>
-                    </BlockButtons>
+
                 </FormStyled>
+                {handleErrMsg(errorMsg)}
+                <BlockButtons>
+                    <ButtonStyled
+                        type="button"
+                        onClick={() => onSubmit()}
+                        disabledBtn={!dataHasBeenModified}
+                        colorBtnPrimary="rgba(11,11,11,0.85)"
+                        colorBtnSecondary="#C89446"
+                    >
+                        Modifier mon Profile
+                    </ButtonStyled>
+                </BlockButtons>
             </ContainerPage>
         </>
     )

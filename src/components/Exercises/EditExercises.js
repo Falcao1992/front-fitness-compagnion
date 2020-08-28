@@ -58,7 +58,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
     }
 
     const sendExercise = async (e,index) => {
-        await axios.post(`http://localhost:8000/api/v1/detailsExercise`, exercisesUpdate[index]);
+        await axios.post(`${process.env.REACT_APP_BASE_URL}/detailsExercise`, exercisesUpdate[index]);
         setAddedExercise(false)
         setShowExercises({...showExercises, [index]: false})
         console.log("poster")
@@ -73,7 +73,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
     }
 
     const deleteExercise = async (e,exerciseId,index) => {
-        await axios.delete(`http://localhost:8000/api/v1/detailsExercise/${exerciseId}`);
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/detailsExercise/${exerciseId}`);
         let newArrayExercises = [...exercisesUpdate]
         newArrayExercises.splice(index,1)
         setExercisesUpdate(newArrayExercises)

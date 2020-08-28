@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-export const ContainerPage = styled.section`
+export const ContainerPage = styled.main`
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    //justify-content: space-evenly;
-    background-image: url(${props => props.bgPage});
-    background-size: cover;
-    background-position: left;
+    min-height: 100vh;
+    height: ${props => props.bgPage ? "100vh" : "100%"};
+    background-image: ${props => props.bgPage && `url(${props.bgPage})`};
+    background-size: ${props => props.bgPage && "cover"};
+    background-position: ${props => props.bgPage && "left"};
+    background: ${props => !props.bgPage && "linear-gradient(45deg, rgb(86, 95, 151) 0%, rgb(86, 95, 151) 63%,rgb(105, 118, 165) 63%, rgb(105, 118, 165) 75%,rgb(125, 141, 179) 75%, rgb(125, 141, 179) 81%,rgb(144, 165, 193) 81%, rgb(144, 165, 193) 85%,rgb(164, 188, 207) 85%, rgb(164, 188, 207) 90%,rgb(183, 211, 221) 90%, rgb(183, 211, 221) 100%);background: linear-gradient(45deg, rgb(86, 95, 151) 0%, rgb(86, 95, 151) 63%,rgb(105, 118, 165) 63%, rgb(105, 118, 165) 75%,rgb(125, 141, 179) 75%, rgb(125, 141, 179) 81%,rgb(144, 165, 193) 81%, rgb(144, 165, 193) 85%,rgb(164, 188, 207) 85%, rgb(164, 188, 207) 90%,rgb(183, 211, 221) 90%, rgb(183, 211, 221) 100%)"};                     
 `
 
 export const BlockTitle = styled.div`
@@ -31,9 +32,17 @@ export const BlockTitle = styled.div`
 `
 
 export const ErrorMsgStyled = styled.span`
+    width: 85%;
+    margin: 0 auto;
     background-color: rgb(240 248 255 / 100%);
     color: #ff3b3b;
     text-align: center;
     padding: .5rem;
-    margin-top: .5rem;
+`
+
+export const ContainerLoading = styled.div`
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `

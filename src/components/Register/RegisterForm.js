@@ -17,7 +17,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
-
 const RegisterForm = ({history}) => {
 
     const [username, setUsername] = useState('')
@@ -28,9 +27,11 @@ const RegisterForm = ({history}) => {
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [checkPassword, setCheckPassword] = useState('')
-
     const [submitted, setSubmitted] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
+
+    const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
 
     const handleSubmit = (e) => {
@@ -49,6 +50,21 @@ const RegisterForm = ({history}) => {
             return
         }
 
+        if(username.length <= 4 || username.length >= 13 ){
+            setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
+            return
+        } else if(weight < 30 || weight > 150 ) {
+            setErrorMsg("Votre poids doit etre entre 30 et 150kg")
+            return
+        } else if(size <= 100 || size >= 210 ) {
+            setErrorMsg("Votre taille doit etre entre 100 et 210cm")
+            return
+        } else if (!EMAIL_REGEX.test(email)) {
+            setErrorMsg("Email Invalide")
+            return
+        }
+
+
         register(username, password, email, size, weight, birthday, gender)
             .then(
                 user => {
@@ -57,7 +73,6 @@ const RegisterForm = ({history}) => {
                 },
                 error => {
                     setErrorMsg(error)
-                    console.log('erreur', error)
                 }
             );
     }
@@ -120,7 +135,7 @@ const RegisterForm = ({history}) => {
                             id="size"
                             type="number"
                             min="120"
-                            max="200"
+                            max="210"
                         />
                     </BlockInputLabelStyled>
 
@@ -153,7 +168,8 @@ const RegisterForm = ({history}) => {
 
                 <BlockRadio>
                     <FormLabel component="legend">Sexe :</FormLabel>
-                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
+                    <RadioGroup aria-label="gender" name="gender" value={gender}
+                                onChange={(e) => setGender(e.target.value)}>
                         <FormControlLabel value="man" id="man" control={<Radio/>}
                                           label={<InlineIcon icon={manRunningMediumSkinTone} width="40px"
                                                              height="40px"/>}/>
@@ -162,7 +178,6 @@ const RegisterForm = ({history}) => {
                                                              height="40px"/>}/>
                     </RadioGroup>
                 </BlockRadio>
-
                 {handleErrMsg(errorMsg)}
             </FormStyled>
             <BlockButtons>

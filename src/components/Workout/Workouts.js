@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import SideBar from "./SideBar";
-import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg";
+import SideBar from "../SideBar/SideBar";
 import moment from "moment";
 import {Link} from "react-router-dom";
 import 'moment/locale/fr';
-import {InlineIcon, Icon} from '@iconify/react';
+import {InlineIcon} from '@iconify/react';
 import timerIcon from '@iconify/icons-carbon/timer';
 import repeatLine from '@iconify/icons-clarity/repeat-line';
 import sortNumericallyOutline from '@iconify/icons-typcn/sort-numerically-outline';
 import noteEditLine from '@iconify/icons-clarity/note-edit-line';
 
-import {BlockTitle} from "../../styledComponents/UniformPageComponents";
+import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
 import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
@@ -19,8 +18,7 @@ import {toast} from "react-toastify";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import {BlockButtons} from "../../styledComponents/FormComponents";
 import crossMark from '@iconify/icons-noto/cross-mark';
-
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const axios = require('axios');
 
@@ -66,7 +64,7 @@ const Workouts = ({history}) => {
     // With userId Fetch workout's data and return it
     const fetchDataWorkoutsAssociatedUser = async (dataUsr) => {
         try {
-            const resultDataWorkoutsByUser = await axios.get(`http://localhost:8000/api/v1/${dataUsr.id}/workouts`)
+            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/${dataUsr.id}/workouts`)
             return resultDataWorkoutsByUser.data
         } catch (error) {
             if (error.message === "Network Error") {
@@ -79,24 +77,17 @@ const Workouts = ({history}) => {
         }
     }
 
+    // Toggle show exercise for display it or not
     const displayExercises = (e, index) => {
-        console.log("function display exercises")
         if (showExercises[index] === undefined || showExercises[index] === false) {
             setShowExercises({...showExercises, [index]: true})
         } else if (showExercises[index] === true) {
             setShowExercises({...showExercises, [index]: false})
         }
-        console.log("finish display exercises")
-    }
-
-    if (isLoading || dataWorkoutsAssociatedUser === null) {
-        return (
-            <div>entrain de chargé</div>
-        )
     }
 
     const deleteWorkout = async (e, index, workoutId) => {
-        await axios.delete(`http://localhost:8000/api/v1/workouts/${workoutId}`);
+        await axios.delete(`${process.env.REACT_APP_BASE_URL}/workouts/${workoutId}`);
         let newArrayWorkouts = [...dataWorkoutsAssociatedUser]
         newArrayWorkouts.splice(index, 1)
         setDataWorkoutsAssociatedUser(newArrayWorkouts)
@@ -110,10 +101,18 @@ const Workouts = ({history}) => {
         });
     }
 
+    if (isLoading || dataWorkoutsAssociatedUser === null) {
+        return (
+            <ContainerLoading>
+                <CircularProgress size="5rem" />
+            </ContainerLoading>
+        )
+    }
+
     return (
         <>
             <SideBar history={history}/>
-            <ContainerMyProfilePage bgPage={bgWorkoutsPage}>
+            <ContainerPage>
                 {console.log('render WorkoutPage')}
                 <BlockTitle>
                     <h1>Mes Scéances</h1>
@@ -131,19 +130,7 @@ const Workouts = ({history}) => {
                 </BlockButtons>
 
                 <ContainerWorkouts>
-                    {dataWorkoutsAssociatedUser.length <= 0
-                        ?
-                        <BlockBtnCreateWorkout>
-                            <Link to={{
-                                pathname: `/workout`,
-                                state: {userId}
-                            }}>
-                                <Icon icon={noteEditLine} width="25px" height="25px"/>
-                            </Link>
-                        </BlockBtnCreateWorkout>
-
-                        : dataWorkoutsAssociatedUser.map((workout, index) => {
-
+                    {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout, index) => {
                             const {id, name, date, hour, duration, DetailsExercises} = workout
                             return (
                                 <ContainerWorkoutCard key={id}>
@@ -168,9 +155,7 @@ const Workouts = ({history}) => {
                                                 <button type="button" onClick={(e) => displayExercises(e, index)}>
                                                     <InlineIcon icon={bxDownArrow} width="1.6rem" height="1.6rem"/>
                                                 </button>}
-
                                         </div>
-
 
                                     </WorkoutCardHeader>
 
@@ -201,19 +186,10 @@ const Workouts = ({history}) => {
                             )
                         })}
                 </ContainerWorkouts>
-            </ContainerMyProfilePage>
+            </ContainerPage>
         </>
     )
 }
-
-const ContainerMyProfilePage = styled.section`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-image: url(${props => props.bgPage});
-    background-size: cover;
-    background-position: left;
-`
 
 const ContainerWorkouts = styled.section`
     display: flex;
@@ -221,10 +197,7 @@ const ContainerWorkouts = styled.section`
     margin: 0 auto;
     flex-direction: column;
 `
-const BlockBtnCreateWorkout = styled.div`
-    margin: 1rem auto;
-    
-`
+
 const ContainerWorkoutCard = styled.article`
     display: flex;
     flex-direction: column;

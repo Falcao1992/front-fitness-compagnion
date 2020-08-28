@@ -16,7 +16,6 @@ const LoginPage = ({location, history}) => {
     const [submitted, setSubmitted] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true)
@@ -33,7 +32,6 @@ const LoginPage = ({location, history}) => {
                     history.push(from);
                 },
                 error => {
-                    console.log('error', error)
                     if (error.message === 'Failed to fetch') {
                         throw new Error('Serveur indisponible')
                     } else {
