@@ -13,10 +13,14 @@ import {
 import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import moment from "moment";
+import 'moment/locale/fr'
+import frLocale from "date-fns/locale/fr";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const axios = require('axios');
+
+
 
 const EditWorkout = ({location, history}) => {
 
@@ -27,6 +31,8 @@ const EditWorkout = ({location, history}) => {
 
     const {userId} = location.state;
     let {workoutId} = useParams()
+
+    moment.locale("fr")
 
     useEffect(() => {
         // Fetch One Workout with userId and workoutId
@@ -73,7 +79,8 @@ const EditWorkout = ({location, history}) => {
 
     const handleChangeWorkoutData = (e, date) => {
         if (e.target === undefined) {
-            let dateFormat = moment(date, "DD mm YYYY").format('YYYY-MM-DD')
+            console.log(date)
+            let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setWorkoutUpdate({...workoutUpdate, "date": dateFormat})
         } else {
             setWorkoutUpdate({...workoutUpdate, [e.target.id]: e.target.value})
@@ -85,7 +92,7 @@ const EditWorkout = ({location, history}) => {
             await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             history.push(`/workouts`)
         } else if(id === undefined) {
-             console.log("nouvelle séance")
+            console.log("nouvelle séance")
             await axios.post("http://localhost:8000/api/v1/workout/create", workoutUpdate);
             history.push(`/workouts`)
         } else {
@@ -123,11 +130,11 @@ const EditWorkout = ({location, history}) => {
                                      onChange={handleChangeWorkoutData}
                     />
 
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
                         <KeyboardDatePickerStyled
                             disableToolbar
                             variant="inline"
-                            format="d MMM yyyy"
+                            format="dd MMM yyyy"
                             margin="normal"
                             id="date"
                             label="Date"

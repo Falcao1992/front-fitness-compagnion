@@ -11,6 +11,7 @@ import theme from "../src/assets/theme";
 import {ThemeProvider} from "styled-components";
 import Workouts from "./components/Workout/Workouts";
 import EditWorkout from "./components/Workout/EditWorkout";
+import Stats from "./components/Stats/Stats";
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
                 <PrivateRoute exact path="/workouts" component={Workouts}/>
                 <PrivateRoute exact path="/workout/:workoutId" component={EditWorkout}/>
                 <PrivateRoute exact path="/workout" component={EditWorkout}/>
+                <PrivateRoute exact path="/stats" component={Stats}/>
             </Switch>
         </Router>
         </ThemeProvider>

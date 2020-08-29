@@ -39,7 +39,9 @@ const Workouts = ({history}) => {
 
                 await fetchDataWorkoutsAssociatedUser(formatDataUser)
                     .then((dataWorkout) => {
-                        setDataWorkoutsAssociatedUser(dataWorkout)
+                        // Sort Workout by order DSC
+                        const filterDateWorkoutData = dataWorkout.sort((a, b) => new Date(b.date) - new Date(a.date))
+                        setDataWorkoutsAssociatedUser(filterDateWorkoutData)
                     })
                 setIsLoading(false)
             } catch (error) {

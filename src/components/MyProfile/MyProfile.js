@@ -45,7 +45,7 @@ const MyProfile = ({history}) => {
         console.log(e.target.id)
         if (e.target === undefined) {
             console.log('date')
-            let dateFormat = moment(date, "DD mm YYYY").format('YYYY-MM-DD')
+            let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setDataUserFormatted({...dataUserFormatted, "birthday": dateFormat})
         } else if (e.target.name === 'gender') {
             setDataUserFormatted({...dataUserFormatted, [e.target.name]: e.target.value})

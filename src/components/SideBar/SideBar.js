@@ -30,7 +30,7 @@ const SideBar = ({history}) => {
                         state: {userId}
                     }}>Ajouer une séance</Link>
                     </li>
-                    <li>Voir mes stats</li>
+                    <li><Link to="/stats">Voir mes stats</Link></li>
                     <li><Link to="/myProfile">Modifer mon profil</Link></li>
                     <li>
                         <button onClick={() => logout(history)}>Me déconecter</button>

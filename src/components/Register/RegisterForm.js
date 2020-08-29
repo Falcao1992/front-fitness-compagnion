@@ -16,6 +16,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import moment from "moment";
 
 const RegisterForm = ({history}) => {
 
@@ -78,7 +79,8 @@ const RegisterForm = ({history}) => {
     }
 
     const handleChangeDate = (date) => {
-        setBirthday(date)
+        let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
+        setBirthday(dateFormat)
     }
 
     return (
