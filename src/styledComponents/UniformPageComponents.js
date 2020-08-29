@@ -35,7 +35,7 @@ export const ErrorMsgStyled = styled.span`
     width: 85%;
     margin: 0 auto;
     background-color: rgb(240 248 255 / 100%);
-    color: #ff3b3b;
+    color: ${props => props.theme.colors.error};
     text-align: center;
     padding: .5rem;
 `

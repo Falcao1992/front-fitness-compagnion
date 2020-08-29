@@ -44,7 +44,7 @@ const EditWorkout = ({location, history}) => {
                 } else {
                     return {
                         "name": "Nouvelle séance",
-                        "duration": 30,
+                        "duration": 0,
                         "date": "2020-01-01",
                         "hour": "12:00",
                         "UserId": userId
@@ -54,10 +54,21 @@ const EditWorkout = ({location, history}) => {
                 console.log("error unkown")
             }
         }
+
         fetchDataWorkout()
             .then((dataWorkout) => {
                 setWorkoutUpdate(dataWorkout)
                 setExercisesUpdate(dataWorkout.DetailsExercises)
+                return dataWorkout
+            })
+            .then((dataWorkout) => {
+                if(dataWorkout.DetailsExercises !== undefined){
+                    let getDuration = 0
+                    dataWorkout.DetailsExercises.forEach((exercise) => {
+                        getDuration += exercise.duration
+                    })
+                    dataWorkout.duration = getDuration
+                }
             })
 
         fetchDefaultExercises()
@@ -65,6 +76,7 @@ const EditWorkout = ({location, history}) => {
                 setDefaultExercises(defaultEx)
                 setIsLoading(false)
             })
+
     }, [userId,workoutId])
 
 
@@ -79,7 +91,6 @@ const EditWorkout = ({location, history}) => {
 
     const handleChangeWorkoutData = (e, date) => {
         if (e.target === undefined) {
-            console.log(date)
             let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setWorkoutUpdate({...workoutUpdate, "date": dateFormat})
         } else {
@@ -87,16 +98,15 @@ const EditWorkout = ({location, history}) => {
         }
     }
 
-    const onSubmit = async (e,id) => {
+    const editWorkout = async (e, id) => {
         if (workoutUpdate && id !== undefined) {
             await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             history.push(`/workouts`)
         } else if(id === undefined) {
-            console.log("nouvelle séance")
             await axios.post("http://localhost:8000/api/v1/workout/create", workoutUpdate);
             history.push(`/workouts`)
         } else {
-             console.log("pas de ta modifier")
+             console.error("error unkown")
         }
     }
 
@@ -144,15 +154,15 @@ const EditWorkout = ({location, history}) => {
                     </MuiPickersUtilsProvider>
                     <ContainerMultiNumberField>
                         <BlockInputLabelStyled>
-                            <LabelInputStyled htmlFor="duration">Durée (mn): </LabelInputStyled>
+                            <LabelInputStyled disabled htmlFor="duration">Durée (mn): </LabelInputStyled>
                             <InputStyled
                                 value={duration}
                                 onChange={handleChangeWorkoutData}
                                 id="duration"
                                 type="number"
-                                min="5"
-                                max="180"
+                                disabled
                             />
+                            <small>La durée sera calculé en fonction de celle des exercises</small>
                         </BlockInputLabelStyled>
                         <BlockInputLabelStyled>
                             <LabelInputStyled htmlFor="hour">Heure: </LabelInputStyled>
@@ -168,7 +178,7 @@ const EditWorkout = ({location, history}) => {
                     <BlockButtons>
                         <ButtonStyled
                             type="button"
-                            onClick={(e) => onSubmit(e,id)}
+                            onClick={(e) => editWorkout(e,id)}
                             colorBtnPrimary="rgba(11,11,11,0.85)"
                             colorBtnSecondary="#C89446"
                         >
@@ -179,7 +189,7 @@ const EditWorkout = ({location, history}) => {
                 </FormStyled>
                 <FormStyled>
                     {id !== undefined && <ContainerExercises>
-                        <EditExercises exercisesUpdate={exercisesUpdate} setExercisesUpdate={setExercisesUpdate}
+                        <EditExercises exercisesUpdate={exercisesUpdate} setExercisesUpdate={setExercisesUpdate} workoutUpdate={workoutUpdate} setWorkoutUpdate={setWorkoutUpdate}
                                        defaultExercises={defaultExercises}
                                        workoutId={workoutId}/>
                     </ContainerExercises>}

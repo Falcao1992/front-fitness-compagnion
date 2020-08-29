@@ -38,6 +38,14 @@ export const BlockInputLabelStyled = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    
+    small {
+        color: ${props => props.theme.colors.error};;
+        background-color: ${props => props.theme.colors.primary};
+        padding: .35rem;
+        text-align: center;
+        font-weight: 700;
+    }
 `
 
 export const LabelInputStyled = styled.label`
@@ -47,10 +55,12 @@ export const LabelInputStyled = styled.label`
     padding: .5rem .5rem .1rem;
     font-family: "Roboto", sans-serif;
     background-color: ${props => props.theme.colors.dark};
+    opacity: ${props => props.disabled && "0.8"};
     
 `
 
 export const InputStyled = styled.input`
+    opacity: ${props => props.disabled && "0.8"};
     background-color: transparent;
     text-align: center;
     border: none;

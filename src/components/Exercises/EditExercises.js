@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const axios = require('axios');
 toast.configure();
 
-const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultExercises }) => {
+const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setWorkoutUpdate, workoutId, defaultExercises }) => {
 
     const [showExercises, setShowExercises] = useState({})
     const [addedExercise, setAddedExercise] = useState(false)
@@ -45,7 +45,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
         let newExercise = {
             "DefaultExerciseId" : 1,
             "WorkoutId" : parseInt(workoutId),
-            "duration" : 10,
+            "duration" : 0,
             "number": 10,
             "series": 10
         }
@@ -57,8 +57,15 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
         setAddedExercise(true)
     }
 
-    const sendExercise = async (e,index) => {
+    const sendExercise = async (e,exeDuration,index) => {
+        let durationUpdated = workoutUpdate.duration
+        console.log(durationUpdated)
+
+        setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated + exeDuration})
+
         await axios.post(`${process.env.REACT_APP_BASE_URL}/detailsExercise`, exercisesUpdate[index]);
+        exercisesUpdate[index].added = true
+
         setAddedExercise(false)
         setShowExercises({...showExercises, [index]: false})
         console.log("poster")
@@ -72,7 +79,11 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
         });
     }
 
-    const deleteExercise = async (e,exerciseId,index) => {
+    const deleteExercise = async (e,exerciseDuration,exerciseId,index) => {
+        let durationUpdated = workoutUpdate.duration
+        console.log(durationUpdated)
+        setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated - exerciseDuration})
+
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/detailsExercise/${exerciseId}`);
         let newArrayExercises = [...exercisesUpdate]
         newArrayExercises.splice(index,1)
@@ -87,11 +98,6 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
         });
     }
 
-    /*if (addedExercise === true) {
-        return (
-            <div>entrain de chargé</div>
-        )
-    }*/
 
     return (
         <>
@@ -106,7 +112,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                     <BlockExercise key={index}>
                         <BlockExerciseTitle newExercise={!exercise.id}>
                             <p>Exercice {index + 1}</p>
-                            <div>
+                            <BlockArrowBtn>
                                 {showExercises[index]
                                     ?
                                     <button type="button" onClick={(e) => displayExercises(e, index)}>
@@ -115,7 +121,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                                     <button type="button" onClick={(e) => displayExercises(e, index)}>
                                         <InlineIcon icon={bxDownArrow} width="15px" height="15px"/>
                                     </button>}
-                            </div>
+                            </BlockArrowBtn>
                         </BlockExerciseTitle>
                         <BlockExerciseContent showExercises={showExercises[index]}>
                             <div>
@@ -123,6 +129,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                                 <Select
                                     labelId={`NameExercise${exercise.index}`}
                                     name="DefaultExerciseId"
+                                    disabled={!!exercise.id}
                                     value={exercisesUpdate[index].DefaultExerciseId}
                                     onChange={(e) => handleChangeExercisesData(e, index)}
                                 >
@@ -144,6 +151,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                                     type="number"
                                     min="5"
                                     max="180"
+                                    disabled={!!exercise.id}
                                 />
                             </div>
                             <div>
@@ -158,6 +166,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                                     type="number"
                                     min="1"
                                     max="999"
+                                    disabled={!!exercise.id}
                                 />
                             </div>
                             <div>
@@ -171,11 +180,12 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutId, defaultE
                                     type="number"
                                     min="1"
                                     max="100"
+                                    disabled={!!exercise.id}
                                 />
                             </div>
                             <BlockExerciseBtnAddDelete>
-                                {!exercise.id ? <button type="button" onClick={(e) => sendExercise(e, index)}>Ajouter cet
-                                    exercise</button> : <button type="button" onClick={(e) => deleteExercise(e,exercise.id,index)}>Supprimer cet
+                                {!exercise.id && !exercise.added ? <button type="button" onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter cet
+                                    exercise</button> : exercise.added ? <p> salut</p>  : <button type="button" onClick={(e) => deleteExercise(e,exercise.duration,exercise.id,index)}>Supprimer cet
                                     exercise</button> }
                             </BlockExerciseBtnAddDelete>
                         </BlockExerciseContent>
@@ -197,6 +207,10 @@ const BlockSubTitleExercises = styled.div`
     
     h2 {
         align-self: center;
+    }
+    
+    button {
+        cursor: pointer;
     }
 `
 
@@ -221,6 +235,13 @@ const BlockExerciseTitle = styled.div`
         color: ${props => props.theme.colors.third};
         font-weight: ${props => props.newExercise && "700"};
         color: ${props => props.newExercise && props.theme.colors.validated};
+    }
+`
+
+const BlockArrowBtn = styled.div`
+    button {
+        padding: 0 1rem;
+        cursor: pointer;
     }
 `
 
@@ -266,7 +287,8 @@ const BlockExerciseBtnAddDelete = styled.div`
         padding: .7rem;
         color: ${props => props.theme.colors.third};
         background-color: ${props => props.theme.colors.dark};
-        border: 1px solid ${props => props.theme.colors.third};  
+        border: 1px solid ${props => props.theme.colors.third};
+        cursor: pointer;  
     }
 `
 

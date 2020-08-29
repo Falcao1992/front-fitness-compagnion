@@ -5,7 +5,8 @@ const theme = {
         third: '#C89446',
         dark: "rgba(11,11,11,0.85)",
         lightDark: "#f0f8ff17",
-        validated: "#0fe50f"
+        validated: "#0fe50f",
+        error: "#ff3b3b"
     },
     fonts: {
         primary: 'Raleway, sans-serif;',
