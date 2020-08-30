@@ -4,6 +4,7 @@ export const ContainerPage = styled.main`
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-bottom: 2rem;
     height: ${props => props.bgPage ? "100vh" : "100%"};
     background-image: ${props => props.bgPage && `url(${props.bgPage})`};
     background-size: ${props => props.bgPage && "cover"};

@@ -75,14 +75,13 @@ const BlockBurgerMenu = styled.div`
         border: ${props => !props.burgerStatus ? `1px solid ${props.theme.colors.third}` : `1px solid ${props.theme.colors.primary}`};
         color:  ${props => !props.burgerStatus ? props.theme.colors.third : props.theme.colors.primary};
         transform: ${props => !props.burgerStatus ? "rotate(0deg)" : "rotate(180deg)"};
-   
+        position: fixed;
         transition: all .5s linear;
     }
     
     svg {
         vertical-align: middle;
     }
-
 `
 
 export default SideBar

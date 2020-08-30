@@ -31,6 +31,7 @@ export const ContainerMultiNumberField = styled.div`
     justify-content: space-between;
     margin-bottom: .6rem;
     color: rgba(0, 0, 0, 0.54);
+    align-items: self-start;
 `
 
 export const BlockInputLabelStyled = styled.div`

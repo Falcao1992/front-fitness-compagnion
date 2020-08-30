@@ -171,11 +171,6 @@ const Stats = ({history}) => {
                                         //    quarter: 'MMM YYYY'
                                         //}
                                     },
-                                    ticks : {
-                                        //autoSkip: true,
-                                        //maxTicksLimit: 10,
-                                    },
-
                                 }
                             ],
                             yAxes: [
@@ -190,13 +185,14 @@ const Stats = ({history}) => {
                                         display: true,
                                         labelString: 'Value'
                                     }
-
                                 }
                             ]
                         }
-
                     }}/>
                 </ContainerChart>
+                <BlockHelperTextOrientation>
+                    <p>Pour visualiser votre graphique correctement, Veuillez mettre votre mobile en Orientation Paysage</p>
+                </BlockHelperTextOrientation>
             </ContainerPage>
         </>
     )
@@ -206,5 +202,26 @@ const ContainerChart = styled.div`
     width: 90%;
     margin: auto;
     background-color: aliceblue;
+    
+    @media (orientation: landscape) {
+        display: block;
+    }
+    @media (orientation: portrait) {
+        display: none;
+    }  
+`
+
+const BlockHelperTextOrientation = styled.div`
+    width: 85%;
+    margin: auto;
+    padding: .7rem;
+    background-color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.dark};
+    @media (orientation: landscape) {
+        display: none;
+    }
+    @media (orientation: portrait) {
+        display: flex;
+    }  
 `
 export default Stats

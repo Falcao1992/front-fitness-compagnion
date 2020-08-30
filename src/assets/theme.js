@@ -4,7 +4,7 @@ const theme = {
         secondary: 'rgba(46, 59, 133, .97)',
         third: '#C89446',
         dark: "rgba(11,11,11,0.85)",
-        lightDark: "#f0f8ff17",
+        lightDark: "rgba(11,11,11,0.50)",
         validated: "#0fe50f",
         error: "#ff3b3b"
     },
