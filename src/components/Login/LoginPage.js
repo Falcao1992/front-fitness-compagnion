@@ -73,26 +73,26 @@ const LoginPage = ({location, history}) => {
                                  helperText={submitted && !password ?
                                      <small>Veuillez rentrer votre mot de passe !</small> : false}
                 />
+                <BlockButtons column={true} >
+                    <ButtonStyled type="button"
+                                  disabledBtn={!username || !password}
+                                  onClick={handleSubmit}
+                                  colorBtnPrimary="aliceblue"
+                                  colorBtnSecondary="rgba(46, 59, 133, 0.8)"
+                    >
+                        <span>Me Connecter</span>
+                    </ButtonStyled>
+
+                    <ButtonStyled type="button"
+                                  colorBtnPrimary="aliceblue"
+                                  colorBtnSecondary="rgb(226 21 64 / 82%)"
+                    ><Link to="/register">
+                        Creer un nouveau Compte</Link>
+                    </ButtonStyled>
+                </BlockButtons>
             </FormStyled>
             {handleErrMsg(errorMsg)}
-            <BlockButtons column={true} >
-                <ButtonStyled type="button"
-                              disabledBtn={!username || !password}
-                              onClick={handleSubmit}
-                              colorBtnPrimary="aliceblue"
-                              colorBtnSecondary="rgba(46, 59, 133, 0.8)"
-                >
-                    <span>Me Connecter</span>
-                </ButtonStyled>
 
-                <ButtonStyled type="button"
-                              colorBtnPrimary="aliceblue"
-                              colorBtnSecondary="rgb(226 21 64 / 82%)"
-                ><Link to="/register">
-                    Creer un nouveau Compte</Link>
-                </ButtonStyled>
-
-            </BlockButtons>
         </ContainerPage>
     )
 }

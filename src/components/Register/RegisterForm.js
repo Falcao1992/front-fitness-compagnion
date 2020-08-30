@@ -181,17 +181,18 @@ const RegisterForm = ({history}) => {
                     </RadioGroup>
                 </BlockRadio>
                 {handleErrMsg(errorMsg)}
+                <BlockButtons>
+                    <ButtonStyled
+                        type="button"
+                        onClick={handleSubmit}
+                        colorBtnPrimary="aliceblue"
+                        colorBtnSecondary="rgba(46, 59, 133, 0.816)"
+                    >
+                        Creer un nouveau Compte
+                    </ButtonStyled>
+                </BlockButtons>
             </FormStyled>
-            <BlockButtons>
-                <ButtonStyled
-                    type="button"
-                    onClick={handleSubmit}
-                    colorBtnPrimary="aliceblue"
-                    colorBtnSecondary="rgba(46, 59, 133, 0.816)"
-                >
-                    Creer un nouveau Compte
-                </ButtonStyled>
-            </BlockButtons>
+
         </>
     )
 }

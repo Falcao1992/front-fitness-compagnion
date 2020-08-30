@@ -5,13 +5,15 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import Footer from "../Footer/Footer";
+import {BlockButtons} from "../../styledComponents/FormComponents";
+import bgHomePage from "../../assets/images/bgHomePage.jpg"
 
 const HomePage = ({history}) => {
 
     return (
         <>
             <SideBar history={history}/>
-            <ContainerPage>
+            <ContainerPage bgPage={bgHomePage}>
                 <BlockTitle>
                     <h1>Fintess Companion </h1>
                 </BlockTitle>
@@ -22,16 +24,21 @@ const HomePage = ({history}) => {
                         Ajouter un exercice (nombres, series, durée) puis ajouté le à votre séance.
 
                         </p>
+                        <BlockButtons>
                         <ButtonStyled colorBtnPrimary="rgba(11,11,11,0.85)"
                                       colorBtnSecondary="#C89446"><Link to="/workouts">Voir mes
                             Séance</Link></ButtonStyled>
+                        </BlockButtons>
                     </BlockArticle>
 
                     <BlockArticle>
                         <h2>Suivi de vos séance</h2>
                         <p>Enfin une fois les premieres séance ajouté, Fitness Companion vous propose de suivre l'intégrale de vos séances via un graphique.</p>
-                        <ButtonStyled colorBtnPrimary="rgba(11,11,11,0.85)"
-                                      colorBtnSecondary="#C89446"><Link to="/stats">Voir mes Stats</Link></ButtonStyled>
+                        <BlockButtons>
+                            <ButtonStyled colorBtnPrimary="rgba(11,11,11,0.85)"
+                                          colorBtnSecondary="#C89446"><Link to="/stats">Voir mes Stats</Link></ButtonStyled>
+                        </BlockButtons>
+
                     </BlockArticle>
                 </ContainerArticle>
             </ContainerPage>
@@ -45,9 +52,16 @@ const ContainerArticle = styled.section`
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    
+     @media only screen and (min-width: 750px ) {
+           flex-direction: row;
+           justify-content: space-between;
+           margin: auto;
+    }
 `
 const BlockArticle = styled.div`
     background-color: ${props => props.theme.colors.lightDark};
+    border: 1px solid ${props => props.theme.colors.third} ;
     padding: .7rem;
     margin-bottom: .7rem;
     h2 {
@@ -61,6 +75,12 @@ const BlockArticle = styled.div`
         font-family: ${props => props.theme.fonts.primary};
         padding: .9rem 0;
         letter-spacing: 1px;      
+    }
+    @media only screen and (min-width: 750px ) {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }   
 `
 

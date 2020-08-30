@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import SideBar from "../SideBar/SideBar";
 import {Line} from 'react-chartjs-2'
+import bgStatsPage from "../../assets/images/bgStatsPage.jpg"
 //import moment from "moment";
 
 const axios = require('axios');
@@ -132,7 +133,7 @@ const Stats = ({history}) => {
     return (
         <>
             <SideBar history={history} sidebar={true}/>
-            <ContainerPage>
+            <ContainerPage bgPage={bgStatsPage}>
                 <BlockTitle>
                     <h1>Mes statistiques</h1>
                 </BlockTitle>
@@ -146,7 +147,7 @@ const Stats = ({history}) => {
                         },
                         tooltips: {
                             mode: 'x',
-                            //intersect: true
+                            intersect: true,
                             callbacks: {
                                 title: function(tooltipItem, data) {
                                     console.log("tooltipItem", tooltipItem)
@@ -202,12 +203,21 @@ const ContainerChart = styled.div`
     width: 90%;
     margin: auto;
     background-color: aliceblue;
+    transition: opacity .5s linear;
     
     @media (orientation: landscape) {
         display: block;
     }
     @media (orientation: portrait) {
         display: none;
+    }
+    @media only screen and (min-width: 750px) {
+        width: 70%;
+        opacity: .6;
+        
+        :hover {
+            opacity: .9;
+        }
     }  
 `
 

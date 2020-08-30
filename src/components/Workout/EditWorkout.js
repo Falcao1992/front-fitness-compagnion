@@ -128,10 +128,13 @@ const EditWorkout = ({location, history}) => {
                 <BlockTitle>
                     <h1>Ma séance</h1>
                 </BlockTitle>
-                <BlockTitleEditSeance>
-                    {id !==undefined ? <h2>Modifier la séance</h2> : <h2>Creer une séance</h2> }
-                </BlockTitleEditSeance>
+
+                <ContainerMultipleForm>
+
                 <FormStyled>
+                    <BlockTitleEditSeance>
+                        {id !==undefined ? <h2>Modifier la séance</h2> : <h2>Creer une séance</h2> }
+                    </BlockTitleEditSeance>
                     <TextFieldStyled id="name"
                                      label="Nom de la séance *"
                                      variant="filled"
@@ -182,7 +185,7 @@ const EditWorkout = ({location, history}) => {
                             colorBtnPrimary="rgba(11,11,11,0.85)"
                             colorBtnSecondary="#C89446"
                         >
-                            {id !== undefined ? "Modifier ma séance" : "Creer ma séance" }
+                            {id !== undefined ? "Valider Changement" : "Creer ma séance" }
                         </ButtonStyled>
 
                     </BlockButtons>
@@ -194,18 +197,34 @@ const EditWorkout = ({location, history}) => {
                                        workoutId={workoutId}/>
                     </ContainerExercises>}
                 </FormStyled>
+                </ContainerMultipleForm>
             </ContainerPage>
         </>
     )
 }
 
+const ContainerMultipleForm = styled.section`
+    display: flex;
+    flex-direction: column;
+    
+    @media screen and (min-width: 750px) {
+        flex-direction: row;
+        
+        form {
+            margin: 0 auto;
+        }
+    }
+    
+`
+
 const BlockTitleEditSeance = styled.div`
-    width: 85%;
+    width: 100%;
     margin: 1rem auto;
     padding: .7rem;
     border: 1px solid ${props => props.theme.colors.dark};
     background-color: ${props => props.theme.colors.primary};
     color: ${props => props.theme.colors.dark};
+    
 `
 
 const ContainerExercises = styled.div`

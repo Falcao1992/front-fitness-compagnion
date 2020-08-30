@@ -19,6 +19,13 @@ export const FormStyled = styled.form`
         color: ${props => props.theme.colors.primary};
         background-color: ${props => props.theme.colors.dark};
     }
+    
+    @media only screen and (min-width: 750px ) {
+        width: 40%;
+        margin: auto;
+        
+    }
+    
 `
 
 export const TextFieldStyled = styled(TextField)`
@@ -96,8 +103,15 @@ export const BlockButtons = styled.div`
     display: flex;
     flex-direction: ${props => props.column && "column"};
     justify-content: space-between;
-    width: 70%;
+    width: 90%;
     margin: 0 auto;
+    
+     @media only screen and (min-width: 750px ) {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    
 `
 
 export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`

@@ -15,6 +15,7 @@ export const ButtonStyled = styled.button`
     
     a {
         color: ${props => props.colorBtnSecondary};
+        padding: inherit;
     }
     
     :focus {
@@ -22,7 +23,7 @@ export const ButtonStyled = styled.button`
     }
     
     @media screen and (min-width: 750px) {
-        width: 50%;
+        width: auto;
         margin: 3rem auto 1.5rem;
     }
     
@@ -33,7 +34,7 @@ export const ButtonStyled = styled.button`
         z-index: 1;
         a,span {
             color: ${props => props.colorBtnPrimary};
-            font-weight: 700;
+            //font-weight: 700;
         }
     }
     

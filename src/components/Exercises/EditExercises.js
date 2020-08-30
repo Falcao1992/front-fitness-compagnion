@@ -58,14 +58,11 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
     }
 
     const sendExercise = async (e,exeDuration,index) => {
+
         let durationUpdated = workoutUpdate.duration
-        console.log(durationUpdated)
-
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated + exeDuration})
-
         await axios.post(`${process.env.REACT_APP_BASE_URL}/detailsExercise`, exercisesUpdate[index]);
         exercisesUpdate[index].added = true
-
         setAddedExercise(false)
         setShowExercises({...showExercises, [index]: false})
         console.log("poster")

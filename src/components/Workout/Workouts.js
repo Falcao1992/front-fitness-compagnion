@@ -198,6 +198,12 @@ const ContainerWorkouts = styled.section`
     width: 85%;
     margin: 0 auto;
     flex-direction: column;
+    
+    @media only screen and (min-width: 750px) {
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 `
 
 const ContainerWorkoutCard = styled.article`
@@ -214,6 +220,7 @@ const WorkoutCardHeader = styled.div`
     padding: .7rem;
     background-color: ${props => props.theme.colors.dark};
     color: ${props => props.theme.colors.third};
+    
     p {
         color: ${props => props.theme.colors.primary}; 
         font-size: .7rem;
