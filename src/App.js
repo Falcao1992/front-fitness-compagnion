@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
@@ -17,18 +16,18 @@ import Stats from "./components/Stats/Stats";
 const App = () => {
     return (
         <ThemeProvider theme={theme}>
-        <Router>
-            <Switch>
-                <Route exact path="/login" component={LoginPage}/>
-                <Route exact path="/register" component={RegisterPage}/>
-                <PrivateRoute exact path="/" component={HomePage}/>
-                <PrivateRoute exact path="/myProfile" component={MyProfile}/>
-                <PrivateRoute exact path="/workouts" component={Workouts}/>
-                <PrivateRoute exact path="/workout/:workoutId" component={EditWorkout}/>
-                <PrivateRoute exact path="/workout" component={EditWorkout}/>
-                <PrivateRoute exact path="/stats" component={Stats}/>
-            </Switch>
-        </Router>
+            <Router>
+                <Switch>
+                    <Route exact path="/login" component={LoginPage}/>
+                    <Route exact path="/register" component={RegisterPage}/>
+                    <PrivateRoute exact path="/" component={HomePage}/>
+                    <PrivateRoute path="/myProfile" component={MyProfile}/>
+                    <PrivateRoute path="/workouts" component={Workouts}/>
+                    <PrivateRoute path="/workout/:workoutId" component={EditWorkout}/>
+                    <PrivateRoute path="/workout" component={EditWorkout}/>
+                    <PrivateRoute path="/stats" component={Stats}/>
+                </Switch>
+            </Router>
         </ThemeProvider>
     );
 }

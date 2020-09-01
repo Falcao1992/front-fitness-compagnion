@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import MenuIcon from '@material-ui/icons/Menu';
 import {logout} from "../../_services/user.service";
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const SideBar = ({history}) => {
 
@@ -13,25 +13,34 @@ const SideBar = ({history}) => {
         const userData = JSON.parse(localStorage.getItem('user'))
         setUserId(userData.id)
         setBurgerActive(!burgerActive)
-
     }
+
+    const closeBurgerTimeout = () => {
+        console.log("plus de hover")
+        setTimeout(() => {
+            setBurgerActive(false)
+        }, 18000)
+    };
+
 
     return (
         <>
             <BlockBurgerMenu burgerStatus={burgerActive}>
                 <button onClick={handleClickBurger}><MenuIcon fontSize="large"/></button>
             </BlockBurgerMenu>
-            <ContainerSideBar burgerStatus={burgerActive}>
+            <ContainerSideBar onMouseLeave={closeBurgerTimeout} burgerStatus={burgerActive}>
                 <ul>
-                    <li><Link to="/">Acceuil</Link></li>
-                    <li><Link to="/workouts">Voir mes Séance</Link></li>
-                    <li><Link to={{
+                    <li><StyledLinkNav exact to="/" activeClassName="activeClassName">Acceuil</StyledLinkNav></li>
+                    <li><StyledLinkNav to="/workouts" activeClassName="activeClassName">Voir mes Séance</StyledLinkNav>
+                    </li>
+                    <li><StyledLinkNav to={{
                         pathname: `/workout`,
                         state: {userId}
-                    }}>Ajouer une séance</Link>
+                    }} activeClassName="activeClassName">Ajouer une séance</StyledLinkNav>
                     </li>
-                    <li><Link to="/stats">Voir mes stats</Link></li>
-                    <li><Link to="/myProfile">Modifer mon profil</Link></li>
+                    <li><StyledLinkNav to="/stats" activeClassName="activeClassName">Voir mes stats</StyledLinkNav></li>
+                    <li><StyledLinkNav to="/myProfile" activeClassName="activeClassName">Modifer mon
+                        profil</StyledLinkNav></li>
                     <li>
                         <button onClick={() => logout(history)}>Me déconecter</button>
                     </li>
@@ -70,6 +79,7 @@ const BlockBurgerMenu = styled.div`
     margin-top: 2.5rem;
     margin-left: 1rem;
     
+    
     button {
         padding: .2rem;
         border: ${props => !props.burgerStatus ? `1px solid ${props.theme.colors.third}` : `1px solid ${props.theme.colors.primary}`};
@@ -77,11 +87,19 @@ const BlockBurgerMenu = styled.div`
         transform: ${props => !props.burgerStatus ? "rotate(0deg)" : "rotate(180deg)"};
         position: fixed;
         transition: all .5s linear;
+        cursor: pointer;
+        
     }
     
     svg {
         vertical-align: middle;
     }
+`
+
+const StyledLinkNav = styled(NavLink)`
+    &.activeClassName {
+        color: ${props => props.theme.colors.third};
+  }
 `
 
 export default SideBar
