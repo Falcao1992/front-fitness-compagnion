@@ -23,6 +23,7 @@
     "react-toastify": "^6.0.8",
     "styled-components": "^5.1.1"
   },
+  "proxy": "http://localhost:8000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

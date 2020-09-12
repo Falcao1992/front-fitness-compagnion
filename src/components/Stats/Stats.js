@@ -17,8 +17,7 @@ const Stats = ({history}) => {
     useEffect(() => {
         const GetAllData = async () => {
             try {
-                const formatDataUser = await formatUserData()
-                await fetchDataWorkoutsAssociatedUser(formatDataUser)
+                await fetchDataWorkoutsAssociatedUser()
                     .then((dataWorkout) => {
                         console.log(dataWorkout, "dataworkout")
                         return transformData(dataWorkout)
@@ -42,20 +41,10 @@ const Stats = ({history}) => {
         GetAllData()
     }, [])
 
-
-    // Format user's data and return it
-    const formatUserData = () => {
-        try {
-            return JSON.parse(localStorage.getItem('user'))
-        } catch (error) {
-            console.log(error, "error")
-        }
-    }
-
     // With userId Fetch workout's data and return it
-    const fetchDataWorkoutsAssociatedUser = async (dataUsr) => {
+    const fetchDataWorkoutsAssociatedUser = async () => {
         try {
-            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/${dataUsr.id}/workouts`)
+            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
             return resultDataWorkoutsByUser.data
         } catch (error) {
             if (error.message === "Network Error") {

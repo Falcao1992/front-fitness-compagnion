@@ -29,7 +29,8 @@ const EditWorkout = ({location, history}) => {
     const [defaultExercises, setDefaultExercises] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    const {userId} = location.state;
+    const userId = localStorage.getItem("userId")
+
     let {workoutId} = useParams()
 
     moment.locale("fr")

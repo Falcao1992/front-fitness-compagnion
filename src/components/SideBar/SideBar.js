@@ -10,8 +10,8 @@ const SideBar = ({history}) => {
 
     const [burgerActive, setBurgerActive] = useState(false)
     const handleClickBurger = () => {
-        const userData = JSON.parse(localStorage.getItem('user'))
-        setUserId(userData.id)
+        const userId = JSON.parse(localStorage.getItem('userId'))
+        setUserId(userId)
         setBurgerActive(!burgerActive)
     }
 

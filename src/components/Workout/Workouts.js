@@ -25,7 +25,6 @@ const axios = require('axios');
 const Workouts = ({history}) => {
 
     const [dataWorkoutsAssociatedUser, setDataWorkoutsAssociatedUser] = useState(null)
-    const [userId, setUserId] = useState(null)
     const [showExercises, setShowExercises] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState(null)
@@ -35,9 +34,7 @@ const Workouts = ({history}) => {
     useEffect(() => {
         const GetAllData = async () => {
             try {
-                const formatDataUser = await formatUserData()
-
-                await fetchDataWorkoutsAssociatedUser(formatDataUser)
+                await fetchDataWorkoutsAssociatedUser()
                     .then((dataWorkout) => {
                         // Sort Workout by order DSC
                         const filterDateWorkoutData = dataWorkout.sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -52,21 +49,10 @@ const Workouts = ({history}) => {
     }, [])
 
 
-    // Format user's data and return it
-    const formatUserData = () => {
-        try {
-            const userDataFormat = JSON.parse(localStorage.getItem('user'))
-            setUserId(userDataFormat.id)
-            return userDataFormat
-        } catch (error) {
-            console.log(error, "error")
-        }
-    }
-
     // With userId Fetch workout's data and return it
-    const fetchDataWorkoutsAssociatedUser = async (dataUsr) => {
+    const fetchDataWorkoutsAssociatedUser = async () => {
         try {
-            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/${dataUsr.id}/workouts`)
+            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
             return resultDataWorkoutsByUser.data
         } catch (error) {
             if (error.message === "Network Error") {
@@ -125,7 +111,6 @@ const Workouts = ({history}) => {
                     <ButtonStyled colorBtnPrimary="rgba(11,11,11,0.85)"
                                   colorBtnSecondary="#C89446"><Link to={{
                         pathname: `/workout`,
-                        state: {userId}
                     }}>
                         Creer une nouvelle séance
                     </Link></ButtonStyled>
@@ -144,7 +129,6 @@ const Workouts = ({history}) => {
                                             </button>
                                             <Link to={{
                                                 pathname: `/workout/${id}`,
-                                                state: {userId: dataWorkoutsAssociatedUser[0].UserId}
                                             }}>
 
                                                 <InlineIcon icon={noteEditLine} width="1.6rem" height="1.6rem"/>

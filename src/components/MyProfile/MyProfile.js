@@ -14,30 +14,44 @@ import {
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
-import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+
+import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import CircularProgress from "@material-ui/core/CircularProgress"
+import {toast} from "react-toastify"
 
 const axios = require('axios');
 
 const MyProfile = ({history}) => {
 
-    const [dataUserFormatted, setDataUserFormatted] = useState(null)
+    const [dataUserFormatted, setDataUserFormatted] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [dataHasBeenModified, setDataHasBeenModified] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
 
+
     const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     useEffect(() => {
-        formatUserData()
-        setIsLoading(false)
+        fetchUserData()
+            .then((userData) => {
+                setDataUserFormatted(userData)
+            })
+            .then(() => {
+                setIsLoading(false)
+            })
     }, [])
 
-    const formatUserData = () => {
-        const dataUser = JSON.parse(localStorage.getItem('user'))
-        setDataUserFormatted(dataUser)
+    const fetchUserData = async () => {
+        try {
+            const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/user?Access_token=${localStorage.getItem("token")}`);
+            console.log('resultdata', result.data)
+            return result.data
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handleChange = (e, date) => {
@@ -55,37 +69,48 @@ const MyProfile = ({history}) => {
     };
 
     const onSubmit = () => {
-        if (dataHasBeenModified) {
-            if(username.length < 2 || username.length > 15 ){
-                setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
-            } else if(weight < 30 || weight > 150 ) {
-                setErrorMsg("Votre poids doit etre entre 30 et 150kg")
-            } else if(size <= 100 || size >= 210 ) {
-                setErrorMsg("Votre taille doit etre entre 100 et 210cm")
-            } else if (!EMAIL_REGEX.test(email)) {
-                setErrorMsg("Email Invalide")
+        try {
+            if (dataHasBeenModified) {
+                if (username.length < 2 || username.length > 15) {
+                    setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
+                } else if (weight < 30 || weight > 150) {
+                    setErrorMsg("Votre poids doit etre entre 30 et 150kg")
+                } else if (size <= 100 || size >= 210) {
+                    setErrorMsg("Votre taille doit etre entre 100 et 210cm")
+                } else if (!EMAIL_REGEX.test(email)) {
+                    setErrorMsg("Email Invalide")
+                } else {
+                    console.log(dataUserFormatted, "dataUserFormatted")
+                    axios.put(`${process.env.REACT_APP_BASE_URL}/user/edit?Access_token=${localStorage.getItem("token")}`, dataUserFormatted);
+                    toast.success('🦄 Votre profil à été correctement mis à jour!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false
+                    });
+                    history.push("/")
+                }
             } else {
-                console.log(dataUserFormatted, "dataUserFormatted")
-                axios.put(`${process.env.REACT_APP_BASE_URL}/users/${id}`, dataUserFormatted);
-                localStorage.setItem('user', JSON.stringify(dataUserFormatted))
-                history.push("/")
+                setErrorMsg("Aucun changement effectué")
+                console.log("pas de ta modifier")
             }
-
-        } else {
-            setErrorMsg("Aucun changement effectué")
-            console.log("pas de ta modifier")
+        } catch (error) {
+            console.log(error)
         }
+
     }
 
-    if (isLoading && dataUserFormatted === null) {
+    if (isLoading && dataUserFormatted.username !== null) {
         return (
-            <div>
-                pas encore chargé
-            </div>
+            <ContainerLoading>
+                <CircularProgress size="5rem"/>
+            </ContainerLoading>
         )
     }
 
-    const {username, size, weight, email, id, gender, birthday} = dataUserFormatted
+    const {username, size, weight, email, gender, birthday} = dataUserFormatted
 
     return (
         <>
