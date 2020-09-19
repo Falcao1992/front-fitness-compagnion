@@ -59,9 +59,15 @@ const Workouts = ({history}) => {
                 const errorNetwork = new Error('Serveur indisponible')
                 setErrorMsg(errorNetwork.message)
                 console.log(errorNetwork.message)
+            } else if (error.response.status === 401) {
+                // Redirect if status (401) unauthorized ex. token expired
+                history.push(`/login`)
+                localStorage.clear()
             } else {
-                console.log("error unkown")
+                console.log("error unkown", error.response)
+                console.error({msg: error})
             }
+
         }
     }
 
@@ -92,7 +98,7 @@ const Workouts = ({history}) => {
     if (isLoading || dataWorkoutsAssociatedUser === null) {
         return (
             <ContainerLoading>
-                <CircularProgress size="5rem" />
+                <CircularProgress size="5rem"/>
             </ContainerLoading>
         )
     }
@@ -118,59 +124,60 @@ const Workouts = ({history}) => {
 
                 <ContainerWorkouts>
                     {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout, index) => {
-                            const {id, name, date, hour, duration, DetailsExercises} = workout
-                            return (
-                                <ContainerWorkoutCard key={id}>
-                                    <WorkoutCardHeader showExercises={showExercises[index]}>
-                                        <h4>{name} <span>({duration}mn)</span></h4>
-                                        <p>{moment(date).format('dddd Do MMMM YYYY')} à {hour.substring(0, hour.length - 6)} h</p>
-                                        <div>
-                                            <button type="button" onClick={(e) => deleteWorkout(e, index, id)}><InlineIcon icon={crossMark} width="1.4rem" height="1.4rem"/>
-                                            </button>
-                                            <Link to={{
-                                                pathname: `/workout/${id}`,
-                                            }}>
+                        const {id, name, date, hour, duration, DetailsExercises} = workout
+                        return (
+                            <ContainerWorkoutCard key={id}>
+                                <WorkoutCardHeader showExercises={showExercises[index]}>
+                                    <h4>{name} <span>({duration}mn)</span></h4>
+                                    <p>{moment(date).format('dddd Do MMMM YYYY')} à {hour.substring(0, hour.length - 6)} h</p>
+                                    <div>
+                                        <button type="button" onClick={(e) => deleteWorkout(e, index, id)}><InlineIcon
+                                            icon={crossMark} width="1.4rem" height="1.4rem"/>
+                                        </button>
+                                        <Link to={{
+                                            pathname: `/workout/${id}`,
+                                        }}>
 
-                                                <InlineIcon icon={noteEditLine} width="1.6rem" height="1.6rem"/>
-                                            </Link>
-                                            {showExercises[index]
-                                                ?
-                                                <button type="button" onClick={(e) => displayExercises(e, index)}>
-                                                    <InlineIcon icon={bxUpArrow} width="1.6rem" height="1.6rem"/></button>
-                                                :
-                                                <button type="button" onClick={(e) => displayExercises(e, index)}>
-                                                    <InlineIcon icon={bxDownArrow} width="1.6rem" height="1.6rem"/>
-                                                </button>}
-                                        </div>
+                                            <InlineIcon icon={noteEditLine} width="1.6rem" height="1.6rem"/>
+                                        </Link>
+                                        {showExercises[index]
+                                            ?
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxUpArrow} width="1.6rem" height="1.6rem"/></button>
+                                            :
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxDownArrow} width="1.6rem" height="1.6rem"/>
+                                            </button>}
+                                    </div>
 
-                                    </WorkoutCardHeader>
+                                </WorkoutCardHeader>
 
-                                    <ContainerExercises showExercises={showExercises[index]}
-                                                        numberExercises={DetailsExercises.length}>
-                                        {DetailsExercises.map((ex, index) => {
-                                            return (
-                                                <BlockExercise key={ex.id}>
-                                                    <div><p>Exercice {index + 1}</p>
-                                                        <span>{ex.DefaultExercise.name}</span>
-                                                    </div>
-                                                    <div><p><InlineIcon icon={timerIcon} width="15px"
-                                                                        height="15px"/> Durée
-                                                    </p><span>{ex.duration}</span></div>
-                                                    <div><p><InlineIcon icon={sortNumericallyOutline} width="15px"
-                                                                        height="15px"/> Nombre </p>
-                                                        <span>{ex.number}</span>
-                                                    </div>
-                                                    <div><p><InlineIcon icon={repeatLine} width="15px"
-                                                                        height="15px"/> Serie(s)</p>
-                                                        <span>{ex.series}</span>
-                                                    </div>
-                                                </BlockExercise>
-                                            )
-                                        })}
-                                    </ContainerExercises>
-                                </ContainerWorkoutCard>
-                            )
-                        })}
+                                <ContainerExercises showExercises={showExercises[index]}
+                                                    numberExercises={DetailsExercises.length}>
+                                    {DetailsExercises.map((ex, index) => {
+                                        return (
+                                            <BlockExercise key={ex.id}>
+                                                <div><p>Exercice {index + 1}</p>
+                                                    <span>{ex.DefaultExercise.name}</span>
+                                                </div>
+                                                <div><p><InlineIcon icon={timerIcon} width="15px"
+                                                                    height="15px"/> Durée
+                                                </p><span>{ex.duration}</span></div>
+                                                <div><p><InlineIcon icon={sortNumericallyOutline} width="15px"
+                                                                    height="15px"/> Nombre </p>
+                                                    <span>{ex.number}</span>
+                                                </div>
+                                                <div><p><InlineIcon icon={repeatLine} width="15px"
+                                                                    height="15px"/> Serie(s)</p>
+                                                    <span>{ex.series}</span>
+                                                </div>
+                                            </BlockExercise>
+                                        )
+                                    })}
+                                </ContainerExercises>
+                            </ContainerWorkoutCard>
+                        )
+                    })}
                 </ContainerWorkouts>
             </ContainerPage>
         </>

@@ -30,13 +30,13 @@ const SideBar = ({history}) => {
             </BlockBurgerMenu>
             <ContainerSideBar onMouseLeave={closeBurgerTimeout} burgerStatus={burgerActive}>
                 <ul>
-                    <li><StyledLinkNav exact to="/" activeClassName="activeClassName">Acceuil</StyledLinkNav></li>
-                    <li><StyledLinkNav to="/workouts" activeClassName="activeClassName">Voir mes Séance</StyledLinkNav>
+                    <li><StyledLinkNav exact to="/" activeClassName="activeClassName">Accueil</StyledLinkNav></li>
+                    <li><StyledLinkNav to="/workouts" activeClassName="activeClassName">Voir mes Séances</StyledLinkNav>
                     </li>
                     <li><StyledLinkNav to={{
                         pathname: `/workout`,
                         state: {userId}
-                    }} activeClassName="activeClassName">Ajouer une séance</StyledLinkNav>
+                    }} activeClassName="activeClassName">Ajouter une Séance</StyledLinkNav>
                     </li>
                     <li><StyledLinkNav to="/stats" activeClassName="activeClassName">Voir mes stats</StyledLinkNav></li>
                     <li><StyledLinkNav to="/myProfile" activeClassName="activeClassName">Modifer mon
