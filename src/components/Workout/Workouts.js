@@ -81,7 +81,7 @@ const Workouts = ({history}) => {
     }
 
     const deleteWorkout = async (e, index, workoutId) => {
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/workouts/${workoutId}`);
+        await axios.delete(`/workouts/${workoutId}`);
         let newArrayWorkouts = [...dataWorkoutsAssociatedUser]
         newArrayWorkouts.splice(index, 1)
         setDataWorkoutsAssociatedUser(newArrayWorkouts)

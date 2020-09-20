@@ -46,7 +46,7 @@ const MyProfile = ({history}) => {
 
     const fetchUserData = async () => {
         try {
-            const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/user?Access_token=${localStorage.getItem("token")}`);
+            const result = await axios.get(`/user?Access_token=${localStorage.getItem("token")}`);
             console.log('resultdata', result.data)
             return result.data
         } catch (error) {
@@ -81,7 +81,7 @@ const MyProfile = ({history}) => {
                     setErrorMsg("Email Invalide")
                 } else {
                     console.log(dataUserFormatted, "dataUserFormatted")
-                    axios.put(`${process.env.REACT_APP_BASE_URL}/user/edit?Access_token=${localStorage.getItem("token")}`, dataUserFormatted);
+                    axios.put(`/user/edit?Access_token=${localStorage.getItem("token")}`, dataUserFormatted);
                     toast.success('🦄 Votre profil à été correctement mis à jour!', {
                         position: "top-right",
                         autoClose: 5000,

@@ -43,7 +43,7 @@ const EditWorkout = ({location, history}) => {
         const fetchDataWorkout = async () => {
             try {
                 if (workoutId) {
-                    const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/${userId}/workouts/${workoutId}`)
+                    const resultDataWorkoutsByUser = await axios.get(`/${userId}/workouts/${workoutId}`)
                     return resultDataWorkoutsByUser.data
                 } else {
                     return {
@@ -86,7 +86,7 @@ const EditWorkout = ({location, history}) => {
 
     const fetchDefaultExercises = async () => {
         try {
-            const resultDefaultExercises = await axios.get(`${process.env.REACT_APP_BASE_URL}/defaultExercises`)
+            const resultDefaultExercises = await axios.get(`/defaultExercises`)
             return resultDefaultExercises.data
         } catch (error) {
             console.log(error)
@@ -104,7 +104,7 @@ const EditWorkout = ({location, history}) => {
 
     const editWorkout = async (e, id) => {
         if (workoutUpdate && id !== undefined) {
-            await axios.put(`http://localhost:8000/api/v1/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
+            await axios.put(`/${workoutUpdate.UserId}/workout/${workoutUpdate.id}`, workoutUpdate);
             toast.success('Votre Séance a été correctement Modifer !', {
                 position: "top-right",
                 autoClose: 5000,
@@ -115,7 +115,7 @@ const EditWorkout = ({location, history}) => {
             });
             history.push(`/workouts`)
         } else if (id === undefined) {
-            await axios.post("http://localhost:8000/api/v1/workout/create", workoutUpdate);
+            await axios.post("/workout/create", workoutUpdate);
             toast.success('Votre Séance a été correctement Creer !', {
                 position: "top-right",
                 autoClose: 5000,

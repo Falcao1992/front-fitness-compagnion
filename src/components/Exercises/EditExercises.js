@@ -61,7 +61,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
 
         let durationUpdated = workoutUpdate.duration
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated + exeDuration})
-        await axios.post(`${process.env.REACT_APP_BASE_URL}/detailsExercise`, exercisesUpdate[index]);
+        await axios.post(`/detailsExercise`, exercisesUpdate[index]);
         exercisesUpdate[index].added = true
         setAddedExercise(false)
         setShowExercises({...showExercises, [index]: false})
@@ -81,7 +81,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
         console.log(durationUpdated)
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated - exerciseDuration})
 
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/detailsExercise/${exerciseId}`);
+        await axios.delete(`/detailsExercise/${exerciseId}`);
         let newArrayExercises = [...exercisesUpdate]
         newArrayExercises.splice(index,1)
         setExercisesUpdate(newArrayExercises)
