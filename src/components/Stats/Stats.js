@@ -44,7 +44,7 @@ const Stats = ({history}) => {
     // With userId Fetch workout's data and return it
     const fetchDataWorkoutsAssociatedUser = async () => {
         try {
-            const resultDataWorkoutsByUser = await axios.get(`/workouts?Access_token=${localStorage.getItem("token")}`)
+            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
             return resultDataWorkoutsByUser.data
         } catch (error) {
             if (error.message === "Network Error") {
