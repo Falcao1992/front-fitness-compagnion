@@ -20,7 +20,7 @@ export const login = (username, password) => {
             'Access-Control-Allow-Origin':'https://fitness-companion.netlify.app',
             //'Authorization': 'Bearer ' + "token",
         },
-        //credentials: 'include',
+        credentials: 'include',
         body: JSON.stringify({username, password}),
     };
 
