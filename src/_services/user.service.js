@@ -6,7 +6,7 @@ export const register = (username, password, email, size, weight, birthday, gend
         body: JSON.stringify({username, password, email, size, weight, birthday, gender})
     };
 
-    return fetch(`${process.env.REACT_APP_BASE_URL}/user/register`, requestOptions)
+    return fetch(`user/register`, requestOptions)
         .then(handleResponse)
         .then(user => {
             return user
@@ -24,7 +24,7 @@ export const login = (username, password) => {
         body: JSON.stringify({username, password}),
     };
 
-    return fetch(`${process.env.REACT_APP_BASE_URL}/login`, requestOptions)
+    return fetch(`/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a user in the response
