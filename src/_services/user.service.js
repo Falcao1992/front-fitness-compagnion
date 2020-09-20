@@ -17,6 +17,7 @@ export const login = (username, password) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin':'https://fitness-companion.netlify.app',
             //'Authorization': 'Bearer ' + "token",
         },
         credentials: 'include',
