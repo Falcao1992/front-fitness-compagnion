@@ -46,6 +46,7 @@ export const BlockInputLabelStyled = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
     
     small {
         color: ${props => props.theme.colors.error};;

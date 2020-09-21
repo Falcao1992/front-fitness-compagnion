@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
 import SideBar from "../SideBar/SideBar";
 import {Line} from 'react-chartjs-2'
 import bgStatsPage from "../../assets/images/bgStatsPage.jpg"
+import CircularProgress from "@material-ui/core/CircularProgress"
 //import moment from "moment";
 
 const axios = require('axios');
@@ -80,8 +81,6 @@ const Stats = ({history}) => {
     }
 
     const chart = (arrayAllData) => {
-        console.log("dans la fonction chart")
-        //let dataName = arrayAllData[0]
         let dataDuration = arrayAllData[1]
         let dataDate = arrayAllData[2]
         let dataNumberExercise = arrayAllData[3]
@@ -113,9 +112,11 @@ const Stats = ({history}) => {
     }
 
     if (isLoading === true) {
-        return <div>
-            pas de data
-        </div>
+        return (
+            <ContainerLoading>
+                <CircularProgress size="5rem"/>
+            </ContainerLoading>
+        )
     }
 
 

@@ -63,7 +63,7 @@ const BlockArticle = styled.div`
     background-color: ${props => props.theme.colors.lightDark};
     border: 1px solid ${props => props.theme.colors.third} ;
     padding: .7rem;
-    margin-bottom: .7rem;
+    margin-bottom: 1.4rem;
     h2 {
         border-bottom: 1px solid ${props => props.theme.colors.third};
         color: ${props => props.theme.colors.third};

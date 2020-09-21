@@ -162,7 +162,7 @@ const EditWorkout = ({location, history}) => {
                                          value={name}
                                          onChange={handleChangeWorkoutData}
                                          error={name.length < 5 || name.length > 30 }
-                                         helperText={name.length < 5 ? "Le nom doit contenir moins de 5 charactères" : name.length > 30 && "Le nom peut pas contenir plus de 30 charactères"}
+                                         helperText={name.length < 5 ? "Le nom doit contenir au moins 5 lettres" : name.length > 30 && "Le nom ne peut pas contenir plus de 30 lettres"}
                         />
 
                         <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
@@ -187,7 +187,6 @@ const EditWorkout = ({location, history}) => {
                                     type="number"
                                     disabled
                                 />
-                                <small>La durée sera calculé en fonction de celle des exercises</small>
                             </BlockInputLabelStyled>
                             <BlockInputLabelStyled>
                                 <LabelInputStyled htmlFor="hour">Heure: </LabelInputStyled>
@@ -246,9 +245,10 @@ const BlockTitleEditSeance = styled.div`
     width: 100%;
     margin: 1rem auto;
     padding: .7rem;
-    border: 1px solid ${props => props.theme.colors.dark};
-    background-color: ${props => props.theme.colors.primary};
-    color: ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.dark};
+    color: ${props => props.theme.colors.third};
+    text-align: center;
+    box-shadow: 0 10px 6px -5px  ${props => props.theme.colors.third};
     
 `
 

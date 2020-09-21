@@ -5,7 +5,6 @@ export const ContainerPage = styled.main`
     flex-direction: column;
     min-height: 100vh;
     padding-bottom: 2rem;
-    height: ${props => props.bgPage ? "100vh" : "100%"};
     background-image: ${props => props.bgPage && `url(${props.bgPage})`};
     background-size: ${props => props.bgPage && "cover"};
     background-position: ${props => props.bgPage && "left"};
@@ -13,9 +12,7 @@ export const ContainerPage = styled.main`
     
     @media only screen and (min-width: 750px ) {
         padding: 0 5rem;
-    }
-    
-                         
+    }                       
 `
 
 export const BlockTitle = styled.div`

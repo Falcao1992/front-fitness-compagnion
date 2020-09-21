@@ -10,24 +10,37 @@ import styled from "styled-components";
 import addAlt from "@iconify/icons-carbon/add-alt";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {ErrorMsgStyled} from "../../styledComponents/UniformPageComponents"
 
 const axios = require('axios');
 toast.configure();
 
-const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setWorkoutUpdate, workoutId, defaultExercises }) => {
+const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setWorkoutUpdate, workoutId, defaultExercises}) => {
 
     const [showExercises, setShowExercises] = useState({})
     const [addedExercise, setAddedExercise] = useState(false)
+    const [missingField, setMissingField] = useState(false)
 
 
     const handleChangeExercisesData = (e, index) => {
-        console.log(e.target.value)
-        if(e.target.value === "") {
-            console.log('pas de valeur')
-            return
-        }
         let copyExercisesUpdate = [...exercisesUpdate]
-        copyExercisesUpdate[index] = {...copyExercisesUpdate[index], [e.target.name]: parseInt(e.target.value)}
+
+        if (e.target.value === "") {
+            copyExercisesUpdate[index] = {...copyExercisesUpdate[index], [e.target.name]: e.target.value}
+        } else {
+            copyExercisesUpdate[index] = {...copyExercisesUpdate[index], [e.target.name]: parseInt(e.target.value)}
+        }
+
+        // Check if data is not equal to empty string
+        for (const property in copyExercisesUpdate[index]) {
+            if (copyExercisesUpdate[index][property] === "") {
+                console.log("error chaine vide")
+                setMissingField(true)
+                break
+            } else {
+                setMissingField(false)
+            }
+        }
         setExercisesUpdate(copyExercisesUpdate)
     }
 
@@ -43,9 +56,9 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
     const addExercise = () => {
         let copyExerciceUpdate = []
         let newExercise = {
-            "DefaultExerciseId" : 1,
-            "WorkoutId" : parseInt(workoutId),
-            "duration" : 0,
+            "DefaultExerciseId": 1,
+            "WorkoutId": parseInt(workoutId),
+            "duration": 0,
             "number": 10,
             "series": 10
         }
@@ -57,7 +70,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
         setAddedExercise(true)
     }
 
-    const sendExercise = async (e,exeDuration,index) => {
+    const sendExercise = async (e, exeDuration, index) => {
 
         let durationUpdated = workoutUpdate.duration
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated + exeDuration})
@@ -66,7 +79,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
         setAddedExercise(false)
         setShowExercises({...showExercises, [index]: false})
         console.log("poster")
-        toast.success('🦄 votre exercice à été correctement ajouté!', {
+        toast.success('Exercice ajouté !', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: true,
@@ -76,14 +89,13 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
         });
     }
 
-    const deleteExercise = async (e,exerciseDuration,exerciseId,index) => {
+    const deleteExercise = async (e, exerciseDuration, exerciseId, index) => {
         let durationUpdated = workoutUpdate.duration
         console.log(durationUpdated)
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated - exerciseDuration})
-
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/detailsExercise/${exerciseId}`);
         let newArrayExercises = [...exercisesUpdate]
-        newArrayExercises.splice(index,1)
+        newArrayExercises.splice(index, 1)
         setExercisesUpdate(newArrayExercises)
         toast.success('🦄 votre exercice à été correctement supprimé!', {
             position: "top-right",
@@ -101,7 +113,8 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
             {console.log("renderEditExercises")}
             <BlockSubTitleExercises>
                 <h2>Mes Exercises</h2>
-                {!addedExercise && <button type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px" /></button>}
+                {!addedExercise &&
+                <button type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px"/></button>}
             </BlockSubTitleExercises>
 
             {exercisesUpdate && exercisesUpdate.map((exercise, index) => {
@@ -168,7 +181,7 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
                             </div>
                             <div>
                                 <label htmlFor="series"><InlineIcon icon={repeatLine} width="15px"
-                                                                    height="15px"/> Serie </label>
+                                                                    height="15px"/> Serie(s) </label>
                                 <input
                                     value={exercise.series}
                                     onChange={(e) => handleChangeExercisesData(e, index)}
@@ -180,10 +193,18 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
                                     disabled={!!exercise.id}
                                 />
                             </div>
+                            {missingField && <div>
+                                <ErrorMsgStyled> Champ(s) non renseigné !</ErrorMsgStyled>
+                            </div>}
+
                             <BlockExerciseBtnAddDelete>
-                                {!exercise.id && !exercise.added ? <button type="button" onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter cet
-                                    exercise</button> : exercise.added ? <p> salut</p>  : <button type="button" onClick={(e) => deleteExercise(e,exercise.duration,exercise.id,index)}>Supprimer cet
-                                    exercise</button> }
+                                {!exercise.id && !exercise.added ?
+                                    <button type="button" disabled={missingField === true}
+                                            onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter cet
+                                        exercise</button> : !exercise.added && <button type="button"
+                                                                                       onClick={(e) => deleteExercise(e, exercise.duration, exercise.id, index)}>Supprimer
+                                    cet
+                                    exercise</button>}
                             </BlockExerciseBtnAddDelete>
                         </BlockExerciseContent>
                     </BlockExercise>
@@ -198,9 +219,9 @@ const BlockSubTitleExercises = styled.div`
     justify-content: space-between;
     margin: 1rem 0;
     padding: .7rem;
-    border: 1px solid ${props => props.theme.colors.dark};
-    background-color: ${props => props.theme.colors.primary};
-    color: ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.dark};
+    color: ${props => props.theme.colors.third};
+    box-shadow: 0 10px 6px -5px  ${props => props.theme.colors.third};
     
     h2 {
         align-self: center;
@@ -226,7 +247,7 @@ const BlockExerciseTitle = styled.div`
     justify-content: space-between;
     
     button {
-        color: ${props => props.newExercise ? props.theme.colors.validated : props.theme.colors.third };
+        color: ${props => props.newExercise ? props.theme.colors.validated : props.theme.colors.third};
     }
     p {
         color: ${props => props.theme.colors.third};
@@ -245,7 +266,7 @@ const BlockArrowBtn = styled.div`
 const BlockExerciseContent = styled.div`
     padding: 0 .7rem ;
     overflow: hidden;
-    max-height: ${props => !props.showExercises ? "0" : `300px`};  
+    max-height: ${props => !props.showExercises ? "0" : `320px`};  
     transition: all 1s linear;
     
     > div:first-child {
@@ -286,6 +307,9 @@ const BlockExerciseBtnAddDelete = styled.div`
         background-color: ${props => props.theme.colors.dark};
         border: 1px solid ${props => props.theme.colors.third};
         cursor: pointer;  
+    }
+    button:disabled, button[disabled] {
+        opacity: .4;
     }
 `
 
