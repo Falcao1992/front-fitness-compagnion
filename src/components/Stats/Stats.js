@@ -52,6 +52,10 @@ const Stats = ({history}) => {
                 const errorNetwork = new Error('Serveur indisponible')
                 //setErrorMsg(errorNetwork.message)
                 console.log(errorNetwork.message)
+            } else if (error.response.status === 401) {
+                // Redirect if status (401) unauthorized ex. token expired
+                history.push(`/login`)
+                localStorage.clear()
             } else {
                 console.log("error unkown")
             }

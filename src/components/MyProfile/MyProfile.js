@@ -51,6 +51,11 @@ const MyProfile = ({history}) => {
             console.log('resultdata', result.data)
             return result.data
         } catch (error) {
+            if (error.response.status === 401) {
+                // Redirect if status (401) unauthorized ex. token expired
+                history.push(`/login`)
+                localStorage.clear()
+            }
             console.log(error)
         }
     }
