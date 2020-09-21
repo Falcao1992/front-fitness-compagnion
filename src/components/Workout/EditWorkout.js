@@ -94,7 +94,7 @@ const EditWorkout = ({location, history}) => {
     }
 
     const handleChangeWorkoutData = (e, date) => {
-        if (e.target === undefined) {
+        if (e === null || e.target === undefined) {
             let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setWorkoutUpdate({...workoutUpdate, "date": dateFormat})
         } else {
@@ -161,14 +161,17 @@ const EditWorkout = ({location, history}) => {
                                          type="text"
                                          value={name}
                                          onChange={handleChangeWorkoutData}
-                                         error={name.length < 5 || name.length > 30 }
+                                         error={name.length < 5 || name.length > 30}
                                          helperText={name.length < 5 ? "Le nom doit contenir au moins 5 lettres" : name.length > 30 && "Le nom ne peut pas contenir plus de 30 lettres"}
                         />
 
-                        <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
+                        <MuiPickersUtilsProvider locale={frLocale}
+                                                 utils={DateFnsUtils}
+
+                        >
                             <KeyboardDatePickerStyled
-                                disableToolbar
-                                variant="inline"
+                                invalidDateMessage
+                                animateYearScrolling={true}
                                 format="dd MMM yyyy"
                                 margin="normal"
                                 id="date"

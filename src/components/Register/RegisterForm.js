@@ -16,7 +16,9 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import 'moment/locale/fr'
 import moment from "moment";
+import frLocale from "date-fns/locale/fr"
 
 const RegisterForm = ({history}) => {
 
@@ -30,6 +32,8 @@ const RegisterForm = ({history}) => {
     const [checkPassword, setCheckPassword] = useState('')
     const [submitted, setSubmitted] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
+
+    moment.locale("fr")
 
     const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -155,10 +159,10 @@ const RegisterForm = ({history}) => {
 
                 </ContainerMultiNumberField>
 
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={frLocale}>
                     <KeyboardDatePickerStyled
-                        disableToolbar
-                        variant="inline"
+                        invalidDateMessage
+                        animateYearScrolling={true}
                         format="d MMM yyyy"
                         margin="normal"
                         id="birthday"

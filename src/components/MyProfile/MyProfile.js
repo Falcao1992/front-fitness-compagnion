@@ -21,6 +21,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 import CircularProgress from "@material-ui/core/CircularProgress"
 import {toast} from "react-toastify"
+import frLocale from "date-fns/locale/fr"
 
 const axios = require('axios');
 
@@ -56,8 +57,7 @@ const MyProfile = ({history}) => {
 
     const handleChange = (e, date) => {
         setDataHasBeenModified(true)
-        console.log(e.target.id)
-        if (e.target === undefined) {
+        if (e === null || e.target === undefined) {
             console.log('date')
             let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setDataUserFormatted({...dataUserFormatted, "birthday": dateFormat})
@@ -167,10 +167,10 @@ const MyProfile = ({history}) => {
                             </BlockInputLabelStyled>
                         </ContainerMultiNumberField>
 
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
                             <KeyboardDatePickerStyled
-                                disableToolbar
-                                variant="inline"
+                                invalidDateMessage="Format de date invalide"
+                                animateYearScrolling={true}
                                 format="d MMM yyyy"
                                 margin="normal"
                                 id="date"
