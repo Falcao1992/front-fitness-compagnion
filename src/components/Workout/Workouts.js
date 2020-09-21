@@ -32,6 +32,27 @@ const Workouts = ({history}) => {
     moment.locale('fr');
 
     useEffect(() => {
+        // With userId Fetch workout's data and return it
+        const fetchDataWorkoutsAssociatedUser = async () => {
+            try {
+                const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
+                return resultDataWorkoutsByUser.data
+            } catch (error) {
+                if (error.message === "Network Error") {
+                    const errorNetwork = new Error('Serveur indisponible')
+                    setErrorMsg(errorNetwork.message)
+                    console.log(errorNetwork.message)
+                } else if (error.response.status === 401) {
+                    // Redirect if status (401) unauthorized ex. token expired
+                    history.push(`/login`)
+                    localStorage.clear()
+                } else {
+                    console.log("error unkown", error.response)
+                    console.error({msg: error})
+                }
+            }
+        }
+
         const GetAllData = async () => {
             try {
                 await fetchDataWorkoutsAssociatedUser()
@@ -45,31 +66,11 @@ const Workouts = ({history}) => {
                 console.log(error)
             }
         }
+
         GetAllData()
-    }, [])
 
+    }, [history])
 
-    // With userId Fetch workout's data and return it
-    const fetchDataWorkoutsAssociatedUser = async () => {
-        try {
-            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
-            return resultDataWorkoutsByUser.data
-        } catch (error) {
-            if (error.message === "Network Error") {
-                const errorNetwork = new Error('Serveur indisponible')
-                setErrorMsg(errorNetwork.message)
-                console.log(errorNetwork.message)
-            } else if (error.response.status === 401) {
-                // Redirect if status (401) unauthorized ex. token expired
-                history.push(`/login`)
-                localStorage.clear()
-            } else {
-                console.log("error unkown", error.response)
-                console.error({msg: error})
-            }
-
-        }
-    }
 
     // Toggle show exercise for display it or not
     const displayExercises = (e, index) => {
