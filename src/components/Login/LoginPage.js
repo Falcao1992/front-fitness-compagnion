@@ -50,62 +50,75 @@ const LoginPage = ({location, history}) => {
     }
 
     return (
-        <>
+        <ContainerHeaderMain>
             <BlockImageHeader>
-                <img src={bgLoginPage} alt="Jeune femme faisant du sport" />
+                <img src={bgLoginPage} alt="Jeune femme faisant du sport"/>
             </BlockImageHeader>
-        <ContainerPage>
+            <ContainerPage>
 
-            <BlockTitle>
-                <h1>Fitness<br/>Companion</h1>
-                <p>Entrer votre pseudo et votre mot de passe pour acceder à votre compte. </p>
-            </BlockTitle>
-            <FormStyled name="form">
-                <TextFieldStyled id="username"
-                                 label="Pseudo"
-                                 variant="filled"
-                                 type="text"
-                                 autoComplete="nickname"
-                                 value={username}
-                                 onChange={(e) => setUsername(e.target.value)}
-                                 error={submitted && !username}
-                                 helperText={submitted && !username ?
-                                     <small>Veuillez rentrer votre pseudo svp !</small> : false}
-                />
-                <TextFieldStyled id="password"
-                                 label="Mot de passe"
-                                 variant="filled"
-                                 type="password"
-                                 autoComplete="current-password"
-                                 value={password}
-                                 onChange={(e) => setPassword(e.target.value)}
-                                 error={submitted && !password}
-                                 helperText={submitted && !password ?
-                                     <small>Veuillez rentrer votre mot de passe !</small> : false}
-                />
-            </FormStyled>
-            {handleErrMsg(errorMsg)}
+                <BlockTitle>
+                    <h1>Fitness<br/>Companion</h1>
+                    <p>Entrer votre pseudo et votre mot de passe pour acceder à votre compte. </p>
+                </BlockTitle>
+                <FormStyled name="form">
+                    <TextFieldStyled id="username"
+                                     label="Pseudo"
+                                     variant="filled"
+                                     type="text"
+                                     autoComplete="nickname"
+                                     value={username}
+                                     onChange={(e) => setUsername(e.target.value)}
+                                     error={submitted && !username}
+                                     helperText={submitted && !username ?
+                                         <small>Veuillez rentrer votre pseudo svp !</small> : false}
+                    />
+                    <TextFieldStyled id="password"
+                                     label="Mot de passe"
+                                     variant="filled"
+                                     type="password"
+                                     autoComplete="current-password"
+                                     value={password}
+                                     onChange={(e) => setPassword(e.target.value)}
+                                     error={submitted && !password}
+                                     helperText={submitted && !password ?
+                                         <small>Veuillez rentrer votre mot de passe !</small> : false}
+                    />
+                </FormStyled>
+                {handleErrMsg(errorMsg)}
 
-            <ButtonStyled type="button"
-                          disabledBtn={!username || !password}
-                          onClick={handleSubmit}
-                          colorBtnPrimary="aliceblue"
-                          colorBtnSecondary="rgba(46, 59, 133, 0.8)"
-            >
-                <span>Me Connecter</span>
-            </ButtonStyled>
+                <ButtonStyled type="button"
+                              disabledBtn={!username || !password}
+                              onClick={handleSubmit}
+                              colorBtnPrimary="aliceblue"
+                              colorBtnSecondary="rgba(46, 59, 133, 0.8)"
+                >
+                    <span>Me Connecter</span>
+                </ButtonStyled>
 
-            <BlockAccountMsg>
-                <p>Vous n'avez pas de compte?</p>
-                <p><Link to="/register">Creer un nouveau Compte</Link></p>
-            </BlockAccountMsg>
+                <BlockAccountMsg>
+                    <p>Vous n'avez pas de compte?</p>
+                    <p><Link to="/register">Creer un nouveau Compte</Link></p>
+                </BlockAccountMsg>
 
 
-        </ContainerPage>
-            </>
+            </ContainerPage>
+        </ContainerHeaderMain>
     )
 }
-
+const ContainerHeaderMain = styled.main`
+    @media screen and (min-width: 750px){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 100vh;
+    }
+    @media screen and (min-width: 1200px){
+        flex-direction: row;
+        width: 80%;
+        
+        margin: auto;
+    }
+`
 const BlockAccountMsg = styled.div`
     margin: 1.4rem 0;
     p:first-child {

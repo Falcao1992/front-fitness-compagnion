@@ -22,8 +22,8 @@ export const FormStyled = styled.form`
     }
     
     @media only screen and (min-width: 750px ) {
-        width: 40%;
-        margin: auto;
+        //width: 40%;
+        //margin: auto;
         
     }
     

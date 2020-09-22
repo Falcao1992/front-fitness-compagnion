@@ -24,7 +24,6 @@ export const ButtonStyled = styled.button`
     
     @media screen and (min-width: 750px) {
         width: auto;
-        margin: 3rem auto 1.5rem;
     }
     
     :hover {

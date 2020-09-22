@@ -1,19 +1,23 @@
 import styled from "styled-components";
 
-export const ContainerPage = styled.main`
+export const ContainerPage = styled.section`
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    padding: 1rem;
+    padding: 0 1.4rem;
+    background-color: ${props => props.theme.colors.secondaryTransparent};;
     
     @media only screen and (min-width: 750px ) {
-        padding: 0 5rem;
+        padding: 1.4rem;
+        height: fit-content;
+        align-self: center;
+        justify-content: center;
+        box-shadow: 0 0 15px 3px ${props => props.theme.colors.secondaryLight};
+        border-radius: 10px;
     }                       
 `
 
 export const BlockImageHeader = styled.div`
     display: flex;
-    justify-content: flex-end;
     padding-bottom: .7rem;
     margin: .35rem;
     border-bottom: 1px solid ${props => props.theme.colors.third};
@@ -23,6 +27,23 @@ export const BlockImageHeader = styled.div`
         object-fit: cover;
         border-radius: 0 5% 5% 100%;
     }
+    
+    @media only screen and (min-width: 750px ) {
+        width: 40%;
+        border-bottom: none;
+        height: fit-content;
+        align-self: center;
+        padding: 0;   
+        margin: 0;
+        
+        img {
+            width: 100%;
+            border-radius: initial;
+            height: initial;
+            object-fit: contain;
+            box-shadow: 0 0 15px 5px ${props => props.theme.colors.dark};
+        }
+    }  
 `
 
 export const BlockTitle = styled.div`
