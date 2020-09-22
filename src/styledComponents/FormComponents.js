@@ -5,8 +5,10 @@ import {KeyboardDatePicker} from '@material-ui/pickers';
 export const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
-    width: 85%;
-    margin: 0 auto .7rem;
+    background-color: ${props => props.theme.colors.secondaryLight};
+    border: 1px solid;
+    border-radius: 8px;
+    margin: 2.1rem 0 1.7rem;
     
     // modif avec sidebar
     height: ${props => props.sidebar && "100%"};
@@ -17,7 +19,6 @@ export const FormStyled = styled.form`
     }
     input {
         color: ${props => props.theme.colors.primary};
-        background-color: ${props => props.theme.colors.dark};
     }
     
     @media only screen and (min-width: 750px ) {
@@ -28,9 +29,10 @@ export const FormStyled = styled.form`
     
 `
 
+
 export const TextFieldStyled = styled(TextField)`
     width: 100%;
-    margin-bottom: .6rem !important;
+    //margin-bottom: .6rem !important;
 `
 
 export const ContainerMultiNumberField = styled.div`

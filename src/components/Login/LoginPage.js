@@ -5,8 +5,9 @@ import {Link} from "react-router-dom";
 
 import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import {BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
-import {BlockButtons, FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
+import {BlockImageHeader, BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
+import styled from "styled-components"
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 
 const LoginPage = ({location, history}) => {
@@ -49,9 +50,15 @@ const LoginPage = ({location, history}) => {
     }
 
     return (
-        <ContainerPage bgPage={bgLoginPage}>
+        <>
+            <BlockImageHeader>
+                <img src={bgLoginPage} alt="Jeune femme faisant du sport" />
+            </BlockImageHeader>
+        <ContainerPage>
+
             <BlockTitle>
-                <h1>Fitness Compagnion</h1>
+                <h1>Fitness<br/>Companion</h1>
+                <p>Entrer votre pseudo et votre mot de passe pour acceder à votre compte. </p>
             </BlockTitle>
             <FormStyled name="form">
                 <TextFieldStyled id="username"
@@ -63,7 +70,7 @@ const LoginPage = ({location, history}) => {
                                  onChange={(e) => setUsername(e.target.value)}
                                  error={submitted && !username}
                                  helperText={submitted && !username ?
-                                     <small>Veuillez rentrer votre pseudo !</small> : false}
+                                     <small>Veuillez rentrer votre pseudo svp !</small> : false}
                 />
                 <TextFieldStyled id="password"
                                  label="Mot de passe"
@@ -76,28 +83,39 @@ const LoginPage = ({location, history}) => {
                                  helperText={submitted && !password ?
                                      <small>Veuillez rentrer votre mot de passe !</small> : false}
                 />
-                <BlockButtons column={true} >
-                    <ButtonStyled type="button"
-                                  disabledBtn={!username || !password}
-                                  onClick={handleSubmit}
-                                  colorBtnPrimary="aliceblue"
-                                  colorBtnSecondary="rgba(46, 59, 133, 0.8)"
-                    >
-                        <span>Me Connecter</span>
-                    </ButtonStyled>
-
-                    <ButtonStyled type="button"
-                                  colorBtnPrimary="aliceblue"
-                                  colorBtnSecondary="rgb(226 21 64 / 82%)"
-                    ><Link to="/register">
-                        Creer un nouveau Compte</Link>
-                    </ButtonStyled>
-                </BlockButtons>
             </FormStyled>
             {handleErrMsg(errorMsg)}
 
+            <ButtonStyled type="button"
+                          disabledBtn={!username || !password}
+                          onClick={handleSubmit}
+                          colorBtnPrimary="aliceblue"
+                          colorBtnSecondary="rgba(46, 59, 133, 0.8)"
+            >
+                <span>Me Connecter</span>
+            </ButtonStyled>
+
+            <BlockAccountMsg>
+                <p>Vous n'avez pas de compte?</p>
+                <p><Link to="/register">Creer un nouveau Compte</Link></p>
+            </BlockAccountMsg>
+
+
         </ContainerPage>
+            </>
     )
 }
+
+const BlockAccountMsg = styled.div`
+    margin: 1.4rem 0;
+    p:first-child {
+        font-size: .8rem;
+        color: ${props => props.theme.colors.primary};
+        margin-bottom: .7rem;
+    }
+    a {
+        color: ${props => props.theme.colors.third};
+    }
+`
 
 export default LoginPage
