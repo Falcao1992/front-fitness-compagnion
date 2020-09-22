@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const ButtonStyled = styled.button`
-    width: 100%;
-    margin: 1rem auto;
+    margin-left: auto;
+    border-radius: 5px;
     padding: 1rem;
     background-color: ${props => props.colorBtnPrimary};
     opacity: ${props => !props.disabledBtn ? "1" : "0.5"};
@@ -24,7 +24,6 @@ export const ButtonStyled = styled.button`
     
     @media screen and (min-width: 750px) {
         width: auto;
-        margin: 3rem auto 1.5rem;
     }
     
     :hover {
