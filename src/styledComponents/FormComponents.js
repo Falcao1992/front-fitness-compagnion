@@ -6,9 +6,9 @@ export const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
     background-color: ${props => props.theme.colors.secondaryLight};
-    border: 1px solid;
     border-radius: 8px;
     margin: 2.1rem 0 1.7rem;
+    box-shadow: 0 0 20px 3px ${props => props.theme.colors.secondaryLight};
     
     // modif avec sidebar
     height: ${props => props.sidebar && "100%"};
@@ -65,7 +65,6 @@ export const LabelInputStyled = styled.label`
     width: 100%;
     padding: .5rem .5rem .1rem;
     font-family: "Roboto", sans-serif;
-    background-color: ${props => props.theme.colors.dark};
     opacity: ${props => props.disabled && "0.8"};
     
 `
@@ -76,7 +75,6 @@ export const InputStyled = styled.input`
     text-align: center;
     border: none;
     padding: .5rem 0;
-    color: rgba(0, 0, 0, 0.54);
     
     :focus {
         outline-color: ${props => props.theme.colors.third};
@@ -88,8 +86,7 @@ export const BlockRadio = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: ${props => props.theme.colors.dark};
-    margin-bottom: .6rem;
+    background-color: ${props => props.theme.colors.secondary};
     padding: .5rem;
     
     > div {
@@ -119,9 +116,8 @@ export const BlockButtons = styled.div`
 
 export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
     width: 100%;
-    background-color: ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.secondary};
     padding: .7rem !important;
-    margin: 0 0 .6rem !important;
     label {
        padding: .7rem 1rem;
     }

@@ -1,10 +1,24 @@
 import styled from "styled-components";
 
+export const ContainerHeaderMain = styled.main`
+    @media screen and (min-width: 750px){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 100vh;
+    }
+    @media screen and (min-width: 1200px){
+        flex-direction: row;
+        width: 80%;
+        margin: auto;
+    }
+`
+
 export const ContainerPage = styled.section`
     display: flex;
     flex-direction: column;
-    padding: 0 1.4rem;
-    background-color: ${props => props.theme.colors.secondaryTransparent};;
+    padding: 0 1.4rem 1.4rem;
+    background-color: ${props => props.theme.colors.secondaryTransparent};
     
     @media only screen and (min-width: 750px ) {
         padding: 1.4rem;
@@ -67,7 +81,7 @@ export const BlockTitle = styled.div`
 
 export const ErrorMsgStyled = styled.span`
     width: 85%;
-    margin: 0 auto;
+    margin: 0 auto 1.4rem;
     background-color: rgb(240 248 255 / 100%);
     color: ${props => props.theme.colors.error};
     text-align: center;

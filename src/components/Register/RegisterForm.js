@@ -38,7 +38,6 @@ const RegisterForm = ({history}) => {
     const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         e.stopPropagation()
@@ -55,13 +54,13 @@ const RegisterForm = ({history}) => {
             return
         }
 
-        if(username.length <= 4 || username.length >= 13 ){
+        if (username.length <= 4 || username.length >= 13) {
             setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
             return
-        } else if(weight < 30 || weight > 150 ) {
+        } else if (weight < 30 || weight > 150) {
             setErrorMsg("Votre poids doit etre entre 30 et 150kg")
             return
-        } else if(size <= 100 || size >= 210 ) {
+        } else if (size <= 100 || size >= 210) {
             setErrorMsg("Votre taille doit etre entre 100 et 210cm")
             return
         } else if (!EMAIL_REGEX.test(email)) {
@@ -134,7 +133,7 @@ const RegisterForm = ({history}) => {
 
                 <ContainerMultiNumberField>
                     <BlockInputLabelStyled>
-                        <LabelInputStyled htmlFor="size">Taille (cm): </LabelInputStyled>
+                        <LabelInputStyled htmlFor="size">Taille (cm) </LabelInputStyled>
                         <InputStyled
                             value={size}
                             onChange={(e) => setSize(e.target.value)}
@@ -146,7 +145,7 @@ const RegisterForm = ({history}) => {
                     </BlockInputLabelStyled>
 
                     <BlockInputLabelStyled>
-                        <LabelInputStyled htmlFor="weight">Poids (kg): </LabelInputStyled>
+                        <LabelInputStyled htmlFor="weight">Poids (kg) </LabelInputStyled>
                         <InputStyled
                             value={weight}
                             onChange={(e) => setWeight(e.target.value)}
@@ -164,7 +163,6 @@ const RegisterForm = ({history}) => {
                         invalidDateMessage
                         animateYearScrolling={true}
                         format="d MMM yyyy"
-                        margin="normal"
                         id="birthday"
                         label="Anniversaire"
                         value={birthday}
@@ -184,19 +182,17 @@ const RegisterForm = ({history}) => {
                                                              height="40px"/>}/>
                     </RadioGroup>
                 </BlockRadio>
-                {handleErrMsg(errorMsg)}
-                <BlockButtons>
-                    <ButtonStyled
-                        type="button"
-                        onClick={handleSubmit}
-                        colorBtnPrimary="aliceblue"
-                        colorBtnSecondary="rgba(46, 59, 133, 0.816)"
-                    >
-                        Creer un nouveau Compte
-                    </ButtonStyled>
-                </BlockButtons>
-            </FormStyled>
 
+            </FormStyled>
+            {handleErrMsg(errorMsg)}
+            <ButtonStyled
+                type="button"
+                onClick={handleSubmit}
+                colorBtnPrimary="aliceblue"
+                colorBtnSecondary="rgba(46, 59, 133, 0.816)"
+            >
+                Creer mon Compte
+            </ButtonStyled>
         </>
     )
 }

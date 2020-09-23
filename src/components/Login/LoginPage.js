@@ -5,7 +5,12 @@ import {Link} from "react-router-dom";
 
 import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import {BlockImageHeader, BlockTitle, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {
+    BlockImageHeader,
+    BlockTitle,
+    ContainerHeaderMain,
+    ContainerPage
+} from "../../styledComponents/UniformPageComponents";
 import {FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
 import styled from "styled-components"
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
@@ -105,20 +110,7 @@ const LoginPage = ({location, history}) => {
         </ContainerHeaderMain>
     )
 }
-const ContainerHeaderMain = styled.main`
-    @media screen and (min-width: 750px){
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        height: 100vh;
-    }
-    @media screen and (min-width: 1200px){
-        flex-direction: row;
-        width: 80%;
-        
-        margin: auto;
-    }
-`
+
 const BlockAccountMsg = styled.div`
     margin: 1.4rem 0;
     p:first-child {
