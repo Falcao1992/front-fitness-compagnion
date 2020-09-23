@@ -4,22 +4,22 @@ export const ButtonStyled = styled.button`
     margin-left: auto;
     border-radius: 5px;
     padding: 1rem;
-    background-color: ${props => props.colorBtnPrimary};
+    background-color: ${props => props.theme.colors.secondaryLight};
     opacity: ${props => !props.disabledBtn ? "1" : "0.5"};
-    color: ${props => props.colorBtnSecondary};
-    border: 1px solid ${props => props.colorBtnSecondary};
+    color: ${props => props.theme.colors.primary};
+    border: 1px solid ${props => props.theme.colors.primary};
     position: relative;
     transition: .8s ;
     overflow: hidden;
     cursor: pointer;
     
     a {
-        color: ${props => props.colorBtnSecondary};
+        color: ${props => props.theme.colors.primary};
         padding: inherit;
     }
     
     :focus {
-        outline-color: ${props => props.colorBtnSecondary};
+        outline-color: ${props => props.theme.colors.secondary};
     }
     
     @media screen and (min-width: 750px) {
@@ -28,12 +28,11 @@ export const ButtonStyled = styled.button`
     
     :hover {
         background-color: transparent;
-        border: 1px solid ${props => props.colorBtnPrimary};
-        color: ${props => props.colorBtnPrimary};
+        border: 1px solid ${props => props.theme.colors.third};
+        color: ${props => props.theme.colors.third};
         z-index: 1;
         a,span {
-            color: ${props => props.colorBtnPrimary};
-            //font-weight: 700;
+            color: ${props => props.theme.colors.third};
         }
     }
     
@@ -44,12 +43,14 @@ export const ButtonStyled = styled.button`
         left: 0;
         width: 100%;
         height: 0;
-        background: ${props => props.colorBtnSecondary};
+        background: ${props => props.theme.colors.secondary};
         border-radius: 0 0 50% 50%;
+        opacity: .7;
         transition: .8s;
     }
     :hover:before {
         height: 180%;
+        //opacity: 1;
         z-index: -1;
     }     
 `;

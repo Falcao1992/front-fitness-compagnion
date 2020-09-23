@@ -94,8 +94,6 @@ const LoginPage = ({location, history}) => {
                 <ButtonStyled type="button"
                               disabledBtn={!username || !password}
                               onClick={handleSubmit}
-                              colorBtnPrimary="aliceblue"
-                              colorBtnSecondary="rgba(46, 59, 133, 0.8)"
                 >
                     <span>Me Connecter</span>
                 </ButtonStyled>

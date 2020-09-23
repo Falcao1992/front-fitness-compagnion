@@ -88,6 +88,7 @@ const BlockBurgerMenu = styled.div`
         position: fixed;
         transition: all .5s linear;
         cursor: pointer;
+        background-color: ${props => props.theme.colors.secondary};
         
     }
     

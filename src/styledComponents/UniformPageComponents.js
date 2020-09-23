@@ -73,6 +73,10 @@ export const BlockTitle = styled.div`
         font-weight: 300;
         color: ${props => props.theme.colors.primary};
     }
+    small {
+        font-size: 1.2rem;
+        color: ${props => props.theme.colors.primary};
+    }
     
     @media screen and (min-width: 750px) {
         //border: 3px solid ${props => props.theme.colors.dark};

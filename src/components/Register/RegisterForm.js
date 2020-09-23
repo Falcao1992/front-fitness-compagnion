@@ -191,7 +191,7 @@ const RegisterForm = ({history}) => {
                 colorBtnPrimary="aliceblue"
                 colorBtnSecondary="rgba(46, 59, 133, 0.816)"
             >
-                Creer mon Compte
+                <span>Creer mon Compte</span>
             </ButtonStyled>
         </>
     )

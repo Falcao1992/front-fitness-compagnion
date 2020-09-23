@@ -29,6 +29,7 @@ export const login = (username, password) => {
         .then(user => {
             // login successful if there's a user in the response
             if (user) {
+                localStorage.setItem('username', JSON.stringify(user.username));
                 localStorage.setItem('userId', JSON.stringify(user.userId));
                 localStorage.setItem('token', JSON.stringify(user.token));
             }

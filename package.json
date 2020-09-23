@@ -49,6 +49,8 @@
     "@iconify/icons-bx": "^1.0.3",
     "@iconify/icons-carbon": "^1.0.4",
     "@iconify/icons-clarity": "^1.0.0",
+    "@iconify/icons-ion": "^1.0.13",
+    "@iconify/icons-la": "^1.0.0",
     "@iconify/icons-noto": "^1.0.11",
     "@iconify/icons-typcn": "^1.0.5",
     "@iconify/react": "^1.1.3"
