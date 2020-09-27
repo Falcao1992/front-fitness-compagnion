@@ -42,8 +42,7 @@ export const login = (username, password) => {
 export const logout = (history) => {
     // remove user from local storage to log user out
     history.push("/login")
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
+    localStorage.clear()
 }
 
 export const handleResponse = (response) => {

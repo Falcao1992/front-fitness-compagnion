@@ -9,7 +9,7 @@ import {
     BlockImageHeader,
     BlockTitle,
     ContainerHeaderMain,
-    ContainerPage
+    ContainerPage, ContainerPrincipal
 } from "../../styledComponents/UniformPageComponents";
 import {FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
 import styled from "styled-components"
@@ -56,52 +56,55 @@ const LoginPage = ({location, history}) => {
 
     return (
         <ContainerHeaderMain>
-            <BlockImageHeader>
-                <img src={bgLoginPage} alt="Jeune femme faisant du sport"/>
-            </BlockImageHeader>
+
             <ContainerPage>
+                <BlockImageHeader>
+                    <img src={bgLoginPage} alt="Jeune femme faisant du sport"/>
+                </BlockImageHeader>
+                <ContainerPrincipal>
+                    <BlockTitle>
+                        <h1>Fitness<br/>Companion</h1>
+                        <p>Entrer votre pseudo et votre mot de passe pour acceder à votre compte. </p>
+                    </BlockTitle>
+                    <FormStyled name="form">
+                        <TextFieldStyled id="username"
+                                         label="Pseudo"
+                                         variant="filled"
+                                         type="text"
+                                         autoComplete="nickname"
+                                         value={username}
+                                         onChange={(e) => setUsername(e.target.value)}
+                                         error={submitted && !username}
+                                         helperText={submitted && !username ?
+                                             <small>Veuillez rentrer votre pseudo svp !</small> : false}
+                        />
+                        <TextFieldStyled id="password"
+                                         label="Mot de passe"
+                                         variant="filled"
+                                         type="password"
+                                         autoComplete="current-password"
+                                         value={password}
+                                         onChange={(e) => setPassword(e.target.value)}
+                                         error={submitted && !password}
+                                         helperText={submitted && !password ?
+                                             <small>Veuillez rentrer votre mot de passe !</small> : false}
+                        />
+                    </FormStyled>
+                    {handleErrMsg(errorMsg)}
 
-                <BlockTitle>
-                    <h1>Fitness<br/>Companion</h1>
-                    <p>Entrer votre pseudo et votre mot de passe pour acceder à votre compte. </p>
-                </BlockTitle>
-                <FormStyled name="form">
-                    <TextFieldStyled id="username"
-                                     label="Pseudo"
-                                     variant="filled"
-                                     type="text"
-                                     autoComplete="nickname"
-                                     value={username}
-                                     onChange={(e) => setUsername(e.target.value)}
-                                     error={submitted && !username}
-                                     helperText={submitted && !username ?
-                                         <small>Veuillez rentrer votre pseudo svp !</small> : false}
-                    />
-                    <TextFieldStyled id="password"
-                                     label="Mot de passe"
-                                     variant="filled"
-                                     type="password"
-                                     autoComplete="current-password"
-                                     value={password}
-                                     onChange={(e) => setPassword(e.target.value)}
-                                     error={submitted && !password}
-                                     helperText={submitted && !password ?
-                                         <small>Veuillez rentrer votre mot de passe !</small> : false}
-                    />
-                </FormStyled>
-                {handleErrMsg(errorMsg)}
+                    <ButtonStyled type="button"
+                                  disabledBtn={!username || !password}
+                                  onClick={handleSubmit}
+                    >
+                        <span>Me Connecter</span>
+                    </ButtonStyled>
 
-                <ButtonStyled type="button"
-                              disabledBtn={!username || !password}
-                              onClick={handleSubmit}
-                >
-                    <span>Me Connecter</span>
-                </ButtonStyled>
+                    <BlockAccountMsg>
+                        <p>Vous n'avez pas de compte?</p>
+                        <p><Link to="/register">Creer un nouveau Compte</Link></p>
+                    </BlockAccountMsg>
+                </ContainerPrincipal>
 
-                <BlockAccountMsg>
-                    <p>Vous n'avez pas de compte?</p>
-                    <p><Link to="/register">Creer un nouveau Compte</Link></p>
-                </BlockAccountMsg>
 
 
             </ContainerPage>

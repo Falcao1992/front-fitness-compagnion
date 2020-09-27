@@ -7,7 +7,6 @@ import {InlineIcon} from "@iconify/react";
 import manRunningMediumSkinTone from "@iconify/icons-noto/man-running-medium-skin-tone";
 import womanRunningLightSkinTone from "@iconify/icons-noto/woman-running-light-skin-tone";
 import {
-    BlockButtons,
     BlockInputLabelStyled, BlockRadio,
     ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,

@@ -63,6 +63,7 @@ const Workouts = ({history}) => {
                     })
                 setIsLoading(false)
             } catch (error) {
+
                 console.log(error)
             }
         }

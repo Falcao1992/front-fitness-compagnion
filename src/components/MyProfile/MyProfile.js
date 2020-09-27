@@ -36,6 +36,20 @@ const MyProfile = ({history}) => {
     const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/user?Access_token=${localStorage.getItem("token")}`);
+                console.log('resultdata', result.data)
+                return result.data
+            } catch (error) {
+                if (error.response.status === 401) {
+                    // Redirect if status (401) unauthorized ex. token expired
+                    history.push(`/login`)
+                    localStorage.clear()
+                }
+                console.log(error)
+            }
+        }
         fetchUserData()
             .then((userData) => {
                 setDataUserFormatted(userData)
@@ -43,22 +57,9 @@ const MyProfile = ({history}) => {
             .then(() => {
                 setIsLoading(false)
             })
-    }, [])
+    }, [history])
 
-    const fetchUserData = async () => {
-        try {
-            const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/user?Access_token=${localStorage.getItem("token")}`);
-            console.log('resultdata', result.data)
-            return result.data
-        } catch (error) {
-            if (error.response.status === 401) {
-                // Redirect if status (401) unauthorized ex. token expired
-                history.push(`/login`)
-                localStorage.clear()
-            }
-            console.log(error)
-        }
-    }
+
 
     const handleChange = (e, date) => {
         setDataHasBeenModified(true)

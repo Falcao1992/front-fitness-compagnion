@@ -10,7 +10,6 @@ import theme from "../src/assets/theme";
 import {ThemeProvider} from "styled-components";
 import Workouts from "./components/Workout/Workouts";
 import EditWorkout from "./components/Workout/EditWorkout";
-import Stats from "./components/Stats/Stats";
 import NotFoundPage from "./components/NotFoundPage"
 
 
@@ -26,7 +25,6 @@ const App = () => {
                     <PrivateRoute path="/workouts" component={Workouts}/>
                     <PrivateRoute path="/workout/:workoutId" component={EditWorkout}/>
                     <PrivateRoute path="/workout" component={EditWorkout}/>
-                    <PrivateRoute path="/stats" component={Stats}/>
                     <Route path="*" component={NotFoundPage}/>
                 </Switch>
             </Router>

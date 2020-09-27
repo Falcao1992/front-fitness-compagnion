@@ -1,33 +1,45 @@
 import styled from "styled-components";
 
 export const ContainerHeaderMain = styled.main`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
     @media screen and (min-width: 750px){
-        display: flex;
-        flex-direction: column;
         justify-content: space-evenly;
-        height: 100vh;
+        height: ${props => !props.activeHeightAuto && '100vh'};
     }
     @media screen and (min-width: 1200px){
         flex-direction: row;
-        width: 80%;
         margin: auto;
     }
 `
 
 export const ContainerPage = styled.section`
+    width: 100%;
     display: flex;
+    justify-content: center;
     flex-direction: column;
+    
+    @media only screen and (min-width: 750px ) {
+        width: 80%;
+        flex-direction: row;
+        padding: 1.4rem;
+        align-self: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        height: 100vh;
+        align-items: center;
+    }                       
+`
+export const ContainerPrincipal = styled.div`
     padding: 0 1.4rem 1.4rem;
     background-color: ${props => props.theme.colors.secondaryTransparent};
     
     @media only screen and (min-width: 750px ) {
-        padding: 1.4rem;
-        height: fit-content;
-        align-self: center;
-        justify-content: center;
         box-shadow: 0 0 15px 3px ${props => props.theme.colors.secondaryLight};
         border-radius: 10px;
-    }                       
+    }                    
 `
 
 export const BlockImageHeader = styled.div`
@@ -43,7 +55,7 @@ export const BlockImageHeader = styled.div`
     }
     
     @media only screen and (min-width: 750px ) {
-        width: 40%;
+        width: 50%;
         border-bottom: none;
         height: fit-content;
         align-self: center;
