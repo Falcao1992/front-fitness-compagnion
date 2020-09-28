@@ -139,8 +139,8 @@ const Workouts = ({history}) => {
 
     const redirectArrowUp = () => {
         window.scrollTo({
-            top:0,
-            left:0,
+            top: 0,
+            left: 0,
             behavior: "smooth"
         })
     };
@@ -170,7 +170,8 @@ const Workouts = ({history}) => {
                             <ButtonStyled style={{marginLeft: 0}}>
                                 <Link to={{pathname: `/workout`,}}>Creer une nouvelle séance</Link>
                             </ButtonStyled>
-                            <ButtonStyled onClick={() => setCloseAllCard(true)} disabledBtn={handleDisabledBtnCloseCard()} style={{marginLeft: 0}}>
+                            <ButtonStyled onClick={() => setCloseAllCard(true)}
+                                          disabledBtn={handleDisabledBtnCloseCard()} style={{marginLeft: 0}}>
                                 Replier les Séances
                             </ButtonStyled>
                         </BlockButtons>
@@ -208,6 +209,8 @@ const Workouts = ({history}) => {
 
                                         <ContainerExercises showExercises={showExercises[index]}
                                                             numberExercises={DetailsExercises.length}>
+                                            {/*<ScrollBar numberExercises={DetailsExercises.length}></ScrollBar>
+                                            <ScrollBarClick numberExercises={DetailsExercises.length}></ScrollBarClick>*/}
                                             {DetailsExercises.map((ex, index) => {
                                                 return (
                                                     <BlockExercise key={ex.id}>
@@ -238,7 +241,7 @@ const Workouts = ({history}) => {
 
             </ContainerHeaderMain>
             <BlockArrowUp onClick={redirectArrowUp}>
-                <Icon icon={arrowUpCircle} width="50px" height="50px" />
+                <Icon icon={arrowUpCircle} width="50px" height="50px"/>
             </BlockArrowUp>
             <Footer/>
         </>
@@ -299,11 +302,30 @@ const WorkoutCardHeader = styled.div`
 `
 
 const ContainerExercises = styled.div`
-    overflow: scroll;
+    overflow: ${props => props.numberExercises <= 1 ? "hidden" : "scroll"};;
     overflow-x: hidden;
-    //max-height: ${props => !props.showExercises ? "0" : `${props.numberExercises * 200}px`};  
     max-height: ${props => !props.showExercises ? "0" : `170px`};  
     transition: all .6s linear;
+    position: relative;
+     @media only screen and (min-width: 750px) {
+        ::-webkit-scrollbar {
+          width: .7rem;
+        }
+        ::-webkit-scrollbar-track {
+        background: ${props => props.theme.colors.lightDark};
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to top, #031183, #1546a7, #0ba2d0)
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: ${props => props.theme.colors.third};
+        }
+    }
+    }
 `
 
 const BlockExercise = styled.div`
