@@ -20,19 +20,11 @@ export const FormStyled = styled.form`
     input {
         color: ${props => props.theme.colors.primary};
     }
-    
-    @media only screen and (min-width: 750px ) {
-        //width: 40%;
-        //margin: auto;
-        
-    }
-    
-`
 
+`
 
 export const TextFieldStyled = styled(TextField)`
     width: 100%;
-    //margin-bottom: .6rem !important;
 `
 
 export const ContainerMultiNumberField = styled.div`
@@ -102,13 +94,16 @@ export const BlockRadio = styled.div`
 export const BlockButtons = styled.div`
     display: flex;
     flex-direction: ${props => props.column && "column"};
-    justify-content: space-between;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     
-     @media only screen and (min-width: 750px ) {
+     @media only screen and (min-width: 1200px ) {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        button {
+            width: 48%;
+        }
     }
     
     

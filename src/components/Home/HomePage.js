@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
 import SideBar from "../SideBar/SideBar";
 import {
+    BlockArrowUp,
     BlockImageHeader,
     BlockTitle,
     ContainerHeaderMain,
@@ -16,6 +17,7 @@ import addAlt from "@iconify/icons-carbon/add-alt"
 import statsChart from '@iconify/icons-ion/stats-chart';
 import userEditSolid from '@iconify/icons-la/user-edit-solid';
 import Stats from "../Stats/Stats"
+import arrowUpCircle from "@iconify/icons-bi/arrow-up-circle"
 
 
 const HomePage = ({history}) => {
@@ -25,8 +27,16 @@ const HomePage = ({history}) => {
         setTimeout(() => {
             statsRef.current.scrollIntoView({ behavior: 'smooth' })
             console.log('function scroll')
-        }, 1000)
+        }, 300)
     }
+
+    const redirectArrowUp = () => {
+        window.scrollTo({
+            top:0,
+            left:0,
+            behavior: "smooth"
+        })
+    };
 
     return (
         <>
@@ -75,6 +85,9 @@ const HomePage = ({history}) => {
                 </ContainerPage>
                 <Stats history={history} ref={statsRef} onBackClick={handleBackClick}/>
             </ContainerHeaderMain>
+            <BlockArrowUp onClick={redirectArrowUp}>
+                <Icon icon={arrowUpCircle} width="50px" height="50px" />
+            </BlockArrowUp>
             <Footer/>
         </>
     )

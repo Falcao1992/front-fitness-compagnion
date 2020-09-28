@@ -28,18 +28,23 @@ export const ContainerPage = styled.section`
         align-self: center;
         justify-content: space-between;
         border-radius: 10px;
-        height: 100vh;
+        min-height: 100vh;
         align-items: center;
     }                       
 `
 export const ContainerPrincipal = styled.div`
+    display: flex;
+    flex-direction: column;
     padding: 0 1.4rem 1.4rem;
     background-color: ${props => props.theme.colors.secondaryTransparent};
     
     @media only screen and (min-width: 750px ) {
         box-shadow: 0 0 15px 3px ${props => props.theme.colors.secondaryLight};
         border-radius: 10px;
-    }                    
+    } 
+    @media only screen and (min-width: 1200px ) {
+        max-width: 60%;
+    }                 
 `
 
 export const BlockImageHeader = styled.div`
@@ -69,6 +74,9 @@ export const BlockImageHeader = styled.div`
             object-fit: contain;
             box-shadow: 0 0 15px 5px ${props => props.theme.colors.dark};
         }
+    }  
+     @media only screen and (min-width: 1200px ) {
+        width: 35%;
     }  
 `
 
@@ -111,3 +119,16 @@ export const ContainerLoading = styled.div`
     justify-content: center;
     align-items: center;
 `
+export const BlockArrowUp = styled.div`
+    display: flex;
+    position: fixed;
+    z-index: 2000;
+    color: ${props => props.theme.colors.third};
+    cursor: pointer;
+    bottom: 4.5rem;
+    left: 3%;
+    opacity: .8;
+    @media screen and (min-width: 750px) {
+        left: 5%;
+    }
+`;
