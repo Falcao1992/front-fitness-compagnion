@@ -7,10 +7,12 @@ export const ContainerHeaderMain = styled.main`
     position: relative;
     @media screen and (min-width: 750px){
         justify-content: space-evenly;
+        flex-direction: ${props => props.activeHeightAuto && 'column'};
+        padding: ${props => props.activeHeightAuto && '2rem 0'};
         height: ${props => !props.activeHeightAuto && '100vh'};
     }
     @media screen and (min-width: 1200px){
-        flex-direction: row;
+        flex-direction: ${props => !props.activeHeightAuto && 'row'};
         margin: auto;
     }
 `
@@ -22,7 +24,7 @@ export const ContainerPage = styled.section`
     flex-direction: column;
     
     @media only screen and (min-width: 750px ) {
-        width: 80%;
+        width: 95%;
         flex-direction: row;
         padding: 1.4rem;
         align-self: center;
@@ -30,6 +32,9 @@ export const ContainerPage = styled.section`
         border-radius: 10px;
         min-height: 100vh;
         align-items: center;
+    } 
+    @media only screen and (min-width: 1200px ) {
+        width: 75%;
     }                       
 `
 export const ContainerPrincipal = styled.div`
@@ -39,11 +44,15 @@ export const ContainerPrincipal = styled.div`
     background-color: ${props => props.theme.colors.secondaryTransparent};
     
     @media only screen and (min-width: 750px ) {
-        box-shadow: 0 0 15px 3px ${props => props.theme.colors.secondaryLight};
+        width: ${props => props.bgParallaxe && !props.widthMid ? "100%" : "55%"};
+        box-shadow: 0 0 5px 3px ${props => props.theme.colors.secondaryLight};
         border-radius: 10px;
+        background-size: ${props => props.bgParallaxe && "cover" };
+        background-attachment: ${props => props.bgParallaxe && "fixed" };;
+        background-image: ${props => props.bgParallaxe && `linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(5,5,32,0.85) 20%, rgba(58,148,230,0.20) 100%), url(${props.bgPage})` };
     } 
     @media only screen and (min-width: 1200px ) {
-        max-width: 60%;
+        //max-width: 60%;
     }                 
 `
 
@@ -60,6 +69,7 @@ export const BlockImageHeader = styled.div`
     }
     
     @media only screen and (min-width: 750px ) {
+        display: ${props => props.disabledMobile && "none"};
         width: 50%;
         border-bottom: none;
         height: fit-content;
@@ -82,8 +92,9 @@ export const BlockImageHeader = styled.div`
 
 export const BlockTitle = styled.div`
     font-family: ${props => props.theme.fonts.primary};
-    h1 {
+    h1,h2 {
         font-size: 2rem;
+        margin: 0.67em 0;
         font-weight: 300;
         color: ${props => props.theme.colors.third};
     }

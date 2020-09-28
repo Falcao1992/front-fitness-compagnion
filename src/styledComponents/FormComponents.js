@@ -6,9 +6,10 @@ export const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
     background-color: ${props => props.theme.colors.secondaryLight};
+    
     border-radius: 8px;
     margin: 2.1rem 0 1.7rem;
-    box-shadow: 0 0 20px 3px ${props => props.theme.colors.secondaryLight};
+    box-shadow: 0 0 5px 3px ${props => props.theme.colors.secondaryLight};
     
     // modif avec sidebar
     height: ${props => props.sidebar && "100%"};
@@ -19,6 +20,16 @@ export const FormStyled = styled.form`
     }
     input {
         color: ${props => props.theme.colors.primary};
+    }
+    
+    @media only screen and (min-width: 750px ) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        background-color: ${props => props.disabledBg && "transparent"};
+        box-shadow: ${props => props.disabledBg && "none"};
+        
     }
 
 `
@@ -97,7 +108,7 @@ export const BlockButtons = styled.div`
     width: 100%;
     margin: 0 auto;
     
-     @media only screen and (min-width: 1200px ) {
+     @media only screen and (min-width: 750px ) {
         display: flex;
         flex-direction: row;
         justify-content: space-between;

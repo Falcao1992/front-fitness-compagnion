@@ -3,14 +3,18 @@ import {useParams} from "react-router-dom"
 import EditExercises from "../Exercises/EditExercises";
 import SideBar from "../SideBar/SideBar";
 import DateFnsUtils from '@date-io/date-fns';
-import styled from "styled-components";
 import {
-    BlockButtons,
     BlockInputLabelStyled, ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
-import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {
+    BlockImageHeader,
+    BlockTitle, ContainerHeaderMain,
+    ContainerLoading,
+    ContainerPage,
+    ContainerPrincipal
+} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import moment from "moment";
 import 'moment/locale/fr'
@@ -18,13 +22,16 @@ import frLocale from "date-fns/locale/fr";
 import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {toast} from "react-toastify"
+import Footer from "../Footer/Footer"
+import bgEditWorkoutPage from "../../assets/images/bgEditWorkoutPage.jpg"
+import bgEditExercises from "../../assets/images/bgEditExercises.jpg"
 
 toast.configure();
 
 const axios = require('axios');
 
 
-const EditWorkout = ({location, history}) => {
+const EditWorkout = ({history}) => {
 
     const [workoutUpdate, setWorkoutUpdate] = useState(null)
     const [exercisesUpdate, setExercisesUpdate] = useState(null)
@@ -39,7 +46,6 @@ const EditWorkout = ({location, history}) => {
 
     useEffect(() => {
         // Fetch One Workout with userId and workoutId
-        console.log(moment().format('yyyy-MM-DD'), "momentnow")
         const fetchDataWorkout = async () => {
             try {
                 if (workoutId) {
@@ -55,7 +61,7 @@ const EditWorkout = ({location, history}) => {
                     }
                 }
             } catch (error) {
-                console.log("error unkown")
+                console.error(error)
             }
         }
 
@@ -89,7 +95,7 @@ const EditWorkout = ({location, history}) => {
             const resultDefaultExercises = await axios.get(`${process.env.REACT_APP_BASE_URL}/defaultExercises`)
             return resultDefaultExercises.data
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -124,13 +130,22 @@ const EditWorkout = ({location, history}) => {
                 pauseOnHover: true,
                 draggable: false
             });
-            history.push(`/workouts`)
+            const location = {
+                pathname: '/workouts',
+                state: {fromEditWorkout: true}
+            }
+            history.replace(location)
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth"
+            })
         } else {
             console.error("error unkown")
         }
     }
 
-    if (isLoading || defaultExercises === null) {
+    if (isLoading || defaultExercises === null || workoutUpdate === null) {
         return (
             <ContainerLoading>
                 <CircularProgress size="5rem"/>
@@ -142,121 +157,92 @@ const EditWorkout = ({location, history}) => {
 
     return (
         <>
-            {console.log('render editworkout')}
-            <SideBar history={history} sidebar={true}/>
-            <ContainerPage>
-                <BlockTitle>
-                    <h1>Ma séance</h1>
-                </BlockTitle>
-
-                <ContainerMultipleForm>
-
-                    <FormStyled>
-                        <BlockTitleEditSeance>
+            <ContainerHeaderMain activeHeightAuto={true}>
+                <SideBar history={history} sidebar={true}/>
+                <ContainerPage>
+                    <BlockImageHeader>
+                        <img src={bgEditWorkoutPage} alt="Homme faisant du sport"/>
+                    </BlockImageHeader>
+                    <ContainerPrincipal bgParallaxe={true} bgPage={bgEditExercises} widthMid={true}>
+                        <BlockTitle>
                             {id !== undefined ? <h2>Modifier la séance</h2> : <h2>Creer une séance</h2>}
-                        </BlockTitleEditSeance>
-                        <TextFieldStyled id="name"
-                                         label="Nom de la séance *"
-                                         variant="filled"
-                                         type="text"
-                                         value={name}
-                                         onChange={handleChangeWorkoutData}
-                                         error={name.length < 5 || name.length > 30}
-                                         helperText={name.length < 5 ? "Le nom doit contenir au moins 5 lettres" : name.length > 30 && "Le nom ne peut pas contenir plus de 30 lettres"}
-                        />
-
-                        <MuiPickersUtilsProvider locale={frLocale}
-                                                 utils={DateFnsUtils}
-
-                        >
-                            <KeyboardDatePickerStyled
-                                invalidDateMessage
-                                animateYearScrolling={true}
-                                format="dd MMM yyyy"
-                                margin="normal"
-                                id="date"
-                                label="Date"
-                                value={date}
-                                onChange={handleChangeWorkoutData}
+                        </BlockTitle>
+                        <FormStyled>
+                            <TextFieldStyled id="name"
+                                             label="Nom de la séance *"
+                                             variant="filled"
+                                             type="text"
+                                             value={name}
+                                             onChange={handleChangeWorkoutData}
+                                             error={name.length < 5 || name.length > 30}
+                                             helperText={name.length < 5 ? "Le nom doit contenir au moins 5 lettres" : name.length > 30 && "Le nom ne peut pas contenir plus de 30 lettres"}
                             />
-                        </MuiPickersUtilsProvider>
-                        <ContainerMultiNumberField>
-                            <BlockInputLabelStyled>
-                                <LabelInputStyled disabled htmlFor="duration">Durée (mn): </LabelInputStyled>
-                                <InputStyled
-                                    value={duration}
-                                    onChange={handleChangeWorkoutData}
-                                    id="duration"
-                                    type="number"
-                                    disabled
-                                />
-                            </BlockInputLabelStyled>
-                            <BlockInputLabelStyled>
-                                <LabelInputStyled htmlFor="hour">Heure: </LabelInputStyled>
-                                <InputStyled
-                                    value={hour}
-                                    onChange={handleChangeWorkoutData}
-                                    id="hour"
-                                    type="time"
-                                />
-                            </BlockInputLabelStyled>
-                        </ContainerMultiNumberField>
 
-                        <BlockButtons>
-                            <ButtonStyled
-                                type="button"
-                                onClick={(e) => editWorkout(e, id)}
-                                colorBtnPrimary="rgba(11,11,11,0.85)"
-                                colorBtnSecondary="#C89446"
-                                disabledBtn={name.length < 5 || name.length > 30}
-                                disabled={name.length < 5 || name.length > 30}
+
+                            <ContainerMultiNumberField>
+                                <BlockInputLabelStyled>
+                                    <LabelInputStyled disabled htmlFor="duration">Durée (mn): </LabelInputStyled>
+                                    <InputStyled
+                                        value={duration}
+                                        onChange={handleChangeWorkoutData}
+                                        id="duration"
+                                        type="number"
+                                        disabled
+                                    />
+                                </BlockInputLabelStyled>
+                                <BlockInputLabelStyled>
+                                    <LabelInputStyled htmlFor="hour">Heure: </LabelInputStyled>
+                                    <InputStyled
+                                        value={hour}
+                                        onChange={handleChangeWorkoutData}
+                                        id="hour"
+                                        type="time"
+                                    />
+                                </BlockInputLabelStyled>
+                            </ContainerMultiNumberField>
+
+                            <MuiPickersUtilsProvider locale={frLocale}
+                                                     utils={DateFnsUtils}
                             >
-                                {id !== undefined ? "Valider Changement" : "Creer ma séance"}
-                            </ButtonStyled>
+                                <KeyboardDatePickerStyled
+                                    invalidDateMessage
+                                    animateYearScrolling={true}
+                                    format="dd MMM yyyy"
+                                    id="date"
+                                    label="Date"
+                                    value={date}
+                                    onChange={handleChangeWorkoutData}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </FormStyled>
+                        <ButtonStyled
+                            type="button"
+                            onClick={(e) => editWorkout(e, id)}
+                            colorBtnPrimary="rgba(11,11,11,0.85)"
+                            colorBtnSecondary="#C89446"
+                            disabledBtn={name.length < 5 || name.length > 30}
+                            disabled={name.length < 5 || name.length > 30}
+                            style={{margin: ".7rem .7rem .7rem auto"}}
+                        >
+                            {id !== undefined ? "Valider Changement" : "Creer ma séance"}
+                        </ButtonStyled>
+                    </ContainerPrincipal>
 
-                        </BlockButtons>
-                    </FormStyled>
-                    <FormStyled>
-                        {id !== undefined && <ContainerExercises>
-                            <EditExercises exercisesUpdate={exercisesUpdate} setExercisesUpdate={setExercisesUpdate}
-                                           workoutUpdate={workoutUpdate} setWorkoutUpdate={setWorkoutUpdate}
-                                           defaultExercises={defaultExercises}
-                                           workoutId={workoutId}/>
-                        </ContainerExercises>}
-                    </FormStyled>
-                </ContainerMultipleForm>
-            </ContainerPage>
+                </ContainerPage>
+                <ContainerPage style={{minHeight: "initial"}}>
+                    {id !== undefined &&
+                    <EditExercises exercisesUpdate={exercisesUpdate}
+                                   setExercisesUpdate={setExercisesUpdate}
+                                   workoutUpdate={workoutUpdate} setWorkoutUpdate={setWorkoutUpdate}
+                                   defaultExercises={defaultExercises}
+                                   workoutId={workoutId}/>
+                    }
+                </ContainerPage>
+            </ContainerHeaderMain>
+            <Footer />
         </>
     )
 }
 
-const ContainerMultipleForm = styled.section`
-    display: flex;
-    flex-direction: column;
-    
-    @media screen and (min-width: 750px) {
-        flex-direction: row;
-        
-        form {
-            margin: 0 auto;
-        }
-    }
-    
-`
-
-const BlockTitleEditSeance = styled.div`
-    width: 100%;
-    margin: 1rem auto;
-    padding: .7rem;
-    background-color: ${props => props.theme.colors.dark};
-    color: ${props => props.theme.colors.third};
-    text-align: center;
-    box-shadow: 0 10px 6px -5px  ${props => props.theme.colors.third};
-    
-`
-
-const ContainerExercises = styled.div`
-    color: ${props => props.theme.colors.primary};   
-`
 
 export default EditWorkout

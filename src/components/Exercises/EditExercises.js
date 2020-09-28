@@ -10,7 +10,13 @@ import styled from "styled-components";
 import addAlt from "@iconify/icons-carbon/add-alt";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {ErrorMsgStyled} from "../../styledComponents/UniformPageComponents"
+import {
+    BlockTitle,
+    ContainerPrincipal,
+    ErrorMsgStyled
+} from "../../styledComponents/UniformPageComponents"
+import {FormStyled} from "../../styledComponents/FormComponents"
+import bgEditExercises from "../../assets/images/bgEditExercises.jpg"
 
 const axios = require('axios');
 toast.configure();
@@ -45,7 +51,6 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
     }
 
     const displayExercises = (e, index) => {
-        console.log("functn display exercises")
         if (showExercises[index] === undefined || showExercises[index] === false) {
             setShowExercises({...showExercises, [index]: true})
         } else if (showExercises[index] === true) {
@@ -91,7 +96,6 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
 
     const deleteExercise = async (e, exerciseDuration, exerciseId, index) => {
         let durationUpdated = workoutUpdate.duration
-        console.log(durationUpdated)
         setWorkoutUpdate({...workoutUpdate, "duration": durationUpdated - exerciseDuration})
         await axios.delete(`${process.env.REACT_APP_BASE_URL}/detailsExercise/${exerciseId}`);
         let newArrayExercises = [...exercisesUpdate]
@@ -110,134 +114,136 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
 
     return (
         <>
-            {console.log("renderEditExercises")}
-            <BlockSubTitleExercises>
-                <h2>Mes Exercises</h2>
-                {!addedExercise &&
-                <button type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px"/></button>}
-            </BlockSubTitleExercises>
+            <ContainerPrincipal bgParallaxe={true} bgPage={bgEditExercises} styled={{height: "min-content"}}>
+                <BlockTitle style={{display: "flex"}}>
+                    <h2>Mes Exercises</h2>
+                    {!addedExercise &&
+                    <ButtonAddExercises type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px"/>
+                    </ButtonAddExercises>}
+                </BlockTitle>
+                <FormStyled disabledBg={true}>
+                    {exercisesUpdate && exercisesUpdate.map((exercise, index) => {
+                        return (
+                            <BlockExercise key={index}>
+                                <BlockExerciseTitle newExercise={!exercise.id}>
+                                    <p>Exercice {index + 1}</p>
+                                    <BlockArrowBtn>
+                                        {showExercises[index]
+                                            ?
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxUpArrow} width="15px" height="15px"/></button>
+                                            :
+                                            <button type="button" onClick={(e) => displayExercises(e, index)}>
+                                                <InlineIcon icon={bxDownArrow} width="15px" height="15px"/>
+                                            </button>}
+                                    </BlockArrowBtn>
+                                </BlockExerciseTitle>
+                                <BlockExerciseContent showExercises={showExercises[index]}>
+                                    <div>
+                                        <InputLabel id={`NameExercise${exercise.index}`}>Nom</InputLabel>
+                                        <Select
+                                            labelId={`NameExercise${exercise.index}`}
+                                            name="DefaultExerciseId"
+                                            disabled={!!exercise.id}
+                                            value={exercisesUpdate[index].DefaultExerciseId}
+                                            onChange={(e) => handleChangeExercisesData(e, index)}
+                                        >
+                                            {defaultExercises.map((defaultEx) => (
+                                                <MenuItem key={defaultEx.id}
+                                                          value={defaultEx.id}>{defaultEx.name}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="duration">
+                                            <InlineIcon icon={timerIcon} width="15px" height="15px"/> Durée (mn)
+                                        </label>
+                                        <input
+                                            value={exercise.duration}
+                                            onChange={(e) => handleChangeExercisesData(e, index)}
+                                            id="duration"
+                                            name="duration"
+                                            type="number"
+                                            min="5"
+                                            max="180"
+                                            disabled={!!exercise.id}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="number"><InlineIcon icon={sortNumericallyOutline}
+                                                                            width="15px"
+                                                                            height="15px"/> Nombre</label>
+                                        <input
+                                            value={exercise.number}
+                                            onChange={(e) => handleChangeExercisesData(e, index)}
+                                            id="number"
+                                            name="number"
+                                            type="number"
+                                            min="1"
+                                            max="999"
+                                            disabled={!!exercise.id}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="series"><InlineIcon icon={repeatLine} width="15px"
+                                                                            height="15px"/> Serie(s) </label>
+                                        <input
+                                            value={exercise.series}
+                                            onChange={(e) => handleChangeExercisesData(e, index)}
+                                            id="series"
+                                            name="series"
+                                            type="number"
+                                            min="1"
+                                            max="100"
+                                            disabled={!!exercise.id}
+                                        />
+                                    </div>
+                                    {missingField && <div>
+                                        <ErrorMsgStyled> Champ(s) non renseigné !</ErrorMsgStyled>
+                                    </div>}
 
-            {exercisesUpdate && exercisesUpdate.map((exercise, index) => {
-                return (
-                    <BlockExercise key={index}>
-                        <BlockExerciseTitle newExercise={!exercise.id}>
-                            <p>Exercice {index + 1}</p>
-                            <BlockArrowBtn>
-                                {showExercises[index]
-                                    ?
-                                    <button type="button" onClick={(e) => displayExercises(e, index)}>
-                                        <InlineIcon icon={bxUpArrow} width="15px" height="15px"/></button>
-                                    :
-                                    <button type="button" onClick={(e) => displayExercises(e, index)}>
-                                        <InlineIcon icon={bxDownArrow} width="15px" height="15px"/>
-                                    </button>}
-                            </BlockArrowBtn>
-                        </BlockExerciseTitle>
-                        <BlockExerciseContent showExercises={showExercises[index]}>
-                            <div>
-                                <InputLabel id={`NameExercise${exercise.index}`}>Nom</InputLabel>
-                                <Select
-                                    labelId={`NameExercise${exercise.index}`}
-                                    name="DefaultExerciseId"
-                                    disabled={!!exercise.id}
-                                    value={exercisesUpdate[index].DefaultExerciseId}
-                                    onChange={(e) => handleChangeExercisesData(e, index)}
-                                >
-                                    {defaultExercises.map((defaultEx) => (
-                                        <MenuItem key={defaultEx.id}
-                                                  value={defaultEx.id}>{defaultEx.name}</MenuItem>
-                                    ))}
-                                </Select>
-                            </div>
-                            <div>
-                                <label htmlFor="duration">
-                                    <InlineIcon icon={timerIcon} width="15px" height="15px"/> Durée (mn)
-                                </label>
-                                <input
-                                    value={exercise.duration}
-                                    onChange={(e) => handleChangeExercisesData(e, index)}
-                                    id="duration"
-                                    name="duration"
-                                    type="number"
-                                    min="5"
-                                    max="180"
-                                    disabled={!!exercise.id}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="number"><InlineIcon icon={sortNumericallyOutline}
-                                                                    width="15px"
-                                                                    height="15px"/> Nombre</label>
-                                <input
-                                    value={exercise.number}
-                                    onChange={(e) => handleChangeExercisesData(e, index)}
-                                    id="number"
-                                    name="number"
-                                    type="number"
-                                    min="1"
-                                    max="999"
-                                    disabled={!!exercise.id}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="series"><InlineIcon icon={repeatLine} width="15px"
-                                                                    height="15px"/> Serie(s) </label>
-                                <input
-                                    value={exercise.series}
-                                    onChange={(e) => handleChangeExercisesData(e, index)}
-                                    id="series"
-                                    name="series"
-                                    type="number"
-                                    min="1"
-                                    max="100"
-                                    disabled={!!exercise.id}
-                                />
-                            </div>
-                            {missingField && <div>
-                                <ErrorMsgStyled> Champ(s) non renseigné !</ErrorMsgStyled>
-                            </div>}
-
-                            <BlockExerciseBtnAddDelete>
-                                {!exercise.id && !exercise.added ?
-                                    <button type="button" disabled={missingField === true}
-                                            onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter cet
-                                        exercise</button> : !exercise.added && <button type="button"
-                                                                                       onClick={(e) => deleteExercise(e, exercise.duration, exercise.id, index)}>Supprimer
-                                    cet
-                                    exercise</button>}
-                            </BlockExerciseBtnAddDelete>
-                        </BlockExerciseContent>
-                    </BlockExercise>
-                )
-            })}
+                                    <BlockExerciseBtnAddDelete>
+                                        {!exercise.id && !exercise.added ?
+                                            <button type="button" disabled={missingField === true}
+                                                    onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter
+                                                cet
+                                                exercise</button> : !exercise.added && <button type="button"
+                                                                                               onClick={(e) => deleteExercise(e, exercise.duration, exercise.id, index)}>Supprimer
+                                            cet
+                                            exercise</button>}
+                                    </BlockExerciseBtnAddDelete>
+                                </BlockExerciseContent>
+                            </BlockExercise>
+                        )
+                    })}
+                </FormStyled>
+            </ContainerPrincipal>
         </>
     )
 }
 
-const BlockSubTitleExercises = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem 0;
-    padding: .7rem;
-    background-color: ${props => props.theme.colors.dark};
-    color: ${props => props.theme.colors.third};
-    box-shadow: 0 10px 6px -5px  ${props => props.theme.colors.third};
-    
-    h2 {
-        align-self: center;
-    }
-    
-    button {
-        cursor: pointer;
+const ButtonAddExercises = styled.button`
+    margin-left: 1.4rem;
+    svg {
+        color: ${props => props.theme.colors.primary};
     }
 `
 
 const BlockExercise = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin-bottom: .7rem;
-    background-color: ${props => props.theme.colors.dark};
-    
+    background-color: ${props => props.theme.colors.secondary};
+    @media only screen and (min-width: 750px ) {
+        width: 32% ;
+        height:  max-content;
+        margin-bottom: 1.4rem;
+        
+    }
+    @media only screen and (min-width: 1200px ) {
+        width: 24% ;
+    }
 `
 
 const BlockExerciseTitle = styled.div`

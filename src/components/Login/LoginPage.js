@@ -24,7 +24,6 @@ const LoginPage = ({location, history}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('submit')
         setSubmitted(true)
 
         // stop here if form is invalid
@@ -36,9 +35,7 @@ const LoginPage = ({location, history}) => {
             .then(
                 user => {
                     const {from} = location.state || {from: {pathname: "/"}};
-
                     history.push(from);
-                    console.log('dans le then, from', from)
                 },
                 error => {
                     if (error.message === 'Failed to fetch') {

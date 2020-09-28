@@ -43,6 +43,7 @@ const Workouts = ({history}) => {
     moment.locale('fr');
 
     useEffect(() => {
+
         // With userId Fetch workout's data and return it
         const fetchDataWorkoutsAssociatedUser = async () => {
             try {
@@ -52,10 +53,9 @@ const Workouts = ({history}) => {
                 if (error.message === "Network Error") {
                     const errorNetwork = new Error('Serveur indisponible')
                     setErrorMsg(errorNetwork.message)
-                    console.log(errorNetwork.message)
                 } else if (error.response.status === 401) {
                     // Redirect if status (401) unauthorized ex. token expired
-                    history.push(`/login`)
+                    history.push("/login")
                     localStorage.clear()
                 } else {
                     console.log("error unkown", error.response)
@@ -72,17 +72,19 @@ const Workouts = ({history}) => {
                         const filterDateWorkoutData = dataWorkout.sort((a, b) => new Date(b.date) - new Date(a.date))
                         setDataWorkoutsAssociatedUser(filterDateWorkoutData)
                     })
-                setIsLoading(false)
             } catch (error) {
-
-                console.log(error)
+                console.error(error)
+                history.push("/login")
+                localStorage.clear()
             }
         }
 
-        GetAllData()
-
+        GetAllData().then(() => {
+            setIsLoading(false)
+        })
     }, [history])
 
+    // Check if cards must be closed
     useEffect(() => {
         if (closeAllCard === true) {
             handleCloseAllCard()
@@ -158,10 +160,10 @@ const Workouts = ({history}) => {
             <ContainerHeaderMain activeHeightAuto={true}>
                 <SideBar history={history}/>
                 <ContainerPage>
-                    <BlockImageHeader>
+                    <BlockImageHeader disabledMobile={true}>
                         <img src={bgHomePage} alt="Homme faisant du sport"/>
                     </BlockImageHeader>
-                    <ContainerPrincipal styled={{height: "min-content"}}>
+                    <ContainerPrincipal bgParallaxe={true} bgPage={bgHomePage} styled={{height: "min-content"}}>
                         <BlockTitle>
                             <h1>Mes Scéances</h1>
                         </BlockTitle>
@@ -175,7 +177,7 @@ const Workouts = ({history}) => {
                                 Replier les Séances
                             </ButtonStyled>
                         </BlockButtons>
-                        <ContainerWorkouts>
+                        <ContainerWorkouts >
                             {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout, index) => {
                                 const {id, name, date, hour, duration, DetailsExercises} = workout
                                 return (
@@ -238,7 +240,6 @@ const Workouts = ({history}) => {
                         </ContainerWorkouts>
                     </ContainerPrincipal>
                 </ContainerPage>
-
             </ContainerHeaderMain>
             <BlockArrowUp onClick={redirectArrowUp}>
                 <Icon icon={arrowUpCircle} width="50px" height="50px"/>
@@ -254,10 +255,10 @@ const ContainerWorkouts = styled.div`
     margin: 1.4rem auto;
     flex-direction: column;
     
-    @media only screen and (min-width: 1200px) {
+    @media only screen and (min-width: 750px) {
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: space-evenly;     
     }
 `
 
@@ -267,8 +268,11 @@ const ContainerWorkoutCard = styled.article`
     margin-bottom: .7rem;
     color: ${props => props.theme.colors.primary};
     
-    @media only screen and (min-width: 1200px) {
+    @media only screen and (min-width: 750px) {
         width: 48%;
+    }
+    @media only screen and (min-width: 1200px) {
+        width: 32%;
     }
 `
 
@@ -279,6 +283,7 @@ const WorkoutCardHeader = styled.div`
     padding: .7rem;
     background-color: ${props => props.theme.colors.dark};
     color: ${props => props.theme.colors.third};
+    border-radius: 10px;
     
     p {
         color: ${props => props.theme.colors.primary}; 
