@@ -14,6 +14,7 @@ import {
 import {FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
 import styled from "styled-components"
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import {pageTransition, pageVariants} from "../AnimationMotion"
 
 const LoginPage = ({location, history}) => {
 
@@ -32,10 +33,15 @@ const LoginPage = ({location, history}) => {
         }
 
         login(username, password)
-            .then(
-                user => {
+            .then(user => {
                     const {from} = location.state || {from: {pathname: "/"}};
-                    history.push(from);
+                    console.log("from", from)
+                    console.log("history", history)
+                    if (user) {
+                        history.push(from);
+                        console.log('user')
+
+                    }
                 },
                 error => {
                     if (error.message === 'Failed to fetch') {
@@ -52,7 +58,12 @@ const LoginPage = ({location, history}) => {
     }
 
     return (
-        <ContainerHeaderMain>
+        <ContainerHeaderMain initial="initial"
+                             animate="in"
+                             exit="out"
+                             variants={pageVariants}
+                             transition={pageTransition}
+        >
 
             <ContainerPage>
                 <BlockImageHeader>
@@ -101,7 +112,6 @@ const LoginPage = ({location, history}) => {
                         <p><Link to="/register">Creer un nouveau Compte</Link></p>
                     </BlockAccountMsg>
                 </ContainerPrincipal>
-
 
 
             </ContainerPage>

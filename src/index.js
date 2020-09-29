@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter as Router} from "react-router-dom"
+import {ThemeProvider} from "styled-components";
+import theme from "../src/assets/theme";
+
 require('dotenv').config()
 
 ReactDOM.render(
-  //<React.StrictMode>
-    <App />,
-  //</React.StrictMode>,
-  document.getElementById('root')
+    //<React.StrictMode>
+    <Router>
+        <ThemeProvider theme={theme}>
+            <App/>
+        </ThemeProvider>
+    </Router>,
+    //</React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

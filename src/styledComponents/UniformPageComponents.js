@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import { motion } from 'framer-motion';
 
-export const ContainerHeaderMain = styled.main`
+export const ContainerHeaderMain = styled(motion.main)`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     position: relative;
+    overflow: hidden;
     /*background: ${props => `repeating-linear-gradient(45deg,
                                                 ${props.theme.colors.secondary} 0px,
                                                 ${props.theme.colors.secondary} 97px,
@@ -14,10 +16,12 @@ export const ContainerHeaderMain = styled.main`
                                                 ${props.theme.colors.secondary}e8 291px)`};
     
      */
+     
+     
     @media screen and (min-width: 750px){
         justify-content: space-evenly;
         flex-direction: ${props => props.activeHeightAuto && 'column'};
-        padding: ${props => props.activeHeightAuto && '2rem 0'};
+        //padding: ${props => props.activeHeightAuto && '2rem 0'};
         height: ${props => !props.activeHeightAuto && '100vh'};
     }
     @media screen and (min-width: 1200px){
@@ -33,7 +37,7 @@ export const ContainerPage = styled.section`
     flex-direction: column;
     
     @media only screen and (min-width: 750px ) {
-        width: 95%;
+        width: 85%;
         flex-direction: row;
         padding: 1.4rem;
         align-self: center;
@@ -43,7 +47,7 @@ export const ContainerPage = styled.section`
         align-items: center;
     } 
     @media only screen and (min-width: 1200px ) {
-        width: 75%;
+        width: 65%;
     }                       
 `
 export const ContainerPrincipal = styled.div`

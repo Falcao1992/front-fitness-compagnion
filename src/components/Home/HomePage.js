@@ -18,7 +18,7 @@ import statsChart from '@iconify/icons-ion/stats-chart';
 import userEditSolid from '@iconify/icons-la/user-edit-solid';
 import Stats from "../Stats/Stats"
 import arrowUpCircle from "@iconify/icons-bi/arrow-up-circle"
-
+import {pageTransition, pageVariants} from "../AnimationMotion"
 
 const HomePage = ({history}) => {
     const statsRef = useRef()
@@ -40,7 +40,13 @@ const HomePage = ({history}) => {
 
     return (
         <>
-            <ContainerHeaderMain activeHeightAuto={true}>
+            <ContainerHeaderMain activeHeightAuto={true}
+                                 initial="initial"
+                                 animate="in"
+                                 exit="out"
+                                 variants={pageVariants}
+                                 transition={pageTransition}
+            >
                 <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader>

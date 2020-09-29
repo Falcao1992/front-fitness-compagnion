@@ -39,9 +39,9 @@ export const login = (username, password) => {
 
 }
 
-export const logout = (history) => {
+export const logout = async (history) => {
     // remove user from local storage to log user out
-    history.push("/login")
+    await history.push("/login")
     localStorage.clear()
 }
 

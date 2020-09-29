@@ -29,6 +29,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Footer from "../Footer/Footer"
 import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg"
 import arrowUpCircle from '@iconify/icons-bi/arrow-up-circle';
+import {pageTransition, pageVariants} from "../AnimationMotion"
 
 const axios = require('axios');
 
@@ -56,6 +57,7 @@ const Workouts = ({history}) => {
                 } else if (error.response.status === 401) {
                     // Redirect if status (401) unauthorized ex. token expired
                     history.push("/login")
+                    console.log("catch fetch dataWorkout")
                     localStorage.clear()
                 } else {
                     console.error({msg: error})
@@ -73,6 +75,7 @@ const Workouts = ({history}) => {
                     })
             } catch (error) {
                 console.error(error)
+                console.log("catch getall data")
                 history.push("/login")
                 localStorage.clear()
             }
@@ -156,7 +159,13 @@ const Workouts = ({history}) => {
 
     return (
         <>
-            <ContainerHeaderMain activeHeightAuto={true}>
+            <ContainerHeaderMain activeHeightAuto={true}
+                                 initial="initial"
+                                 animate="in"
+                                 exit="out"
+                                 variants={pageVariants}
+                                 transition={pageTransition}
+            >
                 <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader disabledMobile={true}>
@@ -266,7 +275,8 @@ const ContainerWorkoutCard = styled.article`
     flex-direction: column;
     margin-bottom: .7rem;
     color: ${props => props.theme.colors.primary};
-    background-color: ${props => props.theme.colors.secondaryLight};
+    background-color: ${props => props.theme.colors.secondaryTransparent};
+    height: max-content;
     border-radius: 10px;
     
     @media only screen and (min-width: 750px) {

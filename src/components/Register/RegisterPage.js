@@ -7,11 +7,17 @@ import {
     ContainerPage, ContainerPrincipal
 } from "../../styledComponents/UniformPageComponents";
 import bgRegisterPage from "../../assets/images/bgRegisterPage.jpeg"
+import {pageTransition, pageVariants} from "../AnimationMotion"
 
 const RegisterPage = ({history}) => {
 
     return (
-        <ContainerHeaderMain>
+        <ContainerHeaderMain initial="initial"
+                             animate="in"
+                             exit="out"
+                             variants={pageVariants}
+                             transition={pageTransition}
+        >
             <ContainerPage>
                 <BlockImageHeader>
                     <img src={bgRegisterPage} alt="Jeune femme faisant du sport"/>
