@@ -5,6 +5,15 @@ export const ContainerHeaderMain = styled.main`
     flex-wrap: wrap;
     justify-content: center;
     position: relative;
+    /*background: ${props => `repeating-linear-gradient(45deg,
+                                                ${props.theme.colors.secondary} 0px,
+                                                ${props.theme.colors.secondary} 97px,
+                                                ${props.theme.colors.secondary}d4 97px,
+                                                ${props.theme.colors.secondary}d4 194px,
+                                                ${props.theme.colors.secondary}e8 194px,
+                                                ${props.theme.colors.secondary}e8 291px)`};
+    
+     */
     @media screen and (min-width: 750px){
         justify-content: space-evenly;
         flex-direction: ${props => props.activeHeightAuto && 'column'};
@@ -44,16 +53,14 @@ export const ContainerPrincipal = styled.div`
     background-color: ${props => props.theme.colors.secondaryTransparent};
     
     @media only screen and (min-width: 750px ) {
-        width: ${props => props.bgParallaxe && !props.widthMid ? "100%" : "55%"};
+        width: ${props => props.bgParallaxe && !props.widthMid ? "100%" : "45%"};
         box-shadow: 0 0 5px 3px ${props => props.theme.colors.secondaryLight};
         border-radius: 10px;
         background-size: ${props => props.bgParallaxe && "cover" };
         background-attachment: ${props => props.bgParallaxe && "fixed" };;
         background-image: ${props => props.bgParallaxe && `linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(5,5,32,0.85) 20%, rgba(58,148,230,0.20) 100%), url(${props.bgPage})` };
     } 
-    @media only screen and (min-width: 1200px ) {
-        //max-width: 60%;
-    }                 
+              
 `
 
 export const BlockImageHeader = styled.div`
@@ -109,9 +116,6 @@ export const BlockTitle = styled.div`
         color: ${props => props.theme.colors.primary};
     }
     
-    @media screen and (min-width: 750px) {
-        //border: 3px solid ${props => props.theme.colors.dark};
-    }
 `
 
 export const ErrorMsgStyled = styled.span`

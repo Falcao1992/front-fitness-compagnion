@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 
 const axios = require('axios');
 
-const Stats = forwardRef(({ onBackClick, history }, ref) => {
+const Stats = forwardRef(({onBackClick, history}, ref) => {
 
     const [filterNameWorkout, setFilterNameWorkout] = useState([])
     const [filterDurationWorkout, setFilterDurationWorkout] = useState([])
@@ -30,31 +30,36 @@ const Stats = forwardRef(({ onBackClick, history }, ref) => {
                     })
                 await setIsLoading(false)
             } catch (error) {
-                console.log("error unkown")
+                console.error("error unknown", error)
             }
         }
         GetAllData()
+            .then(() => {
+                console.log("GetAllData")
+            }).catch((error) => {
+            if (error.response.status === 401) {
+                history.push("/login")
+                localStorage.clear()
+            }
+        })
 
-    }, [])
+    }, [history])
 
     useLayoutEffect(() => {
-        if(history.location.state ) {
-            if(history.location.state.goStatsRef === true && ref.current !== undefined) {
-                onBackClick()
+        const checkRefStats = async () => {
+            if (history.location.state) {
+                if (history.location.state.goStatsRef === true && ref.current !== undefined) {
+                    onBackClick()
+                }
             }
-        } else {
-            console.log("rien a log")
         }
-    })
+        checkRefStats()
+    },[history, onBackClick, ref])
 
     // With userId Fetch workout's data and return it
     const fetchDataWorkoutsAssociatedUser = async () => {
-        try {
-            const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
-            return resultDataWorkoutsByUser.data
-        } catch (error) {
-            console.log(error, "error")
-        }
+        const resultDataWorkoutsByUser = await axios.get(`${process.env.REACT_APP_BASE_URL}/workouts?Access_token=${localStorage.getItem("token")}`)
+        return resultDataWorkoutsByUser.data
     }
 
     const transformData = (dataWorkout) => {
@@ -79,7 +84,6 @@ const Stats = forwardRef(({ onBackClick, history }, ref) => {
 
     const data = (canvas) => {
         const ctx = canvas.getContext("2d")
-        console.log(ctx, "ctx")
         const height = window.innerHeight / 2;
         const width = (window.innerWidth * 70) / 100 - 44.8;
 

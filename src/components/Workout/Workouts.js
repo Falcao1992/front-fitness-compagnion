@@ -27,7 +27,7 @@ import {BlockButtons} from "../../styledComponents/FormComponents";
 import crossMark from '@iconify/icons-noto/cross-mark';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Footer from "../Footer/Footer"
-import bgHomePage from "../../assets/images/bgHomePage.jpg"
+import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg"
 import arrowUpCircle from '@iconify/icons-bi/arrow-up-circle';
 
 const axios = require('axios');
@@ -58,7 +58,6 @@ const Workouts = ({history}) => {
                     history.push("/login")
                     localStorage.clear()
                 } else {
-                    console.log("error unkown", error.response)
                     console.error({msg: error})
                 }
             }
@@ -161,9 +160,9 @@ const Workouts = ({history}) => {
                 <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader disabledMobile={true}>
-                        <img src={bgHomePage} alt="Homme faisant du sport"/>
+                        <img src={bgWorkoutsPage} alt="Homme faisant du sport"/>
                     </BlockImageHeader>
-                    <ContainerPrincipal bgParallaxe={true} bgPage={bgHomePage} styled={{height: "min-content"}}>
+                    <ContainerPrincipal bgParallaxe={true} bgPage={bgWorkoutsPage} styled={{height: "min-content"}}>
                         <BlockTitle>
                             <h1>Mes Scéances</h1>
                         </BlockTitle>
@@ -173,11 +172,13 @@ const Workouts = ({history}) => {
                                 <Link to={{pathname: `/workout`,}}>Creer une nouvelle séance</Link>
                             </ButtonStyled>
                             <ButtonStyled onClick={() => setCloseAllCard(true)}
-                                          disabledBtn={handleDisabledBtnCloseCard()} style={{marginLeft: 0}}>
+                                          disabledBtn={handleDisabledBtnCloseCard()}
+                                          disabled={handleDisabledBtnCloseCard()}
+                                          style={{marginLeft: 0}}>
                                 Replier les Séances
                             </ButtonStyled>
                         </BlockButtons>
-                        <ContainerWorkouts >
+                        <ContainerWorkouts>
                             {dataWorkoutsAssociatedUser && dataWorkoutsAssociatedUser.map((workout, index) => {
                                 const {id, name, date, hour, duration, DetailsExercises} = workout
                                 return (
@@ -211,8 +212,6 @@ const Workouts = ({history}) => {
 
                                         <ContainerExercises showExercises={showExercises[index]}
                                                             numberExercises={DetailsExercises.length}>
-                                            {/*<ScrollBar numberExercises={DetailsExercises.length}></ScrollBar>
-                                            <ScrollBarClick numberExercises={DetailsExercises.length}></ScrollBarClick>*/}
                                             {DetailsExercises.map((ex, index) => {
                                                 return (
                                                     <BlockExercise key={ex.id}>
@@ -267,6 +266,8 @@ const ContainerWorkoutCard = styled.article`
     flex-direction: column;
     margin-bottom: .7rem;
     color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.secondaryLight};
+    border-radius: 10px;
     
     @media only screen and (min-width: 750px) {
         width: 48%;
@@ -280,11 +281,9 @@ const WorkoutCardHeader = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: .7rem;
-    background-color: ${props => props.theme.colors.dark};
+    padding: .7rem;   
     color: ${props => props.theme.colors.third};
-    border-radius: 10px;
-    
+
     p {
         color: ${props => props.theme.colors.primary}; 
         font-size: .7rem;
@@ -312,32 +311,32 @@ const ContainerExercises = styled.div`
     max-height: ${props => !props.showExercises ? "0" : `170px`};  
     transition: all .6s linear;
     position: relative;
-     @media only screen and (min-width: 750px) {
+    
+    @media only screen and (min-width: 750px) {
         ::-webkit-scrollbar {
-          width: .7rem;
+            width: .7rem;
         }
         ::-webkit-scrollbar-track {
-        background: ${props => props.theme.colors.lightDark};
-        }
-        
+            background: ${props => props.theme.colors.lightDark};
+        }      
         /* Handle */
         ::-webkit-scrollbar-thumb {
-        background: linear-gradient(to top, #031183, #1546a7, #0ba2d0)
-        }
-        
+            background: linear-gradient(to top, #031183, #1546a7, #0ba2d0);       
+        }        
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
-        background: ${props => props.theme.colors.third};
+            background: ${props => props.theme.colors.third};
+            transition: all .5s linear;
         }
     }
-    }
+}
 `
 
 const BlockExercise = styled.div`
     display: flex;
     flex-direction: column;
     padding: .7rem;
-    background-color: ${props => props.theme.colors.dark};;
+    background-color: ${props => props.theme.colors.secondaryTransparent};
     
     div {
         display: flex;

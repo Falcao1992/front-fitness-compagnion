@@ -187,8 +187,6 @@ const RegisterForm = ({history}) => {
             <ButtonStyled
                 type="button"
                 onClick={handleSubmit}
-                colorBtnPrimary="aliceblue"
-                colorBtnSecondary="rgba(46, 59, 133, 0.816)"
             >
                 <span>Creer mon Compte</span>
             </ButtonStyled>

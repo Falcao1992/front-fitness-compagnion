@@ -118,7 +118,8 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
                 <BlockTitle style={{display: "flex"}}>
                     <h2>Mes Exercises</h2>
                     {!addedExercise &&
-                    <ButtonAddExercises type="button" onClick={addExercise}><Icon icon={addAlt} width="30px" height="30px"/>
+                    <ButtonAddExercises type="button" onClick={addExercise}><Icon icon={addAlt} width="30px"
+                                                                                  height="30px"/>
                     </ButtonAddExercises>}
                 </BlockTitle>
                 <FormStyled disabledBg={true}>
@@ -205,12 +206,14 @@ const EditExercises = ({exercisesUpdate, setExercisesUpdate, workoutUpdate, setW
                                     <BlockExerciseBtnAddDelete>
                                         {!exercise.id && !exercise.added ?
                                             <button type="button" disabled={missingField === true}
-                                                    onClick={(e) => sendExercise(e, exercise.duration, index)}>Ajouter
-                                                cet
-                                                exercise</button> : !exercise.added && <button type="button"
-                                                                                               onClick={(e) => deleteExercise(e, exercise.duration, exercise.id, index)}>Supprimer
-                                            cet
-                                            exercise</button>}
+                                                    onClick={(e) => sendExercise(e, exercise.duration, index)}>
+                                                Ajouter cet exercise
+                                            </button>
+                                            : !exercise.added
+                                            && <button type="button"
+                                                       onClick={(e) => deleteExercise(e, exercise.duration, exercise.id, index)}>
+                                                Supprimer cet exercise
+                                            </button>}
                                     </BlockExerciseBtnAddDelete>
                                 </BlockExerciseContent>
                             </BlockExercise>

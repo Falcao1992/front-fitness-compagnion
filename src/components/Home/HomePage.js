@@ -25,15 +25,15 @@ const HomePage = ({history}) => {
 
     function handleBackClick() {
         setTimeout(() => {
-            statsRef.current.scrollIntoView({ behavior: 'smooth' })
+            statsRef.current.scrollIntoView({behavior: 'smooth'})
             console.log('function scroll')
         }, 300)
     }
 
     const redirectArrowUp = () => {
         window.scrollTo({
-            top:0,
-            left:0,
+            top: 0,
+            left: 0,
             behavior: "smooth"
         })
     };
@@ -41,7 +41,7 @@ const HomePage = ({history}) => {
     return (
         <>
             <ContainerHeaderMain activeHeightAuto={true}>
-            <SideBar history={history}/>
+                <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader>
                         <img src={bgHomePage} alt="Homme faisant du sport"/>
@@ -70,7 +70,9 @@ const HomePage = ({history}) => {
                             <BlockArticle>
                                 <Icon icon={statsChart} width="30px" height="30px"/>
                                 <p>Mes statistiques</p>
-                                <small><button onClick={handleBackClick}>></button></small>
+                                <small>
+                                    <button onClick={handleBackClick}>></button>
+                                </small>
                             </BlockArticle>
 
                             <BlockArticle>
@@ -86,7 +88,7 @@ const HomePage = ({history}) => {
                 <Stats history={history} ref={statsRef} onBackClick={handleBackClick}/>
             </ContainerHeaderMain>
             <BlockArrowUp onClick={redirectArrowUp}>
-                <Icon icon={arrowUpCircle} width="50px" height="50px" />
+                <Icon icon={arrowUpCircle} width="50px" height="50px"/>
             </BlockArrowUp>
             <Footer/>
         </>
@@ -120,13 +122,17 @@ const BlockArticle = styled.article`
         letter-spacing: 1px;      
     }
     small {
-        font-size: 1.2rem;
+        font-size: 1.7rem;    
         a,button {
             padding: .7rem;
+            transition: color .4s linear;
         }
     }
     @media only screen and (min-width: 750px ) {        
         //justify-content: space-between;
+        a:hover,button:hover {
+            color: ${props => props.theme.colors.third};
+        }
     }   
 `
 

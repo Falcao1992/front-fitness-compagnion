@@ -218,11 +218,8 @@ const EditWorkout = ({history}) => {
                         <ButtonStyled
                             type="button"
                             onClick={(e) => editWorkout(e, id)}
-                            colorBtnPrimary="rgba(11,11,11,0.85)"
-                            colorBtnSecondary="#C89446"
-                            disabledBtn={name.length < 5 || name.length > 30}
-                            disabled={name.length < 5 || name.length > 30}
-                            style={{margin: ".7rem .7rem .7rem auto"}}
+                            disabledBtn={name.length < 5 || name.length > 30 || name === "Nouvelle séance"}
+                            disabled={name.length < 5 || name.length > 30 || name === "Nouvelle séance"}
                         >
                             {id !== undefined ? "Valider Changement" : "Creer ma séance"}
                         </ButtonStyled>

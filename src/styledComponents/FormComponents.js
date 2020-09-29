@@ -107,7 +107,9 @@ export const BlockButtons = styled.div`
     flex-direction: ${props => props.column && "column"};
     width: 100%;
     margin: 0 auto;
-    
+    button:first-child {
+        margin-bottom: ${props => props.column && ".7rem"};
+    }    
      @media only screen and (min-width: 750px ) {
         display: flex;
         flex-direction: row;

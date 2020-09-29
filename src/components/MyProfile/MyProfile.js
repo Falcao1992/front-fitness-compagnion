@@ -6,7 +6,6 @@ import {ButtonStyled} from "../../styledComponents/ButtonStyled";
 import {InlineIcon} from '@iconify/react';
 import womanRunningLightSkinTone from '@iconify/icons-noto/woman-running-light-skin-tone';
 import manRunningMediumSkinTone from '@iconify/icons-noto/man-running-medium-skin-tone';
-import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg";
 import SideBar from "../SideBar/SideBar";
 import {
     BlockButtons,
@@ -15,13 +14,20 @@ import {
     TextFieldStyled
 } from "../../styledComponents/FormComponents";
 
-import {BlockTitle, ContainerLoading, ContainerPage} from "../../styledComponents/UniformPageComponents";
+import {
+    BlockImageHeader,
+    BlockTitle,
+    ContainerHeaderMain,
+    ContainerLoading,
+    ContainerPage, ContainerPrincipal
+} from "../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {handleErrMsg} from "../../functionUtils/FunctionUtils";
 import CircularProgress from "@material-ui/core/CircularProgress"
 import {toast} from "react-toastify"
 import frLocale from "date-fns/locale/fr"
+import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg"
 
 const axios = require('axios');
 
@@ -39,7 +45,6 @@ const MyProfile = ({history}) => {
         const fetchUserData = async () => {
             try {
                 const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/user?Access_token=${localStorage.getItem("token")}`);
-                console.log('resultdata', result.data)
                 return result.data
             } catch (error) {
                 if (error.response.status === 401) {
@@ -47,7 +52,7 @@ const MyProfile = ({history}) => {
                     history.push(`/login`)
                     localStorage.clear()
                 }
-                console.log(error)
+                console.error(error)
             }
         }
         fetchUserData()
@@ -60,11 +65,9 @@ const MyProfile = ({history}) => {
     }, [history])
 
 
-
     const handleChange = (e, date) => {
         setDataHasBeenModified(true)
         if (e === null || e.target === undefined) {
-            console.log('date')
             let dateFormat = moment(date, "DD MMM YYYY").format("YYYY-MM-DD")
             setDataUserFormatted({...dataUserFormatted, "birthday": dateFormat})
         } else if (e.target.name === 'gender') {
@@ -86,7 +89,6 @@ const MyProfile = ({history}) => {
                 } else if (!EMAIL_REGEX.test(email)) {
                     setErrorMsg("Email Invalide")
                 } else {
-                    console.log(dataUserFormatted, "dataUserFormatted")
                     axios.put(`${process.env.REACT_APP_BASE_URL}/user/edit?Access_token=${localStorage.getItem("token")}`, dataUserFormatted);
                     toast.success('🦄 Votre profil à été correctement mis à jour!', {
                         position: "top-right",
@@ -100,10 +102,9 @@ const MyProfile = ({history}) => {
                 }
             } else {
                 setErrorMsg("Aucun changement effectué")
-                console.log("pas de ta modifier")
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
 
     }
@@ -120,99 +121,107 @@ const MyProfile = ({history}) => {
 
     return (
         <>
-            <SideBar history={history} sidebar={true}/>
-            <ContainerPage bgPage={bgMyProfilePage}>
-                {console.log('render Myprofile')}
-                <BlockTitle>
-                    <h1>Mon Profil</h1>
-                </BlockTitle>
+            <ContainerHeaderMain>
+                <SideBar history={history} sidebar={true}/>
+                <ContainerPage>
+                    {console.log('render Myprofile')}
+                    <BlockImageHeader>
+                        <img src={bgMyProfilePage} alt="Homme faisant du sport"/>
+                    </BlockImageHeader>
+                    <ContainerPrincipal>
+                        <BlockTitle>
+                            <h1>Mon Profil</h1>
+                        </BlockTitle>
 
-                <FormStyled>
-                    <div>
-                        <TextFieldStyled id="username"
-                                         label="Pseudo *"
-                                         variant="filled"
-                                         type="text"
-                                         autoComplete="nickname"
-                                         value={username}
-                                         onChange={handleChange}
-                        />
-
-                        <TextFieldStyled id="email"
-                                         label="Adresse électronique *"
-                                         variant="filled"
-                                         type="email"
-                                         autoComplete="email"
-                                         value={email}
-                                         onChange={handleChange}
-                        />
-
-                        <ContainerMultiNumberField>
-                            <BlockInputLabelStyled>
-                                <LabelInputStyled htmlFor="size">Taille (cm): </LabelInputStyled>
-                                <InputStyled
-                                    value={size}
-                                    onChange={handleChange}
-                                    id="size"
-                                    type="number"
-                                    min="100"
-                                    max="210"
+                        <FormStyled>
+                            <div>
+                                <TextFieldStyled id="username"
+                                                 label="Pseudo *"
+                                                 variant="filled"
+                                                 type="text"
+                                                 autoComplete="nickname"
+                                                 value={username}
+                                                 onChange={handleChange}
                                 />
-                            </BlockInputLabelStyled>
 
-                            <BlockInputLabelStyled>
-                                <LabelInputStyled htmlFor="weight">Poids (kg): </LabelInputStyled>
-                                <InputStyled
-                                    value={weight}
-                                    onChange={handleChange}
-                                    id="weight"
-                                    type="number"
-                                    min="30"
-                                    max="130"
+                                <TextFieldStyled id="email"
+                                                 label="Adresse électronique *"
+                                                 variant="filled"
+                                                 type="email"
+                                                 autoComplete="email"
+                                                 value={email}
+                                                 onChange={handleChange}
                                 />
-                            </BlockInputLabelStyled>
-                        </ContainerMultiNumberField>
 
-                        <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
-                            <KeyboardDatePickerStyled
-                                invalidDateMessage="Format de date invalide"
-                                animateYearScrolling={true}
-                                format="d MMM yyyy"
-                                margin="normal"
-                                id="date"
-                                label="Anniversaire"
-                                value={birthday}
-                                onChange={handleChange}
-                            />
-                        </MuiPickersUtilsProvider>
+                                <ContainerMultiNumberField>
+                                    <BlockInputLabelStyled>
+                                        <LabelInputStyled htmlFor="size">Taille (cm): </LabelInputStyled>
+                                        <InputStyled
+                                            value={size}
+                                            onChange={handleChange}
+                                            id="size"
+                                            type="number"
+                                            min="100"
+                                            max="210"
+                                        />
+                                    </BlockInputLabelStyled>
 
-                        <BlockRadio>
-                            <FormLabel component="legend">Sexe :</FormLabel>
-                            <RadioGroup aria-label="gender" name="gender" value={gender} onChange={handleChange}>
-                                <FormControlLabel value="man" id="man" control={<Radio/>}
-                                                  label={<InlineIcon icon={manRunningMediumSkinTone} width="40px"
-                                                                     height="40px"/>}/>
-                                <FormControlLabel value="women" id="woman" control={<Radio/>}
-                                                  label={<InlineIcon icon={womanRunningLightSkinTone} width="40px"
-                                                                     height="40px"/>}/>
-                            </RadioGroup>
-                        </BlockRadio>
-                    </div>
+                                    <BlockInputLabelStyled>
+                                        <LabelInputStyled htmlFor="weight">Poids (kg): </LabelInputStyled>
+                                        <InputStyled
+                                            value={weight}
+                                            onChange={handleChange}
+                                            id="weight"
+                                            type="number"
+                                            min="30"
+                                            max="130"
+                                        />
+                                    </BlockInputLabelStyled>
+                                </ContainerMultiNumberField>
 
-                </FormStyled>
-                {handleErrMsg(errorMsg)}
-                <BlockButtons>
-                    <ButtonStyled
-                        type="button"
-                        onClick={() => onSubmit()}
-                        disabledBtn={!dataHasBeenModified}
-                        colorBtnPrimary="rgba(11,11,11,0.85)"
-                        colorBtnSecondary="#C89446"
-                    >
-                        Modifier mon Profile
-                    </ButtonStyled>
-                </BlockButtons>
-            </ContainerPage>
+                                <MuiPickersUtilsProvider locale={frLocale} utils={DateFnsUtils}>
+                                    <KeyboardDatePickerStyled
+                                        invalidDateMessage="Format de date invalide"
+                                        animateYearScrolling={true}
+                                        format="d MMM yyyy"
+                                        id="date"
+                                        label="Anniversaire"
+                                        value={birthday}
+                                        onChange={handleChange}
+                                    />
+                                </MuiPickersUtilsProvider>
+
+                                <BlockRadio>
+                                    <FormLabel component="legend">Sexe :</FormLabel>
+                                    <RadioGroup aria-label="gender" name="gender" value={gender}
+                                                onChange={handleChange}>
+                                        <FormControlLabel value="man" id="man" control={<Radio/>}
+                                                          label={<InlineIcon icon={manRunningMediumSkinTone}
+                                                                             width="40px"
+                                                                             height="40px"/>}/>
+                                        <FormControlLabel value="women" id="woman" control={<Radio/>}
+                                                          label={<InlineIcon icon={womanRunningLightSkinTone}
+                                                                             width="40px"
+                                                                             height="40px"/>}/>
+                                    </RadioGroup>
+                                </BlockRadio>
+                            </div>
+
+                        </FormStyled>
+                        {handleErrMsg(errorMsg)}
+                        <BlockButtons>
+                            <ButtonStyled
+                                type="button"
+                                onClick={() => onSubmit()}
+                                disabledBtn={!dataHasBeenModified}
+                                disabled={!dataHasBeenModified}
+                            >
+                                Modifier mon Profile
+                            </ButtonStyled>
+                        </BlockButtons>
+                    </ContainerPrincipal>
+                </ContainerPage>
+            </ContainerHeaderMain>
         </>
     )
 }

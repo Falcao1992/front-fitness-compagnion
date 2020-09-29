@@ -31,10 +31,34 @@ export const ButtonStyled = styled.button`
         border: 1px solid ${props => props.theme.colors.third};
         color: ${props => props.theme.colors.third};
         z-index: 1;
+        animation: ${props => props.disabled && "nope .4s forwards"};;
+        // Animation button effect nope 
+        @keyframes nope {
+            0% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-10px);
+            }
+            40% {
+                transform: translateX(10px);
+            }
+            60% {
+                transform: translateX(-10px);
+            }
+            80% {
+                transform: translateX(10px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+            
+        }
         a,span {
             color: ${props => props.theme.colors.third};
         }
     }
+    
     
     &:before {
         content: "";

@@ -2,8 +2,7 @@
 
 html {
   box-sizing: border-box;
-  background: repeating-linear-gradient(45deg, rgb(27, 27, 27) 0px, rgb(27, 27, 27) 97px,rgb(24, 24, 24) 97px, rgb(24, 24, 24) 194px,rgb(20, 20, 20) 194px, rgb(20, 20, 20) 291px);
-
+  background: repeating-linear-gradient(45deg, #141421 0px, #141421 97px, #141421d4 97px, #141421d4 194px, #141421e8 194px, #141421e8 291px);
 }
 *, *:before, *:after {
   box-sizing: inherit;

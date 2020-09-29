@@ -1,7 +1,7 @@
 const theme = {
     colors: {
         primary: "aliceblue",
-        secondary: 'rgb(20 20 33)',
+        secondary: '#141421',
         secondaryLight: 'rgb(41 41 49)',
         secondaryTransparent: 'rgb(20 20 33 / 70%)',
         third: '#C89446',

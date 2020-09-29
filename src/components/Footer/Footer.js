@@ -17,7 +17,7 @@ const ContainerFooter = styled.footer`
     flex-direction: column;
     align-items: center;
     padding: 1.4rem 0;
-    margin-top: 2rem;
+    //margin-top: 2rem;
 `;
 
 const BlockText = styled.div`

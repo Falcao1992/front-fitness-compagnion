@@ -71,7 +71,7 @@ const SideBar = ({history}) => {
 
 const ContainerSideBar = styled.nav`
     height: 100%;
-    background-color: ${props => props.theme.colors.dark};
+    background-color: ${props => props.theme.colors.secondary};
     position: fixed;
     z-index: 1002;
     transform: ${props => !props.burgerStatus ? "translateX(-100%)" : "translateX(0)"};
@@ -111,7 +111,7 @@ const BlockBurgerMenu = styled.div`
         position: absolute;
         transition: all .5s linear;
         cursor: pointer;
-        background-color: ${props => props.theme.colors.secondary};    
+        background-color: ${props => props.theme.colors.secondaryLight};    
     }
     svg {
         vertical-align: middle;
