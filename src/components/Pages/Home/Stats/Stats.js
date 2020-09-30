@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {BlockTitle, ContainerLoading} from "../../styledComponents/UniformPageComponents";
+import {BlockTitle, ContainerLoading} from "../../../../styledComponents/UniformPageComponents";
 import {Line} from 'react-chartjs-2'
 import CircularProgress from "@material-ui/core/CircularProgress"
 import moment from "moment"

@@ -1,26 +1,26 @@
 import React from "react";
-import SideBar from "../SideBar/SideBar";
+import SideBar from "../../SideBar/SideBar";
 import {
     BlockArrowUp,
     BlockImageHeader,
     BlockTitle,
     ContainerHeaderMain,
     ContainerPage, ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
+} from "../../../styledComponents/UniformPageComponents";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import { NavHashLink as NavLink } from 'react-router-hash-link';
 
-import Footer from "../Footer/Footer";
-import bgHomePage from "../../assets/images/bgHomePage.jpg"
+import Footer from "../../Footer/Footer";
+import bgHomePage from "../../../assets/images/bgHomePage.jpg"
 import {Icon} from '@iconify/react';
 import bxShowAlt from '@iconify/icons-bx/bx-show-alt';
 import addAlt from "@iconify/icons-carbon/add-alt"
 import statsChart from '@iconify/icons-ion/stats-chart';
 import userEditSolid from '@iconify/icons-la/user-edit-solid';
-import Stats from "../Stats/Stats"
+import Stats from "./Stats/Stats"
 import arrowUpCircle from "@iconify/icons-bi/arrow-up-circle"
-import {pageTransition, pageVariants} from "../AnimationMotion"
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
 
 const HomePage = ({history}) => {
 

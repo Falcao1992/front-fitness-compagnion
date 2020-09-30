@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from "react";
 import moment from "moment";
 import {FormControlLabel, FormLabel, Radio, RadioGroup} from "@material-ui/core";
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import {ButtonStyled} from "../../../styledComponents/ButtonStyled";
 
 import {InlineIcon} from '@iconify/react';
 import womanRunningLightSkinTone from '@iconify/icons-noto/woman-running-light-skin-tone';
 import manRunningMediumSkinTone from '@iconify/icons-noto/man-running-medium-skin-tone';
-import SideBar from "../SideBar/SideBar";
+import SideBar from "../../SideBar/SideBar";
 import {
     BlockButtons,
     BlockInputLabelStyled, BlockRadio, ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
-} from "../../styledComponents/FormComponents";
+} from "../../../styledComponents/FormComponents";
 
 import {
     BlockImageHeader,
@@ -20,16 +20,16 @@ import {
     ContainerHeaderMain,
     ContainerLoading,
     ContainerPage, ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
+} from "../../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import {handleErrMsg} from "../../../functionUtils/FunctionUtils";
 import CircularProgress from "@material-ui/core/CircularProgress"
 import {toast} from "react-toastify"
 import frLocale from "date-fns/locale/fr"
-import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg"
-import {pageTransition, pageVariants} from "../AnimationMotion"
-import Footer from "../Footer/Footer"
+import bgMyProfilePage from "../../../assets/images/bgMyProfilePage.jpg"
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
+import Footer from "../../Footer/Footer"
 
 const axios = require('axios');
 

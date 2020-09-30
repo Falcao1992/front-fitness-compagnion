@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import SideBar from "../SideBar/SideBar";
+import SideBar from "../../SideBar/SideBar";
 import moment from "moment";
 import {Link} from "react-router-dom";
 import 'moment/locale/fr';
@@ -17,19 +17,19 @@ import {
     ContainerHeaderMain,
     ContainerLoading,
     ContainerPage, ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
+} from "../../../styledComponents/UniformPageComponents";
 import bxDownArrow from "@iconify/icons-bx/bx-down-arrow";
 import bxUpArrow from "@iconify/icons-bx/bx-up-arrow";
-import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import {handleErrMsg} from "../../../functionUtils/FunctionUtils";
 import {toast} from "react-toastify";
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
-import {BlockButtons} from "../../styledComponents/FormComponents";
+import {ButtonStyled} from "../../../styledComponents/ButtonStyled";
+import {BlockButtons} from "../../../styledComponents/FormComponents";
 import crossMark from '@iconify/icons-noto/cross-mark';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Footer from "../Footer/Footer"
-import bgWorkoutsPage from "../../assets/images/bgWorkoutsPage.jpg"
+import Footer from "../../Footer/Footer"
+import bgWorkoutsPage from "../../../assets/images/bgWorkoutsPage.jpg"
 import arrowUpCircle from '@iconify/icons-bi/arrow-up-circle';
-import {pageTransition, pageVariants} from "../AnimationMotion"
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
 
 const axios = require('axios');
 
@@ -69,7 +69,7 @@ const Workouts = ({history}) => {
             try {
                 await fetchDataWorkoutsAssociatedUser()
                     .then((dataWorkout) => {
-                        // Sort Workout by order DSC
+                        // Sort Workouts by order DSC
                         const filterDateWorkoutData = dataWorkout.sort((a, b) => new Date(b.date) - new Date(a.date))
                         setDataWorkoutsAssociatedUser(filterDateWorkoutData)
                     })
@@ -116,7 +116,7 @@ const Workouts = ({history}) => {
             draggable: false
         });
     }
-    // Close All Workout's Card
+    // Close All Workouts's Card
     const handleCloseAllCard = () => {
         if (closeAllCard === false) {
         } else {

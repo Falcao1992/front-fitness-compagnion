@@ -1,20 +1,20 @@
 import React, {useState} from "react";
 
-import {login} from "../../_services/user.service";
+import {login} from "../../../_services/user.service";
 import {Link} from "react-router-dom";
 
-import bgLoginPage from '../../assets/images/bgLoginPage.jpg'
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import bgLoginPage from '../../../assets/images/bgLoginPage.jpg'
+import {ButtonStyled} from "../../../styledComponents/ButtonStyled";
 import {
     BlockImageHeader,
     BlockTitle,
     ContainerHeaderMain,
     ContainerPage, ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
-import {FormStyled, TextFieldStyled} from "../../styledComponents/FormComponents";
+} from "../../../styledComponents/UniformPageComponents";
+import {FormStyled, TextFieldStyled} from "../../../styledComponents/FormComponents";
 import styled from "styled-components"
-import {handleErrMsg} from "../../functionUtils/FunctionUtils";
-import {pageTransition, pageVariants} from "../AnimationMotion"
+import {handleErrMsg} from "../../../functionUtils/FunctionUtils";
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
 
 const LoginPage = ({location, history}) => {
 

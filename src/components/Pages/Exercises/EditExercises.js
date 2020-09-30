@@ -14,9 +14,9 @@ import {
     BlockTitle,
     ContainerPrincipal,
     ErrorMsgStyled
-} from "../../styledComponents/UniformPageComponents"
-import {FormStyled} from "../../styledComponents/FormComponents"
-import bgEditExercises from "../../assets/images/bgEditExercises.jpg"
+} from "../../../styledComponents/UniformPageComponents"
+import {FormStyled} from "../../../styledComponents/FormComponents"
+import bgEditExercises from "../../../assets/images/bgEditExercises.jpg"
 
 const axios = require('axios');
 toast.configure();

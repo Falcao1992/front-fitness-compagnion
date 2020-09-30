@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {register} from "../../_services/user.service";
+import {register} from "../../../_services/user.service";
 import styled from 'styled-components'
 import {TextField, FormLabel, RadioGroup, FormControlLabel, Radio} from '@material-ui/core';
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import {ButtonStyled} from "../../../styledComponents/ButtonStyled";
 import {InlineIcon} from "@iconify/react";
 import manRunningMediumSkinTone from "@iconify/icons-noto/man-running-medium-skin-tone";
 import womanRunningLightSkinTone from "@iconify/icons-noto/woman-running-light-skin-tone";
@@ -11,10 +11,10 @@ import {
     ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
-} from "../../styledComponents/FormComponents";
+} from "../../../styledComponents/FormComponents";
 import DateFnsUtils from "@date-io/date-fns";
 import {MuiPickersUtilsProvider} from "@material-ui/pickers";
-import {handleErrMsg} from "../../functionUtils/FunctionUtils";
+import {handleErrMsg} from "../../../functionUtils/FunctionUtils";
 import 'moment/locale/fr'
 import moment from "moment";
 import frLocale from "date-fns/locale/fr"

@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import {Route, Switch, useLocation} from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
-import HomePage from "./components/Home/HomePage";
-import LoginPage from "./components/Login/LoginPage";
-import MyProfile from "./components/MyProfile/MyProfile";
-import RegisterPage from "./components/Register/RegisterPage";
-import Workouts from "./components/Workout/Workouts";
-import EditWorkout from "./components/Workout/EditWorkout";
-import NotFoundPage from "./components/NotFoundPage"
+import HomePage from "./components/Pages/Home/HomePage";
+import LoginPage from "./components/AuthPage/Login/LoginPage";
+import MyProfile from "./components/Pages/MyProfile/MyProfile";
+import RegisterPage from "./components/AuthPage/Register/RegisterPage";
+import Workouts from "./components/Pages/Workouts/Workouts";
+import EditWorkout from "./components/Pages/EditWorkout/EditWorkout";
+import NotFoundPage from "./components/Pages/NotFoundPage/NotFoundPage"
 import {AnimatePresence} from "framer-motion"
 
 

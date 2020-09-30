@@ -5,9 +5,9 @@ import {
     BlockTitle,
     ContainerHeaderMain,
     ContainerPage, ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
-import bgRegisterPage from "../../assets/images/bgRegisterPage.jpeg"
-import {pageTransition, pageVariants} from "../AnimationMotion"
+} from "../../../styledComponents/UniformPageComponents";
+import bgRegisterPage from "../../../assets/images/bgRegisterPage.jpeg"
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
 
 const RegisterPage = ({history}) => {
 

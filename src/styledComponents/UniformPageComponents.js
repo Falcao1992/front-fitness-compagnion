@@ -22,7 +22,7 @@ export const ContainerHeaderMain = styled(motion.main)`
         justify-content: space-evenly;
         flex-direction: ${props => props.activeHeightAuto && 'column'};
         //padding: ${props => props.activeHeightAuto && '2rem 0'};
-        height: ${props => !props.activeHeightAuto && '100vh'};
+        min-height: ${props => !props.activeHeightAuto && '100vh'};
         
     }
     @media screen and (min-width: 1200px){

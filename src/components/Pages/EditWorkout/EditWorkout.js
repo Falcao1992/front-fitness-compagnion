@@ -1,31 +1,31 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom"
 import EditExercises from "../Exercises/EditExercises";
-import SideBar from "../SideBar/SideBar";
+import SideBar from "../../SideBar/SideBar";
 import DateFnsUtils from '@date-io/date-fns';
 import {
     BlockInputLabelStyled, ContainerMultiNumberField,
     FormStyled, InputStyled, KeyboardDatePickerStyled, LabelInputStyled,
     TextFieldStyled
-} from "../../styledComponents/FormComponents";
+} from "../../../styledComponents/FormComponents";
 import {
     BlockImageHeader,
     BlockTitle, ContainerHeaderMain,
     ContainerLoading,
     ContainerPage,
     ContainerPrincipal
-} from "../../styledComponents/UniformPageComponents";
+} from "../../../styledComponents/UniformPageComponents";
 import {MuiPickersUtilsProvider} from '@material-ui/pickers';
 import moment from "moment";
 import 'moment/locale/fr'
 import frLocale from "date-fns/locale/fr";
-import {ButtonStyled} from "../../styledComponents/ButtonStyled";
+import {ButtonStyled} from "../../../styledComponents/ButtonStyled";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {toast} from "react-toastify"
-import Footer from "../Footer/Footer"
-import bgEditWorkoutPage from "../../assets/images/bgEditWorkoutPage.jpg"
-import bgEditExercises from "../../assets/images/bgEditExercises.jpg"
-import {pageTransition, pageVariants} from "../AnimationMotion"
+import Footer from "../../Footer/Footer"
+import bgEditWorkoutPage from "../../../assets/images/bgEditWorkoutPage.jpg"
+import bgEditExercises from "../../../assets/images/bgEditExercises.jpg"
+import {pageTransition, pageVariants} from "../../../functionUtils/AnimationMotion"
 
 toast.configure();
 
@@ -46,7 +46,7 @@ const EditWorkout = ({history}) => {
     moment.locale("fr")
 
     useEffect(() => {
-        // Fetch One Workout with userId and workoutId
+        // Fetch One Workouts with userId and workoutId
         const fetchDataWorkout = async () => {
             try {
                 if (workoutId) {
