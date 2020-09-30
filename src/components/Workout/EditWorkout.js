@@ -25,6 +25,7 @@ import {toast} from "react-toastify"
 import Footer from "../Footer/Footer"
 import bgEditWorkoutPage from "../../assets/images/bgEditWorkoutPage.jpg"
 import bgEditExercises from "../../assets/images/bgEditExercises.jpg"
+import {pageTransition, pageVariants} from "../AnimationMotion"
 
 toast.configure();
 
@@ -157,8 +158,15 @@ const EditWorkout = ({history}) => {
 
     return (
         <>
-            <ContainerHeaderMain activeHeightAuto={true}>
-                <SideBar history={history} sidebar={true}/>
+            <SideBar history={history} sidebar={true}/>
+            <ContainerHeaderMain
+                                 activeHeightAuto={true}
+                                 initial="initial"
+                                 animate="in"
+                                 exit="out"
+                                 variants={pageVariants}
+                                 transition={pageTransition}
+            >
                 <ContainerPage>
                     <BlockImageHeader>
                         <img src={bgEditWorkoutPage} alt="Homme faisant du sport"/>
@@ -236,7 +244,7 @@ const EditWorkout = ({history}) => {
                     }
                 </ContainerPage>
             </ContainerHeaderMain>
-            <Footer />
+            <Footer/>
         </>
     )
 }

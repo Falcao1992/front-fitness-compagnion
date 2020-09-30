@@ -159,6 +159,7 @@ const Workouts = ({history}) => {
 
     return (
         <>
+            <SideBar history={history}/>
             <ContainerHeaderMain activeHeightAuto={true}
                                  initial="initial"
                                  animate="in"
@@ -166,7 +167,6 @@ const Workouts = ({history}) => {
                                  variants={pageVariants}
                                  transition={pageTransition}
             >
-                <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader disabledMobile={true}>
                         <img src={bgWorkoutsPage} alt="Homme faisant du sport"/>

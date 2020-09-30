@@ -2,7 +2,10 @@ import React, {useState, useRef, useEffect} from "react";
 import styled from "styled-components";
 import MenuIcon from '@material-ui/icons/Menu';
 import {logout} from "../../_services/user.service";
-import {NavLink, Link} from "react-router-dom";
+//import {NavLink, Link} from "react-router-dom";
+import { NavHashLink as NavLink } from 'react-router-hash-link';
+
+
 
 const SideBar = ({history}) => {
 
@@ -55,11 +58,10 @@ const SideBar = ({history}) => {
                 <li><StyledLinkNav to="/myProfile" activeClassName="activeClassName">Modifer mon
                     profil</StyledLinkNav></li>
                 <li>
-                    <Link to={{
-                        pathname: "/",
-                        hash: "#stats",
-                        state: {goStatsRef: true}
-                    }}>Voir mes Statistiques</Link>
+                    <StyledLinkNav
+                        to="/#stats"
+                        scroll={el => el.scrollIntoView({ behavior: 'auto', block: 'end' })}
+                    >Voir mes Statistiques</StyledLinkNav>
                 </li>
                 <li>
                     <button onClick={() => logout(history)}>Me déconecter</button>

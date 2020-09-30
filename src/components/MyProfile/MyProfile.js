@@ -28,6 +28,8 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import {toast} from "react-toastify"
 import frLocale from "date-fns/locale/fr"
 import bgMyProfilePage from "../../assets/images/bgMyProfilePage.jpg"
+import {pageTransition, pageVariants} from "../AnimationMotion"
+import Footer from "../Footer/Footer"
 
 const axios = require('axios');
 
@@ -121,8 +123,12 @@ const MyProfile = ({history}) => {
 
     return (
         <>
-            <ContainerHeaderMain>
-                <SideBar history={history} sidebar={true}/>
+            <SideBar history={history} sidebar={true}/>
+            <ContainerHeaderMain initial="initial"
+                                 animate="in"
+                                 exit="out"
+                                 variants={pageVariants}
+                                 transition={pageTransition}>
                 <ContainerPage>
                     {console.log('render Myprofile')}
                     <BlockImageHeader>
@@ -222,6 +228,7 @@ const MyProfile = ({history}) => {
                     </ContainerPrincipal>
                 </ContainerPage>
             </ContainerHeaderMain>
+            <Footer/>
         </>
     )
 }

@@ -23,6 +23,7 @@ export const ContainerHeaderMain = styled(motion.main)`
         flex-direction: ${props => props.activeHeightAuto && 'column'};
         //padding: ${props => props.activeHeightAuto && '2rem 0'};
         height: ${props => !props.activeHeightAuto && '100vh'};
+        
     }
     @media screen and (min-width: 1200px){
         flex-direction: ${props => !props.activeHeightAuto && 'row'};

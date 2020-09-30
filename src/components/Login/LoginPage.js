@@ -35,12 +35,8 @@ const LoginPage = ({location, history}) => {
         login(username, password)
             .then(user => {
                     const {from} = location.state || {from: {pathname: "/"}};
-                    console.log("from", from)
-                    console.log("history", history)
                     if (user) {
                         history.push(from);
-                        console.log('user')
-
                     }
                 },
                 error => {

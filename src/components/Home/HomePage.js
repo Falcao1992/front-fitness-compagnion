@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import SideBar from "../SideBar/SideBar";
 import {
     BlockArrowUp,
@@ -9,6 +9,8 @@ import {
 } from "../../styledComponents/UniformPageComponents";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import { NavHashLink as NavLink } from 'react-router-hash-link';
+
 import Footer from "../Footer/Footer";
 import bgHomePage from "../../assets/images/bgHomePage.jpg"
 import {Icon} from '@iconify/react';
@@ -21,14 +23,6 @@ import arrowUpCircle from "@iconify/icons-bi/arrow-up-circle"
 import {pageTransition, pageVariants} from "../AnimationMotion"
 
 const HomePage = ({history}) => {
-    const statsRef = useRef()
-
-    function handleBackClick() {
-        setTimeout(() => {
-            statsRef.current.scrollIntoView({behavior: 'smooth'})
-            console.log('function scroll')
-        }, 300)
-    }
 
     const redirectArrowUp = () => {
         window.scrollTo({
@@ -40,6 +34,7 @@ const HomePage = ({history}) => {
 
     return (
         <>
+            <SideBar history={history}/>
             <ContainerHeaderMain activeHeightAuto={true}
                                  initial="initial"
                                  animate="in"
@@ -47,7 +42,6 @@ const HomePage = ({history}) => {
                                  variants={pageVariants}
                                  transition={pageTransition}
             >
-                <SideBar history={history}/>
                 <ContainerPage>
                     <BlockImageHeader>
                         <img src={bgHomePage} alt="Homme faisant du sport"/>
@@ -77,7 +71,16 @@ const HomePage = ({history}) => {
                                 <Icon icon={statsChart} width="30px" height="30px"/>
                                 <p>Mes statistiques</p>
                                 <small>
-                                    <button onClick={handleBackClick}>></button>
+                                   {/* <button onClick={handleBackClick}>
+                                        >
+                                    </button>*/}
+                                    <NavLink
+                                        to="/#stats"
+                                        scroll={el => el.scrollIntoView({ behavior: 'smooth', block: 'end' })}
+                                    >
+                                        >
+                                    </NavLink>
+
                                 </small>
                             </BlockArticle>
 
@@ -91,7 +94,8 @@ const HomePage = ({history}) => {
                     </ContainerPrincipal>
 
                 </ContainerPage>
-                <Stats history={history} ref={statsRef} onBackClick={handleBackClick}/>
+                <Stats history={history}
+                />
             </ContainerHeaderMain>
             <BlockArrowUp onClick={redirectArrowUp}>
                 <Icon icon={arrowUpCircle} width="50px" height="50px"/>

@@ -1,12 +1,13 @@
-import React, {useEffect, useState, forwardRef, useLayoutEffect} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {BlockTitle, ContainerLoading} from "../../styledComponents/UniformPageComponents";
 import {Line} from 'react-chartjs-2'
 import CircularProgress from "@material-ui/core/CircularProgress"
+import moment from "moment"
 
 const axios = require('axios');
 
-const Stats = forwardRef(({onBackClick, history}, ref) => {
+const Stats = ({history}) => {
 
     const [filterNameWorkout, setFilterNameWorkout] = useState([])
     const [filterDurationWorkout, setFilterDurationWorkout] = useState([])
@@ -31,6 +32,9 @@ const Stats = forwardRef(({onBackClick, history}, ref) => {
                 await setIsLoading(false)
             } catch (error) {
                 console.error("error unknown", error)
+                history.push("/login")
+                localStorage.clear()
+
             }
         }
         GetAllData()
@@ -44,17 +48,6 @@ const Stats = forwardRef(({onBackClick, history}, ref) => {
         })
 
     }, [history])
-
-    useLayoutEffect(() => {
-        const checkRefStats = async () => {
-            if (history.location.state) {
-                if (history.location.state.goStatsRef === true && ref.current !== undefined) {
-                    onBackClick()
-                }
-            }
-        }
-        checkRefStats()
-    },[history, onBackClick, ref])
 
     // With userId Fetch workout's data and return it
     const fetchDataWorkoutsAssociatedUser = async () => {
@@ -151,26 +144,44 @@ const Stats = forwardRef(({onBackClick, history}, ref) => {
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        animation: {
-            easing: "easeInOutBack"
-        },
+        animation: {easing: "easeInOutBack"},
+        legend: {
 
+            labels: {
+                fontSize : 10,
+                padding: 15,
+                boxWidth: 30
+            }
+        },
         layout: {
-            padding: {top: 5, left: 5, right: 5, bottom: 5}
+            padding: {top: 5, left: 5, right: 10, bottom: 5}
         },
         title: {
             display: true,
             text: 'Statistiques de mes séances',
-            fontSize: 20,
+            fontSize: 15,
             fontColor: "#C89446"
         },
         tooltips: {
             mode: 'x',
             intersect: true,
+            bodySpacing: 5,
+            xPadding: 10,
+            yPadding: 10,
+            titleMarginBottom: 10,
+            footerAlign: "center",
+            footerFontColor: "#C89446",
+            footerMarginTop: 10,
+
             callbacks: {
-                title: function (tooltipItem, data) {
+                title: function (tooltipItem) {
+                    //return console.log("tooltipItem", tooltipItem)
                     return `${filterNameWorkout[tooltipItem[0]['index']]} :`;
-                }
+                },
+                footer: function (tooltipItem, data) {
+                    //return console.log("tooltipItem", tooltipItem, "data", data)
+                    return moment(tooltipItem[0].xLabel).format('LL');
+                },
             },
         },
         scales: {
@@ -180,57 +191,48 @@ const Stats = forwardRef(({onBackClick, history}, ref) => {
                     scaleLabel: {
                         display: true,
                         labelString: 'Date',
-                        fontColor: "#C89446"
+                        fontColor: "#C89446",
+                        fontSize: 10,
                     },
-                    time: {
-                        unit: "week",
-                        //displayFormats: {
-                        //    quarter: 'MMM YYYY'
-                        //}
-                    },
+                    time: {unit: "day",}
                 }
             ],
             yAxes: [
                 {
                     display: true,
                     distribution: 'series',
-
-
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 7,
-                        padding: 5
+                        maxTicksLimit: 5,
+                        padding: 5,
                     },
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value',
-                        fontColor: "#C89446"
-                    }
                 }
             ]
         },
     }
 
     return (
-        <>
-            <ContainerStats ref={ref}>
-                <BlockTitle>
-                    <h1>Mes statistiques</h1>
-                </BlockTitle>
+        <ContainerStats id="stats">
+            <BlockTitle>
+                <h1>Mes statistiques</h1>
+            </BlockTitle>
 
-                <ContainerChart>
-                    <Line data={data}
-                          options={chartOptions}
-                    />
-                </ContainerChart>
-            </ContainerStats>
-        </>
+            <ContainerChart>
+                <Line data={data}
+                      options={chartOptions}
+                />
+            </ContainerChart>
+        </ContainerStats>
     )
-})
+}
 
 const ContainerStats = styled.section`
     padding: 0 1.4rem 1.4rem;
     width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     @media only screen and (min-width: 750px) {
         width: 80%;
         margin: auto;
@@ -244,7 +246,6 @@ const ContainerChart = styled.div`
     width: 100%;
 
     @media only screen and (min-width: 750px) {
-        //width: 70%;
         margin: auto;
     }
 `
