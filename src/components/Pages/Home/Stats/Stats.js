@@ -44,6 +44,7 @@ const Stats = ({history}) => {
             if (error.response.status === 401) {
                 history.push("/login")
                 localStorage.clear()
+                window.location.reload()
             }
         })
 
