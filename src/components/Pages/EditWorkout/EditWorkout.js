@@ -40,7 +40,6 @@ const EditWorkout = ({history}) => {
     const [isLoading, setIsLoading] = useState(true)
 
     const userId = localStorage.getItem("userId")
-
     let {workoutId} = useParams()
 
     moment.locale("fr")
@@ -146,6 +145,10 @@ const EditWorkout = ({history}) => {
         }
     }
 
+    if(workoutId === undefined && history.location.pathname !== "/workout") {
+        return null
+    }
+
     if (isLoading || defaultExercises === null || workoutUpdate === null) {
         return (
             <ContainerLoading>
@@ -153,6 +156,8 @@ const EditWorkout = ({history}) => {
             </ContainerLoading>
         )
     }
+
+
 
     const {name, duration, date, hour, id} = workoutUpdate
 

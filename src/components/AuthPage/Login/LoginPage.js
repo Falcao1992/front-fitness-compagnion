@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import {login} from "../../../_services/user.service";
 import {Link} from "react-router-dom";
@@ -22,6 +22,11 @@ const LoginPage = ({location, history}) => {
     const [password, setPassword] = useState('')
     const [submitted, setSubmitted] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
+
+    useEffect(() => {
+        console.log('use effect login')
+    },[])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
