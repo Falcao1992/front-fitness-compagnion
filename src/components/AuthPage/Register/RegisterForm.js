@@ -54,7 +54,7 @@ const RegisterForm = ({history}) => {
         }
 
         if (username.length <= 4 || username.length >= 13) {
-            setErrorMsg("Votre pseudo doit contenir entre 3 et 15 caractères")
+            setErrorMsg("Votre pseudo doit contenir entre 5 et 12 caractères")
             return
         } else if (weight < 30 || weight > 150) {
             setErrorMsg("Votre poids doit etre entre 30 et 150kg")
