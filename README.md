@@ -1,23 +1,11 @@
-## Clone Project
+## Fitness Companion Front
 
-### `git clone`
+Dépot Github de la partie front de mon application Fitness companion qui à pour but d'offir une interface au sportif afin d'organiser, suivre leurs séance de sport.
 
-clone projetcs
+### `Git Clone`
+
+`Git Clone https://github.com/Falcao1992/front-fitness-compagnion.git`
 
 ### `npm install`
 
-install every dépendeces
-
-### `npx sequelize db:migrate `
-
-generate table in database
-
-### `npx sequelize db:seed:all`
-
-for insert data in database
-
-### `npx sequelize db:migrate:undo:all`
-
-You can use ` npx sequelize db:migrate:undo`, this command will revert most recent migration.
-
-With `db:migrate:undo:all command` you can revert back to initial state by undoing all migrations.
+Install all dependencies for project run
