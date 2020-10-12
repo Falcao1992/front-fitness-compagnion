@@ -10,9 +10,7 @@ import {
 import bgLoginPage from "../../../assets/images/bgLoginPage.jpg"
 
 const NotFoundPage = ({history}) => {
-    if(history.location.key) {
-        return null
-    }
+
     return (
         <ContainerHeaderMain initial="initial"
                              animate="in"
@@ -26,15 +24,12 @@ const NotFoundPage = ({history}) => {
                 </BlockImageHeader>
                 <ContainerPrincipal>
                     <BlockTitle>
-                        <h1>Fitness<br/>Companion</h1>
+                        <h1>Fitness<br/>Companion <br/> Page 404 - Not Found</h1>
                         <p>Pas de résultat pour {history.location.pathname}</p>
                         <p><Link to="/">Go to Home </Link></p>
                     </BlockTitle>
                 </ContainerPrincipal>
-                {console.log(history.location)}
-
             </ContainerPage>
-
         </ContainerHeaderMain>
     );
 }

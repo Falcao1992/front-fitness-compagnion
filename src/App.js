@@ -9,26 +9,29 @@ import RegisterPage from "./components/AuthPage/Register/RegisterPage";
 import Workouts from "./components/Pages/Workouts/Workouts";
 import EditWorkout from "./components/Pages/EditWorkout/EditWorkout";
 import NotFoundPage from "./components/Pages/NotFoundPage/NotFoundPage"
-import {AnimatePresence} from "framer-motion"
+import {AnimatePresence, motion} from "framer-motion"
+
 
 const App = () => {
     let location = useLocation()
 
     return (
-        <Switch location={location}
-                key={location.pathname}
-        >
-            <AnimatePresence exitBeforeEnter>
-                <PrivateRoute exact path="/" component={HomePage} key={'homepage'}/>
-                <PrivateRoute path="/myProfile" component={MyProfile} key={"myProfile"}/>
-                <PrivateRoute exact path="/workouts" component={Workouts} key={"workouts"}/>
-                <PrivateRoute path="/workout/:workoutId" component={EditWorkout} key={"EditWorkout"}/>
-                <PrivateRoute path="/workout" component={EditWorkout} key={"EditWorkoutDirect"}/>
-                <Route path="/login" component={LoginPage} key={"loginPage"}/>
-                <Route path="/register" component={RegisterPage} key={"RegisterPage"}/>
-                <Route exact path="*" component={NotFoundPage} key={"notFoundPage"}/>
-            </AnimatePresence>
-        </Switch>
+        <AnimatePresence exitBeforeEnter>
+            <motion.main>
+            <Switch location={location}
+                    key={location.pathname}
+            >
+                <PrivateRoute exact path="/" component={HomePage}/>
+                <PrivateRoute path="/myProfile" component={MyProfile}/>
+                <PrivateRoute path="/workouts" component={Workouts}/>
+                <PrivateRoute path="/workout/:workoutId" component={EditWorkout}/>
+                <PrivateRoute path="/workout" component={EditWorkout}/>
+                <Route path="/login" component={LoginPage}/>
+                <Route path="/register" component={RegisterPage}/>
+                <Route path="*" component={NotFoundPage}/>
+            </Switch>
+            </motion.main>
+        </AnimatePresence>
     );
 }
 
