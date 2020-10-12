@@ -9,13 +9,14 @@ import RegisterPage from "./components/AuthPage/Register/RegisterPage";
 import Workouts from "./components/Pages/Workouts/Workouts";
 import EditWorkout from "./components/Pages/EditWorkout/EditWorkout";
 import NotFoundPage from "./components/Pages/NotFoundPage/NotFoundPage"
-import {AnimatePresence} from "framer-motion"
-
+import {AnimatePresence, motion} from "framer-motion"
 
 const App = () => {
     let location = useLocation()
+
     return (
         <AnimatePresence exitBeforeEnter>
+            <motion.main>
             <Switch location={location}
                     key={location.pathname}
             >
@@ -28,9 +29,9 @@ const App = () => {
                 <Route path="/register" component={RegisterPage}/>
                 <Route path="*" component={NotFoundPage}/>
             </Switch>
+            </motion.main>
         </AnimatePresence>
     );
 }
-
 
 export default App;
