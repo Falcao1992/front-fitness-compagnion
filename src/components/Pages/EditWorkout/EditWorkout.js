@@ -132,7 +132,8 @@ const EditWorkout = ({history}) => {
             });
             const location = {
                 pathname: '/workouts',
-                state: {fromEditWorkout: true}
+                state: {fromEditWorkout: true},
+                redirect: true
             }
             history.replace(location)
             window.scrollTo({
